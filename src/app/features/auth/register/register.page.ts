@@ -15,8 +15,8 @@ import {
   eyeOutline, eyeOffOutline, personOutline, cardOutline,
   callOutline, mailOutline, lockClosedOutline, alertCircleOutline,
 } from 'ionicons/icons';
-import { AuthService } from '../../../core/services/auth.service';
-import { TipoDocumento } from '../../../core/models/auth.models';
+import { AuthService } from '../../../../core/services/auth.service';
+import { TipoDocumento } from '../../../../core/models/auth.models';
 
 function passwordMatch(ctrl: AbstractControl): ValidationErrors | null {
   const p = ctrl.get('password');

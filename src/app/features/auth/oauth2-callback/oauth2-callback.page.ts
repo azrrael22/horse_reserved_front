@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent, IonSpinner } from '@ionic/angular/standalone';
-import { AuthService } from '../../../core/services/auth.service';
-import { UserRole } from '../../../core/models/auth.models';
+import { AuthService } from '../../../../core/services/auth.service';
+import { UserRole } from '../../../../core/models/auth.models';
 
 /**
  * Página de callback OAuth2.
