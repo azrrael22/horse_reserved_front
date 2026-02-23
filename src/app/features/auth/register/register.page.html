@@ -185,7 +185,7 @@
                   placeholder="Mínimo 8 caracteres"
                   autocomplete="new-password"
                 ></ion-input>
-                <ion-button slot="end" fill="clear" size="small" (click)="showPass.update(v => !v)">
+                <ion-button slot="end" fill="clear" size="small" (click)="togglePass()">
                   <ion-icon [name]="showPass() ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
                 </ion-button>
               </ion-item>
@@ -207,7 +207,7 @@
                   placeholder="Repite tu contraseña"
                   autocomplete="new-password"
                 ></ion-input>
-                <ion-button slot="end" fill="clear" size="small" (click)="showConfirm.update(v => !v)">
+                <ion-button slot="end" fill="clear" size="small" (click)="toggleConfirm()">
                   <ion-icon [name]="showConfirm() ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
                 </ion-button>
               </ion-item>

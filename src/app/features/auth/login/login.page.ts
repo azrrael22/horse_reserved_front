@@ -2,10 +2,10 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
-  IonContent, IonHeader, IonToolbar, IonTitle,
+  IonContent, IonHeader, IonToolbar,
   IonCard, IonCardHeader, IonCardContent,
   IonItem, IonLabel, IonInput, IonButton, IonIcon,
-  IonSpinner, IonText, IonNote,
+  IonSpinner,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -19,10 +19,10 @@ import { AuthService } from '../../../../core/services/auth.service';
   standalone: true,
   imports: [
     ReactiveFormsModule, RouterLink,
-    IonContent, IonHeader, IonToolbar, IonTitle,
+    IonContent, IonHeader, IonToolbar,
     IonCard, IonCardHeader, IonCardContent,
     IonItem, IonLabel, IonInput, IonButton, IonIcon,
-    IonSpinner, IonText, IonNote,
+    IonSpinner,
   ],
   templateUrl: './login.page.html',
 })

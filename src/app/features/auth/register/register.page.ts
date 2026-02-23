@@ -100,5 +100,7 @@ export class RegisterPage {
     });
   }
 
+  togglePass(): void    { this.showPass.update(v => !v); }
+  toggleConfirm(): void { this.showConfirm.update(v => !v); }
   loginWithGoogle(): void { this.auth.loginWithGoogle(); }
 }

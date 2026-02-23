@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { UserRole } from '../models/auth.models';
 
 export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
@@ -17,4 +18,4 @@ export const guestGuard: CanActivateFn = () => {
   return false;
 };
 
-export const roleGuard: CanActivateFn = () => true;
+export const roleGuard = (_role: UserRole): CanActivateFn => () => true;
