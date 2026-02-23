@@ -97,7 +97,7 @@ export class AuthService {
   }
 
   loginWithGoogle(): void {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    window.location.href = 'http://localhost:8080/oauth2/authorize/google';
   }
 
   handleOAuth2Token(

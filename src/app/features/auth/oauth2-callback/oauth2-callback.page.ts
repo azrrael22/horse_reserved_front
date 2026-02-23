@@ -43,10 +43,14 @@ export class OAuth2CallbackPage implements OnInit {
   private readonly auth  = inject(AuthService);
 
   ngOnInit(): void {
+    console.log('[OAuth2Callback] URL completa:', window.location.href);
+
     this.route.queryParams.subscribe(params => {
+      console.log('[OAuth2Callback] Params recibidos:', params);
       const { token, role, userId, email, primerNombre, primerApellido } = params;
 
       if (token && role) {
+        console.log('[OAuth2Callback] Token OK, rol:', role, '→ redirigiendo al dashboard');
         this.auth.handleOAuth2Token(
           token,
           role as UserRole,
@@ -56,7 +60,7 @@ export class OAuth2CallbackPage implements OnInit {
           primerApellido,
         );
       } else {
-        // Sin token → volver al login con error
+        console.warn('[OAuth2Callback] Falta token o role. Params:', params);
         this.auth.showErrorToast('Error al iniciar sesión con Google. Intenta de nuevo.');
         window.location.href = '/auth/login';
       }

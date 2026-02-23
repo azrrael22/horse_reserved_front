@@ -39,7 +39,7 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/auth/login/login.page').then(m => m.LoginPage),
+          import('./features/home/home.page').then(m => m.HomePage),
       },
     ],
   },
@@ -50,7 +50,7 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/auth/login/login.page').then(m => m.LoginPage),
+          import('./features/home/home.page').then(m => m.HomePage),
       },
     ],
   },
@@ -61,7 +61,7 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/auth/login/login.page').then(m => m.LoginPage),
+          import('./features/home/home.page').then(m => m.HomePage),
       },
     ],
   },

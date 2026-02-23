@@ -1,0 +1,78 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Inicio</ion-title>
+    <ion-button slot="end" fill="clear" (click)="logout()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Cerrar sesión
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div style="max-width: 480px; margin: 48px auto;">
+
+    <!-- Avatar / bienvenida -->
+    <div style="text-align: center; margin-bottom: 32px;">
+      <ion-icon
+        name="person-circle-outline"
+        style="font-size: 80px; color: var(--ion-color-primary);"
+      ></ion-icon>
+      <h1 style="margin: 12px 0 4px; font-size: 22px; font-weight: 700;">
+        Hola, {{ auth.currentUser()?.primerNombre }} {{ auth.currentUser()?.primerApellido }}
+      </h1>
+      <p style="margin: 0; font-size: 14px; color: var(--ion-color-medium);">
+        Sesión iniciada correctamente
+      </p>
+    </div>
+
+    <!-- Tarjeta con datos del usuario -->
+    <ion-card>
+      <ion-card-header>
+        <p style="font-size: 13px; font-weight: 600; text-transform: uppercase;
+                  letter-spacing: 0.8px; color: var(--ion-color-medium); margin: 0;">
+          Datos de sesión
+        </p>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <!-- Correo -->
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0;
+                    border-bottom: 1px solid var(--ion-color-light);">
+          <ion-icon name="mail-outline" style="font-size: 20px; color: var(--ion-color-medium); flex-shrink: 0;"></ion-icon>
+          <div>
+            <p style="margin: 0; font-size: 12px; color: var(--ion-color-medium);">Correo electrónico</p>
+            <p style="margin: 0; font-size: 15px; font-weight: 500;">{{ auth.currentUser()?.email }}</p>
+          </div>
+        </div>
+
+        <!-- Rol -->
+        <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0;">
+          <ion-icon name="shield-checkmark-outline" style="font-size: 20px; color: var(--ion-color-medium); flex-shrink: 0;"></ion-icon>
+          <div style="flex: 1;">
+            <p style="margin: 0; font-size: 12px; color: var(--ion-color-medium);">Rol</p>
+            <ion-badge [color]="roleBadgeColor()" style="margin-top: 4px; font-size: 13px; text-transform: capitalize;">
+              {{ auth.currentUser()?.role }}
+            </ion-badge>
+          </div>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botón de cerrar sesión -->
+    <ion-button
+      expand="block"
+      fill="outline"
+      color="danger"
+      style="margin-top: 24px;"
+      (click)="logout()"
+    >
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Cerrar sesión
+    </ion-button>
+
+  </div>
+
+</ion-content>
