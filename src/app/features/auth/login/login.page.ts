@@ -87,7 +87,7 @@ export class LoginPage implements OnInit {
         this.error.set(msg);
         await this.auth.showErrorToast(msg);
       },
-      complete: () => loader.dismiss(),
+      complete: () => { loader.dismiss(); this.loading.set(false); },
     });
   }
 
