@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import {
   AuthResponse,
+  ChangePasswordRequest,
   CurrentUser,
   LoginRequest,
   RegisterRequest,
@@ -114,6 +115,10 @@ export class AuthService {
     };
     this.persist(fakeRes);
     this.redirect(role);
+  }
+
+  changePassword(req: ChangePasswordRequest): Observable<string> {
+    return this.http.put(`${API_URL}/change-password`, req, { responseType: 'text' });
   }
 
   hasRole(...roles: UserRole[]): boolean {

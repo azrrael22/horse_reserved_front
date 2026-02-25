@@ -61,12 +61,23 @@
       </ion-card-content>
     </ion-card>
 
+    <!-- Botón cambiar contraseña -->
+    <ion-button
+      expand="block"
+      fill="outline"
+      style="margin-top: 24px;"
+      routerLink="/cuenta/cambiar-password"
+    >
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      Cambiar contraseña
+    </ion-button>
+
     <!-- Botón de cerrar sesión -->
     <ion-button
       expand="block"
       fill="outline"
       color="danger"
-      style="margin-top: 24px;"
+      style="margin-top: 12px;"
       (click)="logout()"
     >
       <ion-icon name="log-out-outline" slot="start"></ion-icon>

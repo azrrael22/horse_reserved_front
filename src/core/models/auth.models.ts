@@ -17,6 +17,12 @@ export interface RegisterRequest {
   telefono?: string;
 }
 
+export interface ChangePasswordRequest {
+  passwordActual: string;
+  passwordNueva: string;
+  confirmarPassword: string;
+}
+
 // ── Responses ─────────────────────────────────────────────────────────────────
 
 export type UserRole = 'cliente' | 'operador' | 'administrador';

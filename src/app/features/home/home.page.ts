@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonIcon,
   IonCard, IonCardHeader, IonCardContent, IonBadge,
@@ -6,6 +7,7 @@ import {
 import { addIcons } from 'ionicons';
 import {
   logOutOutline, personCircleOutline, mailOutline, shieldCheckmarkOutline,
+  lockClosedOutline,
 } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -13,6 +15,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-home',
   standalone: true,
   imports: [
+    RouterLink,
     IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonIcon,
     IonCard, IonCardHeader, IonCardContent, IonBadge,
   ],
@@ -22,7 +25,7 @@ export class HomePage {
   readonly auth = inject(AuthService);
 
   constructor() {
-    addIcons({ logOutOutline, personCircleOutline, mailOutline, shieldCheckmarkOutline });
+    addIcons({ logOutOutline, personCircleOutline, mailOutline, shieldCheckmarkOutline, lockClosedOutline });
   }
 
   logout(): void {

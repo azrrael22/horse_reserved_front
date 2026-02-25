@@ -66,5 +66,20 @@ export const routes: Routes = [
     ],
   },
 
+  // ── Cuenta (accesible para cualquier usuario autenticado) ──────────────────
+  {
+    path: 'cuenta',
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'cambiar-password',
+        loadComponent: () =>
+          import('./features/account/change-password/change-password.page').then(
+            m => m.ChangePasswordPage,
+          ),
+      },
+    ],
+  },
+
   { path: '**', redirectTo: 'auth/login' },
 ];
