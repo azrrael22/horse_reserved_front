@@ -10,17 +10,17 @@ import {
   IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
   IonCard, IonCardHeader, IonCardContent,
   IonItem, IonLabel, IonInput, IonButton, IonIcon, IonSpinner,
-  ToastController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   eyeOutline, eyeOffOutline, lockClosedOutline, lockOpenOutline,
   alertCircleOutline, checkmarkCircleOutline,
 } from 'ionicons/icons';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { UiService } from '../../../core/services/ui.service';
 
 function passwordMatch(ctrl: AbstractControl): ValidationErrors | null {
-  const nueva    = ctrl.get('passwordNueva');
+  const nueva     = ctrl.get('passwordNueva');
   const confirmar = ctrl.get('confirmarPassword');
   return nueva?.value === confirmar?.value ? null : { mismatch: true };
 }
@@ -28,6 +28,7 @@ function passwordMatch(ctrl: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-change-password',
   standalone: true,
+  host: { class: 'ion-page' },
   imports: [
     ReactiveFormsModule,
     IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
@@ -37,16 +38,16 @@ function passwordMatch(ctrl: AbstractControl): ValidationErrors | null {
   templateUrl: './change-password.page.html',
 })
 export class ChangePasswordPage {
-  private readonly fb    = inject(FormBuilder);
-  private readonly auth  = inject(AuthService);
-  private readonly toast = inject(ToastController);
+  private readonly fb   = inject(FormBuilder);
+  private readonly auth = inject(AuthService);
+  private readonly ui   = inject(UiService);
 
-  readonly loading  = signal(false);
-  readonly error    = signal<string | null>(null);
-  readonly success  = signal(false);
-  readonly showActual   = signal(false);
-  readonly showNueva    = signal(false);
-  readonly showConfirm  = signal(false);
+  readonly loading     = signal(false);
+  readonly error       = signal<string | null>(null);
+  readonly success     = signal(false);
+  readonly showActual  = signal(false);
+  readonly showNueva   = signal(false);
+  readonly showConfirm = signal(false);
 
   readonly form = this.fb.nonNullable.group(
     {
@@ -81,7 +82,7 @@ export class ChangePasswordPage {
     this.error.set(null);
     this.loading.set(true);
 
-    const loader = await this.auth.createLoader('Actualizando contraseña...');
+    const loader = await this.ui.createLoader('Actualizando contraseña...');
 
     this.auth.changePassword(this.form.getRawValue()).subscribe({
       next: async () => {
@@ -89,14 +90,7 @@ export class ChangePasswordPage {
         this.loading.set(false);
         this.success.set(true);
         this.form.reset();
-        const t = await this.toast.create({
-          message: 'Contraseña actualizada correctamente.',
-          duration: 3500,
-          color: 'success',
-          position: 'top',
-          icon: 'checkmark-circle-outline',
-        });
-        await t.present();
+        await this.ui.showSuccessToast('Contraseña actualizada correctamente.');
       },
       error: async (err) => {
         await loader.dismiss();
@@ -108,7 +102,7 @@ export class ChangePasswordPage {
           err.status === 403 ? 'No puedes cambiar la contraseña de una cuenta de Google.' :
           body || `Error ${err.status}. Intenta de nuevo.`;
         this.error.set(msg);
-        await this.auth.showErrorToast(msg);
+        await this.ui.showErrorToast(msg);
       },
     });
   }

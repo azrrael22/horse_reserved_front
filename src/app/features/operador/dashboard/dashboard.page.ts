@@ -6,38 +6,34 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
-  logOutOutline, personCircleOutline, mailOutline, shieldCheckmarkOutline,
-  lockClosedOutline,
+  logOutOutline, personCircleOutline, mailOutline,
+  shieldCheckmarkOutline, lockClosedOutline,
 } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-operador-dashboard',
   standalone: true,
+  host: { class: 'ion-page' },
   imports: [
     RouterLink,
     IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonIcon,
     IonCard, IonCardHeader, IonCardContent, IonBadge,
   ],
-  templateUrl: './home.page.html',
+  templateUrl: './dashboard.page.html',
+  styleUrl: './dashboard.page.scss',
 })
-export class HomePage {
+export class OperadorDashboardPage {
   readonly auth = inject(AuthService);
 
   constructor() {
-    addIcons({ logOutOutline, personCircleOutline, mailOutline, shieldCheckmarkOutline, lockClosedOutline });
+    addIcons({
+      logOutOutline, personCircleOutline, mailOutline,
+      shieldCheckmarkOutline, lockClosedOutline,
+    });
   }
 
   logout(): void {
     this.auth.logout();
-  }
-
-  roleBadgeColor(): string {
-    const map: Record<string, string> = {
-      administrador: 'danger',
-      operador: 'warning',
-      cliente: 'success',
-    };
-    return map[this.auth.currentUser()?.role ?? ''] ?? 'medium';
   }
 }

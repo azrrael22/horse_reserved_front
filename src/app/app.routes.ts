@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, guestGuard, roleGuard } from '../core/guards/auth.guard';
+import { authGuard, guestGuard, roleGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
@@ -31,7 +31,7 @@ export const routes: Routes = [
     ],
   },
 
-  // ── Dashboards por rol (placeholders hasta implementar cada módulo) ─────────
+  // ── Dashboard Cliente ──────────────────────────────────────────────────────
   {
     path: 'cliente',
     canActivate: [authGuard, roleGuard('cliente')],
@@ -39,10 +39,15 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/home/home.page').then(m => m.HomePage),
+          import('./features/cliente/dashboard/dashboard.page').then(
+            m => m.ClienteDashboardPage,
+          ),
       },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
+
+  // ── Dashboard Operador ─────────────────────────────────────────────────────
   {
     path: 'operador',
     canActivate: [authGuard, roleGuard('operador')],
@@ -50,10 +55,15 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/home/home.page').then(m => m.HomePage),
+          import('./features/operador/dashboard/dashboard.page').then(
+            m => m.OperadorDashboardPage,
+          ),
       },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
+
+  // ── Dashboard Admin ────────────────────────────────────────────────────────
   {
     path: 'admin',
     canActivate: [authGuard, roleGuard('administrador')],
@@ -61,12 +71,15 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./features/home/home.page').then(m => m.HomePage),
+          import('./features/admin/dashboard/dashboard.page').then(
+            m => m.AdminDashboardPage,
+          ),
       },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
 
-  // ── Cuenta (accesible para cualquier usuario autenticado) ──────────────────
+  // ── Cuenta (cualquier usuario autenticado) ─────────────────────────────────
   {
     path: 'cuenta',
     canActivate: [authGuard],
@@ -74,7 +87,7 @@ export const routes: Routes = [
       {
         path: 'cambiar-password',
         loadComponent: () =>
-          import('./features/account/change-password/change-password.page').then(
+          import('./features/cuenta/cambiar-password/change-password.page').then(
             m => m.ChangePasswordPage,
           ),
       },

@@ -1,8 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent, IonSpinner } from '@ionic/angular/standalone';
-import { AuthService } from '../../../../core/services/auth.service';
-import { UserRole } from '../../../../core/models/auth.models';
+import { AuthService } from '../../../core/services/auth.service';
+import { UiService } from '../../../core/services/ui.service';
+import { UserRole } from '../../../core/models/auth.models';
 
 /**
  * Página de callback OAuth2.
@@ -12,6 +13,7 @@ import { UserRole } from '../../../../core/models/auth.models';
 @Component({
   selector: 'app-oauth2-callback',
   standalone: true,
+  host: { class: 'ion-page' },
   imports: [IonContent, IonSpinner],
   template: `
     <ion-content class="auth-content">
@@ -41,6 +43,7 @@ import { UserRole } from '../../../../core/models/auth.models';
 export class OAuth2CallbackPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly auth  = inject(AuthService);
+  private readonly ui    = inject(UiService);
 
   ngOnInit(): void {
     console.log('[OAuth2Callback] URL completa:', window.location.href);
@@ -61,7 +64,7 @@ export class OAuth2CallbackPage implements OnInit {
         );
       } else {
         console.warn('[OAuth2Callback] Falta token o role. Params:', params);
-        this.auth.showErrorToast('Error al iniciar sesión con Google. Intenta de nuevo.');
+        this.ui.showErrorToast('Error al iniciar sesión con Google. Intenta de nuevo.');
         window.location.href = '/auth/login';
       }
     });

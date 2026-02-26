@@ -1,0 +1,70 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Mis Reservas</ion-title>
+    <ion-button slot="end" fill="clear" (click)="logout()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Salir
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="dashboard-container">
+
+    <div class="dashboard-avatar">
+      <ion-icon name="person-circle-outline"></ion-icon>
+      <h1 class="dashboard-name">
+        Hola, {{ auth.currentUser()?.primerNombre }} {{ auth.currentUser()?.primerApellido }}
+      </h1>
+      <p class="dashboard-subtitle">Bienvenido a Cabalgatas Salento</p>
+    </div>
+
+    <ion-card>
+      <ion-card-header>
+        <p class="card-section-title">Datos de sesión</p>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="info-row info-row--bordered">
+          <ion-icon name="mail-outline" class="info-icon"></ion-icon>
+          <div>
+            <p class="info-label">Correo electrónico</p>
+            <p class="info-value">{{ auth.currentUser()?.email }}</p>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <ion-icon name="shield-checkmark-outline" class="info-icon"></ion-icon>
+          <div>
+            <p class="info-label">Rol</p>
+            <ion-badge color="success" style="margin-top: 4px; font-size: 13px; text-transform: capitalize;">
+              Cliente
+            </ion-badge>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button
+      class="action-btn action-btn--first"
+      expand="block"
+      fill="outline"
+      routerLink="/cuenta/cambiar-password"
+    >
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      Cambiar contraseña
+    </ion-button>
+
+    <ion-button
+      class="action-btn"
+      expand="block"
+      fill="outline"
+      color="danger"
+      (click)="logout()"
+    >
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Cerrar sesión
+    </ion-button>
+
+  </div>
+</ion-content>

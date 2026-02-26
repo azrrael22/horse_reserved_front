@@ -1,9 +1,10 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ToastController, LoadingController } from '@ionic/angular/standalone';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { TOKEN_KEY, USER_KEY } from '../constants/storage.constants';
 import {
   AuthResponse,
   ChangePasswordRequest,
@@ -13,16 +14,12 @@ import {
   UserRole,
 } from '../models/auth.models';
 
-const API_URL = 'http://localhost:8080/api/auth';
-const TOKEN_KEY = 'cs_token';
-const USER_KEY  = 'cs_user';
+const API_URL = `${environment.apiUrl}/auth`;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly http    = inject(HttpClient);
-  private readonly router  = inject(Router);
-  private readonly toast   = inject(ToastController);
-  private readonly loading = inject(LoadingController);
+  private readonly http   = inject(HttpClient);
+  private readonly router = inject(Router);
 
   // ── Estado reactivo con signals ────────────────────────────────────────────
   private readonly _currentUser = signal<CurrentUser | null>(this.loadUser());
@@ -49,11 +46,11 @@ export class AuthService {
 
   private persist(res: AuthResponse): void {
     const user: CurrentUser = {
-      userId:        res.userId,
-      email:         res.email,
-      primerNombre:  res.primerNombre,
+      userId:         res.userId,
+      email:          res.email,
+      primerNombre:   res.primerNombre,
       primerApellido: res.primerApellido,
-      role:          res.role,
+      role:           res.role,
     };
     localStorage.setItem(TOKEN_KEY, res.token);
     localStorage.setItem(USER_KEY, JSON.stringify(user));
@@ -63,9 +60,9 @@ export class AuthService {
 
   private redirect(role: UserRole): void {
     const map: Record<UserRole, string> = {
-      cliente:        '/cliente/dashboard',
-      operador:       '/operador/dashboard',
-      administrador:  '/admin/dashboard',
+      cliente:       '/cliente/dashboard',
+      operador:      '/operador/dashboard',
+      administrador: '/admin/dashboard',
     };
     this.router.navigateByUrl(map[role]);
   }
@@ -98,7 +95,7 @@ export class AuthService {
   }
 
   loginWithGoogle(): void {
-    window.location.href = 'http://localhost:8080/oauth2/authorize/google';
+    window.location.href = environment.googleOAuthUrl;
   }
 
   handleOAuth2Token(
@@ -124,24 +121,5 @@ export class AuthService {
   hasRole(...roles: UserRole[]): boolean {
     const r = this._currentUser()?.role;
     return r ? roles.includes(r) : false;
-  }
-
-  // ── Helpers de UI con Ionic ────────────────────────────────────────────────
-  async showErrorToast(message: string): Promise<void> {
-    const t = await this.toast.create({
-      message,
-      duration: 3500,
-      color: 'danger',
-      position: 'top',
-      icon: 'alert-circle-outline',
-      buttons: [{ icon: 'close-outline', role: 'cancel' }],
-    });
-    await t.present();
-  }
-
-  async createLoader(message = 'Cargando...'): Promise<HTMLIonLoadingElement> {
-    const l = await this.loading.create({ message, spinner: 'crescent' });
-    await l.present();
-    return l;
   }
 }

@@ -12,12 +12,14 @@ import {
   eyeOutline, eyeOffOutline, mailOutline, lockClosedOutline,
   alertCircleOutline, logoGoogle,
 } from 'ionicons/icons';
-import { AuthService } from '../../../../core/services/auth.service';
-import { UserRole } from '../../../../core/models/auth.models';
+import { AuthService } from '../../../core/services/auth.service';
+import { UiService } from '../../../core/services/ui.service';
+import { UserRole } from '../../../core/models/auth.models';
 
 @Component({
   selector: 'app-login',
   standalone: true,
+  host: { class: 'ion-page' },
   imports: [
     ReactiveFormsModule, RouterLink,
     IonContent, IonHeader, IonToolbar,
@@ -30,6 +32,7 @@ import { UserRole } from '../../../../core/models/auth.models';
 export class LoginPage implements OnInit {
   private readonly fb    = inject(FormBuilder);
   private readonly auth  = inject(AuthService);
+  private readonly ui    = inject(UiService);
   private readonly route = inject(ActivatedRoute);
 
   readonly loading     = signal(false);
@@ -73,7 +76,7 @@ export class LoginPage implements OnInit {
     this.error.set(null);
     this.loading.set(true);
 
-    const loader = await this.auth.createLoader('Iniciando sesión...');
+    const loader = await this.ui.createLoader('Iniciando sesión...');
 
     this.auth.login(this.form.getRawValue()).subscribe({
       error: async (err) => {
@@ -85,7 +88,7 @@ export class LoginPage implements OnInit {
             ? 'Tu cuenta está inactiva. Contacta al administrador.'
             : 'Ocurrió un error. Intenta de nuevo.';
         this.error.set(msg);
-        await this.auth.showErrorToast(msg);
+        await this.ui.showErrorToast(msg);
       },
       complete: () => { loader.dismiss(); this.loading.set(false); },
     });

@@ -15,8 +15,9 @@ import {
   eyeOutline, eyeOffOutline, personOutline, cardOutline,
   callOutline, mailOutline, lockClosedOutline, alertCircleOutline,
 } from 'ionicons/icons';
-import { AuthService } from '../../../../core/services/auth.service';
-import { TipoDocumento } from '../../../../core/models/auth.models';
+import { AuthService } from '../../../core/services/auth.service';
+import { UiService } from '../../../core/services/ui.service';
+import { TipoDocumento } from '../../../core/models/auth.models';
 
 function passwordMatch(ctrl: AbstractControl): ValidationErrors | null {
   const p = ctrl.get('password');
@@ -28,6 +29,7 @@ function passwordMatch(ctrl: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-register',
   standalone: true,
+  host: { class: 'ion-page' },
   imports: [
     ReactiveFormsModule, RouterLink,
     IonContent, IonHeader, IonToolbar,
@@ -40,6 +42,7 @@ function passwordMatch(ctrl: AbstractControl): ValidationErrors | null {
 export class RegisterPage {
   private readonly fb   = inject(FormBuilder);
   private readonly auth = inject(AuthService);
+  private readonly ui   = inject(UiService);
 
   readonly loading     = signal(false);
   readonly error       = signal<string | null>(null);
@@ -81,7 +84,7 @@ export class RegisterPage {
     this.error.set(null);
     this.loading.set(true);
 
-    const loader = await this.auth.createLoader('Creando cuenta...');
+    const loader = await this.ui.createLoader('Creando cuenta...');
     const { confirmPassword, ...values } = this.form.getRawValue();
 
     this.auth.register(values).subscribe({
@@ -94,7 +97,7 @@ export class RegisterPage {
             ? 'Por favor revisa los datos ingresados.'
             : 'Ocurrió un error. Intenta de nuevo.';
         this.error.set(msg);
-        await this.auth.showErrorToast(msg);
+        await this.ui.showErrorToast(msg);
       },
       complete: () => loader.dismiss(),
     });
