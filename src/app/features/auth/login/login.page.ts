@@ -1,6 +1,6 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import {
   IonContent, IonHeader, IonToolbar,
   IonCard, IonCardHeader, IonCardContent,
@@ -14,7 +14,6 @@ import {
 } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
 import { UiService } from '../../../core/services/ui.service';
-import { UserRole } from '../../../core/models/auth.models';
 
 @Component({
   selector: 'app-login',
@@ -29,11 +28,10 @@ import { UserRole } from '../../../core/models/auth.models';
   ],
   templateUrl: './login.page.html',
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
   private readonly fb    = inject(FormBuilder);
   private readonly auth  = inject(AuthService);
   private readonly ui    = inject(UiService);
-  private readonly route = inject(ActivatedRoute);
 
   readonly loading     = signal(false);
   readonly error       = signal<string | null>(null);
@@ -49,26 +47,6 @@ export class LoginPage implements OnInit {
 
   constructor() {
     addIcons({ eyeOutline, eyeOffOutline, mailOutline, lockClosedOutline, alertCircleOutline, logoGoogle });
-  }
-
-  ngOnInit(): void {
-    // El backend redirige a /auth/login?token=...&role=...&email=...
-    // en vez de /auth/oauth2/callback, así que procesamos el token aquí.
-    this.route.queryParams.subscribe(params => {
-      const token = params['token'];
-      const role  = params['role'] as UserRole;
-      const email = params['email'] ?? '';
-
-      if (!token || !role) return;
-
-      let userId = 0;
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-        userId = payload['userId'] ?? 0;
-      } catch { /* JWT inválido */ }
-
-      this.auth.handleOAuth2Token(token, role, userId, email, '', '');
-    });
   }
 
   async onSubmit(): Promise<void> {
