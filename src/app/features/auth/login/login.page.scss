@@ -1,6 +1,59 @@
+// ─── Background ────────────────────────────────────────────────────────────────
+// Place a horse/nature photo at src/assets/images/login-bg.jpg
+// Falls back to a warm earthy gradient when the image is missing.
+
 ion-content.auth-background {
-  --background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+  --background:
+    linear-gradient(
+      160deg,
+      rgba(10, 8, 2, 0.50) 0%,
+      rgba(5, 18, 5, 0.62) 100%
+    ),
+    url('/assets/images/login-bg.jpg') center / cover no-repeat,
+    linear-gradient(160deg, #3b2a1a 0%, #1e3a1e 100%);
 }
+
+// ─── Brand ─────────────────────────────────────────────────────────────────────
+
+.brand-logo {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.brand-title {
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.02em;
+}
+
+// ─── Glassmorphism card ─────────────────────────────────────────────────────────
+
+.login-card {
+  background: rgba(255, 251, 245, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.40),
+    0 1px 0 rgba(255, 255, 255, 0.70) inset;
+  animation: card-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// ─── Form elements ──────────────────────────────────────────────────────────────
 
 ion-item {
   --border-radius: 8px;
@@ -11,6 +64,12 @@ ion-button[expand="block"] {
   --border-radius: 10px;
   height: 48px;
   font-weight: 600;
+}
+
+.error-message {
+  font-size: 0.75rem;
+  color: var(--ion-color-danger);
+  margin: 4px 0 0 4px;
 }
 
 a {
