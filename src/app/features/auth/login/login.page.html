@@ -1,172 +1,112 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar class="auth-toolbar">
-  </ion-toolbar>
-</ion-header>
+<ion-content class="auth-background" fullscreen>
+  <div class="flex min-h-full flex-col items-center justify-center px-6 py-12">
 
-<ion-content class="auth-content" [fullscreen]="true">
-
-  <div class="auth-split">
-
-    <!-- Panel decorativo (solo visible en tablet/desktop) -->
-    <div class="auth-hero">
-      <div class="auth-hero-content">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 48px;">
-          <div style="width:40px;height:40px;border-radius:50%;background:#C9972B;display:flex;align-items:center;justify-content:center;font-size:20px;">🐴</div>
-          <span style="font-size:18px;font-weight:600;letter-spacing:0.5px;">Cabalgatas Salento</span>
-        </div>
-        <div class="hero-accent"></div>
-        <h1 class="hero-title">
-          Explora los<br>
-          <span style="color:#C9972B;">Andes</span><br>
-          a caballo
-        </h1>
-        <p class="hero-sub">
-          Rutas únicas por el paisaje cafetero colombiano, guiadas por expertos locales.
-        </p>
+    <!-- Logo / Brand -->
+    <div class="mb-8 text-center">
+      <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary shadow-lg">
+        <ion-icon name="logo-google" class="text-3xl text-white" style="display:none"></ion-icon>
+        <span class="text-3xl">🐴</span>
       </div>
-      <p class="hero-footer">Salento, Quindío · Colombia</p>
+      <h1 class="text-2xl font-bold text-gray-800">Horse Reserved</h1>
+      <p class="mt-1 text-sm text-gray-500">Inicia sesión en tu cuenta</p>
     </div>
 
-    <!-- Formulario -->
-    <div class="auth-form-side">
-      <div style="width: 100%; max-width: 420px;">
+    <!-- Card -->
+    <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
 
-        <!-- Logo mobile -->
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:32px;" class="ion-hide-md-up">
-          <div style="width:36px;height:36px;border-radius:50%;background:var(--ion-color-primary);display:flex;align-items:center;justify-content:center;font-size:18px;">🐴</div>
-          <span style="font-weight:600;color:var(--ion-color-primary);">Cabalgatas Salento</span>
+      <!-- Error message -->
+      @if (errorMessage()) {
+        <div class="mb-4 rounded-lg bg-red-50 p-3">
+          <ion-text color="danger">
+            <p class="text-sm">{{ errorMessage() }}</p>
+          </ion-text>
+        </div>
+      }
+
+      <!-- Form -->
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Email -->
+        <div class="mb-4">
+          <ion-item lines="full" class="rounded-lg" [class.ion-invalid]="emailCtrl.invalid && emailCtrl.touched">
+            <ion-icon name="mail-outline" slot="start" color="medium"></ion-icon>
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              inputmode="email"
+            ></ion-input>
+          </ion-item>
+          @if (emailCtrl.touched && emailCtrl.hasError('required')) {
+            <p class="error-message">El correo es requerido.</p>
+          }
+          @if (emailCtrl.touched && emailCtrl.hasError('email')) {
+            <p class="error-message">Ingresa un correo válido.</p>
+          }
         </div>
 
-        <ion-card class="auth-card">
-          <ion-card-header>
-            <h2 class="auth-title font-display">Bienvenido de vuelta</h2>
-            <p class="auth-subtitle">Inicia sesión para gestionar tus reservas</p>
-          </ion-card-header>
-
-          <ion-card-content>
-
-            <!-- Banner de error -->
-            @if (error()) {
-              <div class="cs-error-banner">
-                <ion-icon name="alert-circle-outline" style="font-size:18px;shrink:0;"></ion-icon>
-                <span>{{ error() }}</span>
-              </div>
-            }
-
-            <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-
-              <!-- Email -->
-              <ion-item
-                class="cs-item"
-                [class.item-invalid]="emailCtrl.invalid && emailCtrl.touched"
-                lines="none"
-              >
-                <ion-icon name="mail-outline" slot="start" color="medium"></ion-icon>
-                <ion-label position="stacked">Correo electrónico</ion-label>
-                <ion-input
-                  type="email"
-                  formControlName="email"
-                  placeholder="tu@correo.com"
-                  autocomplete="email"
-                  [clearInput]="true"
-                ></ion-input>
-              </ion-item>
-              @if (emailCtrl.invalid && emailCtrl.touched) {
-                <p class="cs-error-msg">
-                  <ion-icon name="alert-circle-outline"></ion-icon>
-                  @if (emailCtrl.errors?.['required']) { El correo es obligatorio. }
-                  @else { Ingresa un correo válido. }
-                </p>
-              }
-
-              <!-- Contraseña -->
-              <ion-item
-                class="cs-item"
-                [class.item-invalid]="passwordCtrl.invalid && passwordCtrl.touched"
-                lines="none"
-              >
-                <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
-                <ion-label position="stacked">Contraseña</ion-label>
-                <ion-input
-                  [type]="showPass() ? 'text' : 'password'"
-                  formControlName="password"
-                  placeholder="Mínimo 8 caracteres"
-                  autocomplete="current-password"
-                ></ion-input>
-                <ion-button
-                  slot="end"
-                  fill="clear"
-                  size="small"
-                  (click)="togglePass()"
-                  [attr.aria-label]="showPass() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
-                >
-                  <ion-icon [name]="showPass() ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
-                </ion-button>
-              </ion-item>
-              @if (passwordCtrl.invalid && passwordCtrl.touched) {
-                <p class="cs-error-msg">
-                  <ion-icon name="alert-circle-outline"></ion-icon>
-                  @if (passwordCtrl.errors?.['required']) { La contraseña es obligatoria. }
-                  @else { Mínimo 8 caracteres. }
-                </p>
-              }
-
-              <!-- Botón submit -->
-              <ion-button
-                class="cs-btn-primary"
-                expand="block"
-                type="submit"
-                [disabled]="form.invalid || loading()"
-                style="margin-top: 8px;"
-              >
-                @if (loading()) {
-                  <ion-spinner name="crescent" slot="start"></ion-spinner>
-                  Ingresando...
-                } @else {
-                  Iniciar sesión
-                }
-              </ion-button>
-
-            </form>
-
-            <!-- Separador -->
-            <div class="cs-divider">
-              <div class="cs-divider-line"></div>
-              <span>o continúa con</span>
-              <div class="cs-divider-line"></div>
-            </div>
-
-            <!-- Google -->
-            <ion-button
-              class="cs-btn-google"
-              expand="block"
-              fill="outline"
-              (click)="loginWithGoogle()"
-            >
-              <svg slot="start" width="20" height="20" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-              </svg>
-              Continuar con Google
+        <!-- Password -->
+        <div class="mb-6">
+          <ion-item lines="full" class="rounded-lg" [class.ion-invalid]="passwordCtrl.invalid && passwordCtrl.touched">
+            <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="password"
+              autocomplete="current-password"
+            ></ion-input>
+            <ion-button fill="clear" slot="end" (click)="togglePassword()" type="button" aria-label="Mostrar contraseña">
+              <ion-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
             </ion-button>
+          </ion-item>
+          @if (passwordCtrl.touched && passwordCtrl.hasError('required')) {
+            <p class="error-message">La contraseña es requerida.</p>
+          }
+        </div>
 
-            <!-- Link registro -->
-            <p style="text-align:center;margin-top:20px;font-size:14px;color:var(--ion-color-medium);">
-              ¿Aún no tienes cuenta?
-              <a routerLink="/auth/register"
-                style="color:var(--ion-color-primary);font-weight:700;text-decoration:none;margin-left:4px;">
-                Regístrate
-              </a>
-            </p>
+        <!-- Submit -->
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="form.invalid || loading()"
+          class="mb-4"
+        >
+          @if (loading()) {
+            <ion-spinner name="crescent" class="mr-2"></ion-spinner>
+          }
+          Iniciar Sesión
+        </ion-button>
 
-          </ion-card-content>
-        </ion-card>
+      </form>
 
+      <!-- Divider -->
+      <div class="my-4 flex items-center gap-3">
+        <div class="h-px flex-1 bg-gray-200"></div>
+        <span class="text-xs text-gray-400">o continúa con</span>
+        <div class="h-px flex-1 bg-gray-200"></div>
       </div>
+
+      <!-- Google OAuth2 -->
+      <ion-button
+        expand="block"
+        fill="outline"
+        color="medium"
+        (click)="loginWithGoogle()"
+        class="mb-6"
+      >
+        <ion-icon name="logo-google" slot="start"></ion-icon>
+        Continuar con Google
+      </ion-button>
+
+      <!-- Register link -->
+      <p class="text-center text-sm text-gray-500">
+        ¿No tienes cuenta?
+        <a routerLink="/auth/register" class="font-semibold text-primary">
+          Regístrate
+        </a>
+      </p>
+
     </div>
-
   </div>
-
 </ion-content>

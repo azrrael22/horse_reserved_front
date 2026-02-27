@@ -4,122 +4,136 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { TOKEN_KEY, USER_KEY } from '../constants/storage.constants';
 import {
   AuthResponse,
   ChangePasswordRequest,
-  CurrentUser,
   LoginRequest,
   RegisterRequest,
+  StoredSession,
+  UserProfileResponse,
   UserRole,
 } from '../models/auth.models';
 
-const API_URL = `${environment.apiUrl}/auth`;
+const SESSION_KEY = 'hr_session';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly http   = inject(HttpClient);
+  private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly apiUrl = `${environment.apiUrl}/api/auth`;
 
-  // ── Estado reactivo con signals ────────────────────────────────────────────
-  private readonly _currentUser = signal<CurrentUser | null>(this.loadUser());
-  private readonly _token       = signal<string | null>(this.loadToken());
+  private readonly _session = signal<StoredSession | null>(
+    this.loadSession()
+  );
 
-  readonly currentUser = this._currentUser.asReadonly();
-  readonly token       = this._token.asReadonly();
-  readonly isLoggedIn  = computed(() => !!this._token() && !!this._currentUser());
-  readonly userRole    = computed(() => this._currentUser()?.role ?? null);
+  readonly session = this._session.asReadonly();
+  readonly isLoggedIn = computed(() => {
+    const s = this._session();
+    return !!s && s.expiresAt > Date.now();
+  });
+  readonly currentUser = computed(() => this._session());
 
-  // ── Persistencia ───────────────────────────────────────────────────────────
-  private loadToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY);
-  }
+  // ─── Auth calls ────────────────────────────────────────────────────────────
 
-  private loadUser(): CurrentUser | null {
-    try {
-      const raw = localStorage.getItem(USER_KEY);
-      return raw ? (JSON.parse(raw) as CurrentUser) : null;
-    } catch {
-      return null;
-    }
-  }
-
-  private persist(res: AuthResponse): void {
-    const user: CurrentUser = {
-      userId:         res.userId,
-      email:          res.email,
-      primerNombre:   res.primerNombre,
-      primerApellido: res.primerApellido,
-      role:           res.role,
-    };
-    localStorage.setItem(TOKEN_KEY, res.token);
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
-    this._token.set(res.token);
-    this._currentUser.set(user);
-  }
-
-  private redirect(role: UserRole): void {
-    const map: Record<UserRole, string> = {
-      cliente:       '/cliente/dashboard',
-      operador:      '/operador/dashboard',
-      administrador: '/admin/dashboard',
-    };
-    this.router.navigateByUrl(map[role]);
-  }
-
-  // ── API ────────────────────────────────────────────────────────────────────
   login(req: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${API_URL}/login`, req).pipe(
-      tap(res => {
-        this.persist(res);
-        this.redirect(res.role);
-      }),
-    );
+    return this.http
+      .post<AuthResponse>(`${this.apiUrl}/login`, req)
+      .pipe(tap((res) => this.saveSession(res)));
   }
 
   register(req: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${API_URL}/register`, req).pipe(
-      tap(res => {
-        this.persist(res);
-        this.redirect(res.role);
-      }),
-    );
+    return this.http
+      .post<AuthResponse>(`${this.apiUrl}/register`, req)
+      .pipe(tap((res) => this.saveSession(res)));
   }
 
-  logout(): void {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-    this._token.set(null);
-    this._currentUser.set(null);
-    this.router.navigateByUrl('/auth/login');
-  }
-
-  loginWithGoogle(): void {
-    window.location.href = environment.googleOAuthUrl;
-  }
-
-  handleOAuth2Token(
-    token: string,
-    role: UserRole,
-    userId: number,
-    email: string,
-    primerNombre: string,
-    primerApellido: string,
-  ): void {
-    const fakeRes: AuthResponse = {
-      token, type: 'Bearer', expiresIn: 86400,
-      userId, email, primerNombre, primerApellido, role,
-    };
-    this.persist(fakeRes);
-    this.redirect(role);
+  getMe(): Observable<UserProfileResponse> {
+    return this.http.get<UserProfileResponse>(`${this.apiUrl}/me`);
   }
 
   changePassword(req: ChangePasswordRequest): Observable<string> {
-    return this.http.put(`${API_URL}/change-password`, req, { responseType: 'text' });
+    return this.http.put(`${this.apiUrl}/change-password`, req, {
+      responseType: 'text',
+    });
   }
 
-  hasRole(...roles: UserRole[]): boolean {
-    const r = this._currentUser()?.role;
-    return r ? roles.includes(r) : false;
+  // ─── OAuth2 ────────────────────────────────────────────────────────────────
+
+  handleOAuth2Redirect(token: string, email: string, role: UserRole): void {
+    // Build a minimal session from OAuth2 redirect params.
+    // expiresIn from backend is 86400s (24h).
+    const session: StoredSession = {
+      token,
+      userId: 0, // will be refreshed on first /me call
+      email,
+      primerNombre: '',
+      primerApellido: '',
+      role,
+      expiresAt: Date.now() + 86400 * 1000,
+    };
+    this.persistSession(session);
+
+    // Fetch full profile to populate name / userId
+    this.getMe().subscribe({
+      next: (profile) => {
+        const updated: StoredSession = {
+          ...session,
+          userId: profile.userId,
+          primerNombre: profile.primerNombre,
+          primerApellido: profile.primerApellido,
+        };
+        this.persistSession(updated);
+      },
+      error: () => {
+        // Non-critical — session still valid with partial data
+      },
+    });
+  }
+
+  // ─── Session helpers ───────────────────────────────────────────────────────
+
+  getToken(): string | null {
+    return this._session()?.token ?? null;
+  }
+
+  logout(): void {
+    localStorage.removeItem(SESSION_KEY);
+    this._session.set(null);
+    this.router.navigate(['/auth/login']);
+  }
+
+  // ─── Private ───────────────────────────────────────────────────────────────
+
+  private saveSession(res: AuthResponse): void {
+    const session: StoredSession = {
+      token: res.token,
+      userId: res.userId,
+      email: res.email,
+      primerNombre: res.primerNombre,
+      primerApellido: res.primerApellido,
+      role: res.role,
+      expiresAt: Date.now() + res.expiresIn * 1000,
+    };
+    this.persistSession(session);
+  }
+
+  private persistSession(session: StoredSession): void {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    this._session.set(session);
+  }
+
+  private loadSession(): StoredSession | null {
+    try {
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+      const session: StoredSession = JSON.parse(raw);
+      if (session.expiresAt <= Date.now()) {
+        localStorage.removeItem(SESSION_KEY);
+        return null;
+      }
+      return session;
+    } catch {
+      return null;
+    }
   }
 }

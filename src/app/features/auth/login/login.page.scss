@@ -1,0 +1,19 @@
+ion-content.auth-background {
+  --background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+}
+
+ion-item {
+  --border-radius: 8px;
+  --padding-start: 12px;
+}
+
+ion-button[expand="block"] {
+  --border-radius: 10px;
+  height: 48px;
+  font-weight: 600;
+}
+
+a {
+  color: var(--ion-color-primary);
+  text-decoration: none;
+}

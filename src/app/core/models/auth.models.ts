@@ -1,11 +1,23 @@
-// ── Requests ──────────────────────────────────────────────────────────────────
+export enum TipoDocumento {
+  CEDULA = 'CEDULA',
+  PASAPORTE = 'PASAPORTE',
+  TARJETA_IDENTIDAD = 'TARJETA_IDENTIDAD',
+}
+
+export const TIPO_DOCUMENTO_LABELS: Record<TipoDocumento, string> = {
+  [TipoDocumento.CEDULA]: 'Cédula de Ciudadanía',
+  [TipoDocumento.PASAPORTE]: 'Pasaporte',
+  [TipoDocumento.TARJETA_IDENTIDAD]: 'Tarjeta de Identidad',
+};
+
+export type UserRole = 'CLIENTE' | 'OPERADOR' | 'ADMINISTRADOR';
+
+// ─── Requests ────────────────────────────────────────────────────────────────
 
 export interface LoginRequest {
   email: string;
   password: string;
 }
-
-export type TipoDocumento = 'cedula' | 'pasaporte' | 'tarjeta_identidad';
 
 export interface RegisterRequest {
   primerNombre: string;
@@ -23,9 +35,7 @@ export interface ChangePasswordRequest {
   confirmarPassword: string;
 }
 
-// ── Responses ─────────────────────────────────────────────────────────────────
-
-export type UserRole = 'cliente' | 'operador' | 'administrador';
+// ─── Responses ───────────────────────────────────────────────────────────────
 
 export interface AuthResponse {
   token: string;
@@ -38,10 +48,34 @@ export interface AuthResponse {
   role: UserRole;
 }
 
-export interface CurrentUser {
+export interface UserProfileResponse {
+  userId: number;
+  email: string;
+  primerNombre: string;
+  primerApellido: string;
+  tipoDocumento: TipoDocumento;
+  documento: string;
+  telefono: string | null;
+  role: UserRole;
+  isActive: boolean;
+}
+
+export interface ErrorResponse {
+  timestamp: string;
+  status: number;
+  error: string;
+  message: string;
+  path: string;
+}
+
+// ─── Stored session ───────────────────────────────────────────────────────────
+
+export interface StoredSession {
+  token: string;
   userId: number;
   email: string;
   primerNombre: string;
   primerApellido: string;
   role: UserRole;
+  expiresAt: number; // Unix timestamp in ms
 }
