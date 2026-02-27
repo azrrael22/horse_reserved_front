@@ -1,111 +1,126 @@
-<ion-content class="auth-background" fullscreen>
-  <div class="flex min-h-full flex-col items-center justify-center px-6 py-12">
+<ion-content class="auth-split" fullscreen>
+  <div class="split-layout">
 
-    <!-- Logo / Brand -->
-    <div class="mb-8 text-center">
-      <div class="brand-logo mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-3xl">
-        <span class="text-4xl">🐴</span>
+    <!-- ── Izquierda: imagen + branding ── -->
+    <div class="image-panel">
+      <div class="image-overlay">
+        <div class="text-center px-8">
+          <div class="brand-logo mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-3xl">
+            <img src="/assets/images/logo.jpg" alt="Horse Reserved" class="h-full w-full rounded-3xl object-cover" />
+          </div>
+          <h1 class="brand-title text-4xl font-bold">Cabalgatas Salento</h1>
+          <p class="mt-3 text-base text-white/70 leading-relaxed">
+            Vive la mejor experiencia a caballo<br>por el paisaje cultural cafetero.
+          </p>
+        </div>
       </div>
-      <h1 class="brand-title text-3xl font-bold">Horse Reserved</h1>
-      <p class="mt-1 text-sm text-white/75">Inicia sesión en tu cuenta</p>
     </div>
 
-    <!-- Card -->
-    <div class="login-card w-full max-w-sm rounded-2xl p-6">
+    <!-- ── Derecha: formulario ── -->
+    <div class="form-panel">
+      <div class="form-content">
 
-      <!-- Error message -->
-      @if (errorMessage()) {
-        <div class="mb-4 rounded-lg bg-red-50 p-3">
-          <ion-text color="danger">
-            <p class="text-sm">{{ errorMessage() }}</p>
-          </ion-text>
-        </div>
-      }
-
-      <!-- Form -->
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-
-        <!-- Email -->
-        <div class="mb-4">
-          <ion-item lines="full" class="rounded-lg" [class.ion-invalid]="emailCtrl.invalid && emailCtrl.touched">
-            <ion-icon name="mail-outline" slot="start" color="medium"></ion-icon>
-            <ion-label position="floating">Correo electrónico</ion-label>
-            <ion-input
-              type="email"
-              formControlName="email"
-              autocomplete="email"
-              inputmode="email"
-            ></ion-input>
-          </ion-item>
-          @if (emailCtrl.touched && emailCtrl.hasError('required')) {
-            <p class="error-message">El correo es requerido.</p>
-          }
-          @if (emailCtrl.touched && emailCtrl.hasError('email')) {
-            <p class="error-message">Ingresa un correo válido.</p>
-          }
+        <!-- Encabezado -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-gray-800">Bienvenido de nuevo</h2>
+          <p class="mt-1 text-sm text-gray-500">Inicia sesión en tu cuenta</p>
         </div>
 
-        <!-- Password -->
-        <div class="mb-6">
-          <ion-item lines="full" class="rounded-lg" [class.ion-invalid]="passwordCtrl.invalid && passwordCtrl.touched">
-            <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
-            <ion-label position="floating">Contraseña</ion-label>
-            <ion-input
-              [type]="showPassword() ? 'text' : 'password'"
-              formControlName="password"
-              autocomplete="current-password"
-            ></ion-input>
-            <ion-button fill="clear" slot="end" (click)="togglePassword()" type="button" aria-label="Mostrar contraseña">
-              <ion-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
-            </ion-button>
-          </ion-item>
-          @if (passwordCtrl.touched && passwordCtrl.hasError('required')) {
-            <p class="error-message">La contraseña es requerida.</p>
-          }
+        <!-- Error -->
+        @if (errorMessage()) {
+          <div class="mb-4 rounded-lg bg-red-50 p-3">
+            <ion-text color="danger">
+              <p class="text-sm">{{ errorMessage() }}</p>
+            </ion-text>
+          </div>
+        }
+
+        <!-- Formulario -->
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+          <!-- Email -->
+          <div class="mb-4">
+            <ion-item lines="full" class="rounded-lg" [class.ion-invalid]="emailCtrl.invalid && emailCtrl.touched">
+              <ion-icon name="mail-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="floating">Correo electrónico</ion-label>
+              <ion-input
+                type="email"
+                formControlName="email"
+                autocomplete="email"
+                inputmode="email"
+              ></ion-input>
+            </ion-item>
+            @if (emailCtrl.touched && emailCtrl.hasError('required')) {
+              <p class="error-message">El correo es requerido.</p>
+            }
+            @if (emailCtrl.touched && emailCtrl.hasError('email')) {
+              <p class="error-message">Ingresa un correo válido.</p>
+            }
+          </div>
+
+          <!-- Contraseña -->
+          <div class="mb-6">
+            <ion-item lines="full" class="rounded-lg" [class.ion-invalid]="passwordCtrl.invalid && passwordCtrl.touched">
+              <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
+              <ion-label position="floating">Contraseña</ion-label>
+              <ion-input
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="password"
+                autocomplete="current-password"
+              ></ion-input>
+              <ion-button fill="clear" slot="end" (click)="togglePassword()" type="button" aria-label="Mostrar contraseña">
+                <ion-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
+              </ion-button>
+            </ion-item>
+            @if (passwordCtrl.touched && passwordCtrl.hasError('required')) {
+              <p class="error-message">La contraseña es requerida.</p>
+            }
+          </div>
+
+          <!-- Botón enviar -->
+          <ion-button
+            expand="block"
+            type="submit"
+            [disabled]="form.invalid || loading()"
+            class="mb-4"
+          >
+            @if (loading()) {
+              <ion-spinner name="crescent" class="mr-2"></ion-spinner>
+            }
+            Iniciar Sesión
+          </ion-button>
+
+        </form>
+
+        <!-- Divisor -->
+        <div class="my-4 flex items-center gap-3">
+          <div class="h-px flex-1 bg-gray-200"></div>
+          <span class="text-xs text-gray-400">o continúa con</span>
+          <div class="h-px flex-1 bg-gray-200"></div>
         </div>
 
-        <!-- Submit -->
+        <!-- Google OAuth2 -->
         <ion-button
           expand="block"
-          type="submit"
-          [disabled]="form.invalid || loading()"
-          class="mb-4"
+          fill="outline"
+          color="medium"
+          (click)="loginWithGoogle()"
+          class="mb-6"
         >
-          @if (loading()) {
-            <ion-spinner name="crescent" class="mr-2"></ion-spinner>
-          }
-          Iniciar Sesión
+          <ion-icon name="logo-google" slot="start"></ion-icon>
+          Continuar con Google
         </ion-button>
 
-      </form>
+        <!-- Registro -->
+        <p class="text-center text-sm text-gray-500">
+          ¿No tienes cuenta?
+          <a routerLink="/auth/register" class="font-semibold text-primary">
+            Regístrate
+          </a>
+        </p>
 
-      <!-- Divider -->
-      <div class="my-4 flex items-center gap-3">
-        <div class="h-px flex-1 bg-gray-200"></div>
-        <span class="text-xs text-gray-400">o continúa con</span>
-        <div class="h-px flex-1 bg-gray-200"></div>
       </div>
-
-      <!-- Google OAuth2 -->
-      <ion-button
-        expand="block"
-        fill="outline"
-        color="medium"
-        (click)="loginWithGoogle()"
-        class="mb-6"
-      >
-        <ion-icon name="logo-google" slot="start"></ion-icon>
-        Continuar con Google
-      </ion-button>
-
-      <!-- Register link -->
-      <p class="text-center text-sm text-gray-500">
-        ¿No tienes cuenta?
-        <a routerLink="/auth/register" class="font-semibold text-primary">
-          Regístrate
-        </a>
-      </p>
-
     </div>
+
   </div>
 </ion-content>

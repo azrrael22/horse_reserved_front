@@ -1,66 +1,126 @@
-// ─── Background ────────────────────────────────────────────────────────────────
-// Place a horse/nature photo at src/assets/images/login-bg.jpg
-// Falls back to a warm earthy gradient when the image is missing.
+// ─── Contenedor raíz ───────────────────────────────────────────────────────────
 
-ion-content.auth-background {
-  --background:
-    linear-gradient(
-      160deg,
-      rgba(10, 8, 2, 0.50) 0%,
-      rgba(5, 18, 5, 0.62) 100%
-    ),
-    url('/assets/images/login-bg.jpg') center / cover no-repeat,
-    linear-gradient(160deg, #3b2a1a 0%, #1e3a1e 100%);
+ion-content.auth-split {
+  --background: #ffffff;
 }
 
-// ─── Brand ─────────────────────────────────────────────────────────────────────
+// ─── Layout split ──────────────────────────────────────────────────────────────
+
+.split-layout {
+  display: flex;
+  min-height: 100%;
+
+  // Mobile: columna (imagen arriba compacta, form abajo)
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    min-height: 100vh;
+  }
+}
+
+// ─── Panel izquierdo — imagen ──────────────────────────────────────────────────
+
+.image-panel {
+  position: relative;
+  background: url('/assets/images/login-bg.jpg') center / cover no-repeat,
+              linear-gradient(160deg, #295073 0%, #735722 100%);
+
+  // Mobile: franja superior
+  flex: 0 0 220px;
+
+  @media (min-width: 768px) {
+    flex: 1;
+    flex-basis: 0;
+  }
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(41, 80, 115, 0.55) 0%,   // Lake-1 azul profundo
+    rgba(115, 87, 34, 0.62) 100%   // Lake-5 marrón cálido
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .brand-logo {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06));
+  background: rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1.5px solid rgba(255, 255, 255, 0.28);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.30);
 }
 
 .brand-title {
   color: #ffffff;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
   letter-spacing: -0.02em;
 }
 
-// ─── Glassmorphism card ─────────────────────────────────────────────────────────
-
-.login-card {
-  background: rgba(255, 251, 245, 0.95);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow:
-    0 24px 64px rgba(0, 0, 0, 0.40),
-    0 1px 0 rgba(255, 255, 255, 0.70) inset;
-  animation: card-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+// Ocultar texto del brand en mobile (espacio reducido)
+.image-panel .text-center p,
+.image-panel .brand-title {
+  @media (max-width: 767px) {
+    display: none;
+  }
 }
 
-@keyframes card-in {
+.image-panel .brand-logo {
+  @media (max-width: 767px) {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+    font-size: 1.75rem;
+  }
+}
+
+// ─── Panel derecho — formulario ────────────────────────────────────────────────
+
+.form-panel {
+  flex: 0 0 auto;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+
+  @media (min-width: 768px) {
+    flex: 1;
+    flex-basis: 0;
+    padding: 3rem 2.5rem;
+  }
+}
+
+.form-content {
+  width: 100%;
+  max-width: 380px;
+  animation: form-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes form-in {
   from {
     opacity: 0;
-    transform: translateY(18px) scale(0.98);
+    transform: translateX(16px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateX(0);
   }
 }
 
-// ─── Form elements ──────────────────────────────────────────────────────────────
+// ─── Elementos del form ────────────────────────────────────────────────────────
 
 ion-item {
   --border-radius: 8px;
   --padding-start: 12px;
 }
 
-ion-button[expand="block"] {
+ion-button[expand='block'] {
   --border-radius: 10px;
   height: 48px;
   font-weight: 600;

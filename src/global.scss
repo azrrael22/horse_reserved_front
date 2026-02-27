@@ -1,25 +1,28 @@
-// Ionic CSS Variables — Horse Reserved Theme
+// Ionic CSS Variables — Cabalgatas Salento Theme (Lake on Alaska palette)
 :root {
-  --ion-color-primary: #6366f1;
-  --ion-color-primary-rgb: 99, 102, 241;
+  // Lake-1: Azul profundo — acciones principales
+  --ion-color-primary: #295073;
+  --ion-color-primary-rgb: 41, 80, 115;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #575ad4;
-  --ion-color-primary-tint: #7375f3;
+  --ion-color-primary-shade: #214264;
+  --ion-color-primary-tint: #3d6485;
 
-  --ion-color-secondary: #0ea5e9;
-  --ion-color-secondary-rgb: 14, 165, 233;
+  // Lake-2: Azul medio — acciones secundarias
+  --ion-color-secondary: #6A8AA6;
+  --ion-color-secondary-rgb: 106, 138, 166;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #0c91cd;
-  --ion-color-secondary-tint: #26aeeb;
+  --ion-color-secondary-shade: #5d7a93;
+  --ion-color-secondary-tint: #7896af;
 
-  --ion-color-tertiary: #8b5cf6;
-  --ion-color-tertiary-rgb: 139, 92, 246;
+  // Lake-5: Marrón cálido — tonos tierra
+  --ion-color-tertiary: #735722;
+  --ion-color-tertiary-rgb: 115, 87, 34;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255, 255, 255;
-  --ion-color-tertiary-shade: #7a51d8;
-  --ion-color-tertiary-tint: #976cf7;
+  --ion-color-tertiary-shade: #654d1e;
+  --ion-color-tertiary-tint: #816637;
 
   --ion-color-success: #22c55e;
   --ion-color-success-rgb: 34, 197, 94;
@@ -28,12 +31,13 @@
   --ion-color-success-shade: #1ead53;
   --ion-color-success-tint: #38cb6e;
 
-  --ion-color-warning: #f59e0b;
-  --ion-color-warning-rgb: 245, 158, 11;
-  --ion-color-warning-contrast: #000000;
-  --ion-color-warning-contrast-rgb: 0, 0, 0;
-  --ion-color-warning-shade: #d88b0a;
-  --ion-color-warning-tint: #f6a823;
+  // Lake-3: Dorado oliva — acento / highlights
+  --ion-color-warning: #8C8303;
+  --ion-color-warning-rgb: 140, 131, 3;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #7b7203;
+  --ion-color-warning-tint: #98901c;
 
   --ion-color-danger: #ef4444;
   --ion-color-danger-rgb: 239, 68, 68;
@@ -49,17 +53,18 @@
   --ion-color-medium-shade: #5e6370;
   --ion-color-medium-tint: #7a808d;
 
-  --ion-color-light: #f3f4f6;
-  --ion-color-light-rgb: 243, 244, 246;
+  // Tinte azul-gris suave (derivado de Lake-1)
+  --ion-color-light: #eef2f6;
+  --ion-color-light-rgb: 238, 242, 246;
   --ion-color-light-contrast: #1f2937;
   --ion-color-light-contrast-rgb: 31, 41, 55;
-  --ion-color-light-shade: #d7d8da;
-  --ion-color-light-tint: #f4f5f7;
+  --ion-color-light-shade: #d1d8e0;
+  --ion-color-light-tint: #f0f4f8;
 }
 
-// Auth pages — shared background
+// Auth pages — gradiente azul-crema (Lake-1 tint → Lake-5 tint)
 .auth-background {
-  --background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+  --background: linear-gradient(135deg, #e8eef4 0%, #f0ece6 100%);
 }
 
 // Remove default outline on Ionic inputs when focused
