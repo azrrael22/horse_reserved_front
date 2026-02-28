@@ -165,4 +165,4 @@ export const environment = {
 
 ## Proyecto relacionado
 
-Backend: Spring Boot 4 + PostgreSQL + JWT + OAuth2 Google → [`horse_reserved`]([../horse_reserved](https://github.com/azrrael22/horse_reserved.git))
+Backend: Spring Boot 4 + PostgreSQL + JWT + OAuth2 Google → [`horse_reserved`](https://github.com/azrrael22/horse_reserved.git)
