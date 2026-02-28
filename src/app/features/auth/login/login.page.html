@@ -59,7 +59,7 @@
           </div>
 
           <!-- Contraseña -->
-          <div class="mb-6">
+          <div class="mb-2">
             <ion-item lines="full" class="rounded-lg" [class.ion-invalid]="passwordCtrl.invalid && passwordCtrl.touched">
               <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
               <ion-label position="floating">Contraseña</ion-label>
@@ -75,6 +75,13 @@
             @if (passwordCtrl.touched && passwordCtrl.hasError('required')) {
               <p class="error-message">La contraseña es requerida.</p>
             }
+          </div>
+
+          <!-- Olvidaste contraseña -->
+          <div class="mb-6 text-right">
+            <a routerLink="/auth/forgot-password" class="text-xs font-medium text-primary">
+              ¿Olvidaste tu contraseña?
+            </a>
           </div>
 
           <!-- Botón enviar -->

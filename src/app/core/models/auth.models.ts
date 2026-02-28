@@ -35,6 +35,15 @@ export interface ChangePasswordRequest {
   confirmarPassword: string;
 }
 
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface ResetPasswordRequest {
+  token: string;
+  nuevaPassword: string;
+}
+
 // ─── Responses ───────────────────────────────────────────────────────────────
 
 export interface AuthResponse {

@@ -28,6 +28,20 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'auth/forgot-password',
+    loadComponent: () =>
+      import('./features/auth/forgot-password/forgot-password.page').then(
+        (m) => m.ForgotPasswordPage
+      ),
+  },
+  {
+    path: 'auth/reset-password',
+    loadComponent: () =>
+      import('./features/auth/reset-password/reset-password.page').then(
+        (m) => m.ResetPasswordPage
+      ),
+  },
+  {
     path: 'auth/oauth2-redirect',
     loadComponent: () =>
       import('./features/auth/oauth2-redirect/oauth2-redirect.page').then(

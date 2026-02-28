@@ -7,8 +7,10 @@ import { environment } from '../../../environments/environment';
 import {
   AuthResponse,
   ChangePasswordRequest,
+  ForgotPasswordRequest,
   LoginRequest,
   RegisterRequest,
+  ResetPasswordRequest,
   StoredSession,
   UserProfileResponse,
   UserRole,
@@ -53,6 +55,18 @@ export class AuthService {
 
   changePassword(req: ChangePasswordRequest): Observable<string> {
     return this.http.put(`${this.apiUrl}/change-password`, req, {
+      responseType: 'text',
+    });
+  }
+
+  forgotPassword(req: ForgotPasswordRequest): Observable<string> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, req, {
+      responseType: 'text',
+    });
+  }
+
+  resetPassword(req: ResetPasswordRequest): Observable<string> {
+    return this.http.post(`${this.apiUrl}/reset-password`, req, {
       responseType: 'text',
     });
   }
