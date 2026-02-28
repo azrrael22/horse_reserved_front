@@ -41,6 +41,8 @@ src/app/
     │   ├── login/
     │   ├── register/
     │   ├── change-password/
+    │   ├── forgot-password/
+    │   ├── reset-password/
     │   └── oauth2-redirect/
     └── home/
 ```
@@ -58,6 +60,7 @@ src/app/
 - `authInterceptor` agrega el header `Authorization: Bearer <token>` a cada petición
 - `authGuard` protege las rutas `/home` y `/auth/change-password`
 - OAuth2 Google: redirige a `/oauth2/authorization/google`, callback en `/auth/oauth2-redirect?token=&email=&role=`
+- Recuperación de contraseña: flujo de dos pasos vía email (token UUID con validez de 30 min)
 
 ---
 
@@ -68,9 +71,11 @@ src/app/
 | `/` | → `/auth/login` | |
 | `/auth/login` | `LoginPage` | |
 | `/auth/register` | `RegisterPage` | |
-| `/auth/change-password` | `ChangePasswordPage` | Si |
+| `/auth/change-password` | `ChangePasswordPage` | Sí |
+| `/auth/forgot-password` | `ForgotPasswordPage` | |
+| `/auth/reset-password?token=` | `ResetPasswordPage` | |
 | `/auth/oauth2-redirect` | `OAuth2RedirectPage` | |
-| `/home` | `HomePage` | Si |
+| `/home` | `HomePage` | Sí |
 | `**` | → `/auth/login` | |
 
 ---
@@ -88,6 +93,8 @@ Endpoints consumidos:
 | POST | `/api/auth/register` | Registro de usuario |
 | GET | `/api/auth/me` | Perfil del usuario autenticado |
 | PUT | `/api/auth/change-password` | Cambio de contraseña |
+| POST | `/api/auth/forgot-password` | Solicitar enlace de recuperación por email |
+| POST | `/api/auth/reset-password` | Restablecer contraseña con token |
 
 ---
 
