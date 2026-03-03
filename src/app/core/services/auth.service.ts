@@ -13,7 +13,6 @@ import {
   ResetPasswordRequest,
   StoredSession,
   UserProfileResponse,
-  UserRole,
 } from '../models/auth.models';
 
 const SESSION_KEY = 'hr_session';
@@ -73,35 +72,14 @@ export class AuthService {
 
   // ─── OAuth2 ────────────────────────────────────────────────────────────────
 
-  handleOAuth2Redirect(token: string, email: string, role: UserRole): void {
-    // Build a minimal session from OAuth2 redirect params.
-    // expiresIn from backend is 86400s (24h).
-    const session: StoredSession = {
-      token,
-      userId: 0, // will be refreshed on first /me call
-      email,
-      primerNombre: '',
-      primerApellido: '',
-      role,
-      expiresAt: Date.now() + 86400 * 1000,
-    };
-    this.persistSession(session);
-
-    // Fetch full profile to populate name / userId
-    this.getMe().subscribe({
-      next: (profile) => {
-        const updated: StoredSession = {
-          ...session,
-          userId: profile.userId,
-          primerNombre: profile.primerNombre,
-          primerApellido: profile.primerApellido,
-        };
-        this.persistSession(updated);
-      },
-      error: () => {
-        // Non-critical — session still valid with partial data
-      },
-    });
+  /**
+   * Intercambia el código de un solo uso (recibido por URL) por el AuthResponse real.
+   * El JWT nunca viaja en la URL: solo un UUID opaco de 5 min de vida.
+   */
+  exchangeOAuth2Code(code: string): Observable<AuthResponse> {
+    return this.http
+      .post<AuthResponse>(`${this.apiUrl}/oauth2/token`, { code })
+      .pipe(tap((res) => this.saveSession(res)));
   }
 
   // ─── Session helpers ───────────────────────────────────────────────────────
