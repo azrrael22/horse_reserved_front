@@ -2,7 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent, IonSpinner } from '@ionic/angular/standalone';
 import { AuthService } from '../../../core/services/auth.service';
-import { UserRole } from '../../../core/models/auth.models';
 
 @Component({
   selector: 'app-oauth2-redirect',
@@ -22,13 +21,13 @@ export class OAuth2RedirectPage implements OnInit {
   private readonly authService = inject(AuthService);
 
   ngOnInit(): void {
-    const token = this.route.snapshot.queryParamMap.get('token');
-    const email = this.route.snapshot.queryParamMap.get('email');
-    const role = this.route.snapshot.queryParamMap.get('role') as UserRole | null;
+    const code = this.route.snapshot.queryParamMap.get('code');
 
-    if (token && email && role) {
-      this.authService.handleOAuth2Redirect(token, email, role);
-      this.router.navigate(['/home'], { replaceUrl: true });
+    if (code) {
+      this.authService.exchangeOAuth2Code(code).subscribe({
+        next: () => this.router.navigate(['/home'], { replaceUrl: true }),
+        error: () => this.router.navigate(['/auth/login'], { replaceUrl: true }),
+      });
     } else {
       this.router.navigate(['/auth/login'], { replaceUrl: true });
     }
