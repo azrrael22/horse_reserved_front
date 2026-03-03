@@ -49,6 +49,30 @@ export const routes: Routes = [
       ),
   },
   {
+  path: 'reservas',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/reservas/reservas-list.page').then(
+      (m) => m.ReservasListPage
+    ),
+},
+{
+  path: 'reservas/nueva',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/reservas/reserva-create.page').then(
+      (m) => m.ReservaCreatePage
+    ),
+},
+{
+  path: 'reservas/:id',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/reservas/reserva-detail.page').then(
+      (m) => m.ReservaDetailPage
+    ),
+},
+  {
     path: 'home',
     canActivate: [authGuard],
     loadComponent: () =>
