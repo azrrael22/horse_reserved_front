@@ -4,9 +4,11 @@ import { authGuard } from './core/guards/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'auth/login',
+    redirectTo: 'tabs/inicio',
     pathMatch: 'full',
   },
+
+  // ── Auth (públicas) ───────────────────────────────────────────────
   {
     path: 'auth/login',
     loadComponent: () =>
@@ -15,9 +17,7 @@ export const routes: Routes = [
   {
     path: 'auth/register',
     loadComponent: () =>
-      import('./features/auth/register/register.page').then(
-        (m) => m.RegisterPage
-      ),
+      import('./features/auth/register/register.page').then((m) => m.RegisterPage),
   },
   {
     path: 'auth/change-password',
@@ -48,46 +48,72 @@ export const routes: Routes = [
         (m) => m.OAuth2RedirectPage
       ),
   },
+
+  // ── Tabs shell (requiere auth) ────────────────────────────────────
   {
-  path: 'reservas',
-  canActivate: [authGuard],
-  loadComponent: () =>
-    import('./features/reservas/reservas-list.page').then(
-      (m) => m.ReservasListPage
-    ),
-},
-{
-  path: 'reservas/nueva',
-  canActivate: [authGuard],
-  loadComponent: () =>
-    import('./features/reservas/reserva-create.page').then(
-      (m) => m.ReservaCreatePage
-    ),
-},
-{
-  path: 'reservas/:id',
-  canActivate: [authGuard],
-  loadComponent: () =>
-    import('./features/reservas/reserva-detail.page').then(
-      (m) => m.ReservaDetailPage
-    ),
-},
-{
-  path: 'reservas/:id/editar',
-  canActivate: [authGuard],
-  loadComponent: () =>
-    import('./features/reservas/reserva-edit.page').then(
-      (m) => m.ReservaEditPage
-    ),
-},
-  {
-    path: 'home',
+    path: 'tabs',
     canActivate: [authGuard],
     loadComponent: () =>
-      import('./features/home/home.page').then((m) => m.HomePage),
+      import('./features/tabs/tabs.page').then((m) => m.TabsPage),
+    children: [
+      {
+        path: 'inicio',
+        loadComponent: () =>
+          import('./features/home/home.page').then((m) => m.HomePage),
+      },
+      {
+        path: 'reservas',
+        loadComponent: () =>
+          import('./features/reservas/reservas-list.page').then((m) => m.ReservasListPage),
+      },
+      {
+        path: 'cuenta',
+        loadComponent: () =>
+          import('./features/cuenta/cuenta.page').then((m) => m.CuentaPage),
+      },
+      {
+        path: '',
+        redirectTo: 'inicio',
+        pathMatch: 'full',
+      },
+    ],
+  },
+
+  // ── Páginas fullscreen fuera de tabs (requieren auth) ─────────────
+  {
+    path: 'rutas/:id',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/rutas/ruta-detail.page').then((m) => m.RutaDetailPage),
   },
   {
+    path: 'reservas/nueva',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reservas/reserva-create.page').then((m) => m.ReservaCreatePage),
+  },
+  {
+    path: 'reservas/:id',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reservas/reserva-detail.page').then((m) => m.ReservaDetailPage),
+  },
+  {
+    path: 'reservas/:id/editar',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/reservas/reserva-edit.page').then((m) => m.ReservaEditPage),
+  },
+
+  // ── Legado: redirige /home → /tabs/inicio ─────────────────────────
+  {
+    path: 'home',
+    redirectTo: 'tabs/inicio',
+    pathMatch: 'full',
+  },
+
+  {
     path: '**',
-    redirectTo: 'auth/login',
+    redirectTo: 'tabs/inicio',
   },
 ];

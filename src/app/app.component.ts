@@ -1,14 +1,116 @@
-import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import {
+  IonApp,
+  IonRouterOutlet,
+  IonSplitPane,
+  IonMenu,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonList,
+  IonItem,
+  IonIcon,
+  IonLabel,
+  IonMenuToggle,
+  IonFooter,
+  IonButton,
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import {
+  homeOutline,
+  calendarOutline,
+  personOutline,
+  logOutOutline,
+} from 'ionicons/icons';
+import { AuthService } from './core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [IonApp, IonRouterOutlet],
+  imports: [
+    CommonModule,
+    RouterLink,
+    IonApp,
+    IonRouterOutlet,
+    IonSplitPane,
+    IonMenu,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonList,
+    IonItem,
+    IonIcon,
+    IonLabel,
+    IonMenuToggle,
+    IonFooter,
+    IonButton,
+  ],
   template: `
     <ion-app>
-      <ion-router-outlet></ion-router-outlet>
+      <ion-split-pane contentId="main-content" when="md">
+
+        <!-- Menú lateral -->
+        <ion-menu contentId="main-content" menuId="main-menu" *ngIf="isLoggedIn()">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>🐴 Horse Reserved</ion-title>
+            </ion-toolbar>
+          </ion-header>
+
+          <ion-content>
+            <ion-list lines="none" class="pt-2">
+              <ion-menu-toggle autoHide="false">
+                <ion-item routerLink="/tabs/inicio" detail="false" button class="rounded-lg mx-2">
+                  <ion-icon name="home-outline" slot="start"></ion-icon>
+                  <ion-label>Inicio</ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+
+              <ion-menu-toggle autoHide="false">
+                <ion-item routerLink="/tabs/reservas" detail="false" button class="rounded-lg mx-2 mt-1">
+                  <ion-icon name="calendar-outline" slot="start"></ion-icon>
+                  <ion-label>Reservas</ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+
+              <ion-menu-toggle autoHide="false">
+                <ion-item routerLink="/tabs/cuenta" detail="false" button class="rounded-lg mx-2 mt-1">
+                  <ion-icon name="person-outline" slot="start"></ion-icon>
+                  <ion-label>Cuenta</ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+            </ion-list>
+          </ion-content>
+
+          <ion-footer class="ion-padding">
+            <ion-button expand="block" fill="outline" color="danger" (click)="logout()">
+              <ion-icon name="log-out-outline" slot="start"></ion-icon>
+              Cerrar sesión
+            </ion-button>
+          </ion-footer>
+        </ion-menu>
+
+        <!-- Contenido principal -->
+        <ion-router-outlet id="main-content"></ion-router-outlet>
+
+      </ion-split-pane>
     </ion-app>
   `,
 })
-export class AppComponent {}
+export class AppComponent {
+  private readonly authService = inject(AuthService);
+
+  readonly isLoggedIn = this.authService.isLoggedIn;
+
+  constructor() {
+    addIcons({ homeOutline, calendarOutline, personOutline, logOutOutline });
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
+}

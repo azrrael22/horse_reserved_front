@@ -25,7 +25,7 @@ export class OAuth2RedirectPage implements OnInit {
 
     if (code) {
       this.authService.exchangeOAuth2Code(code).subscribe({
-        next: () => this.router.navigate(['/home'], { replaceUrl: true }),
+        next: () => this.router.navigate(['/tabs/inicio'], { replaceUrl: true }),
         error: () => this.router.navigate(['/auth/login'], { replaceUrl: true }),
       });
     } else {

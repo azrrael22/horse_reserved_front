@@ -8,7 +8,7 @@ import {
   IonTitle,
   IonButton,
   IonBadge,
-  IonBackButton,
+  IonMenuButton,
   IonButtons,
   IonSpinner,
   IonIcon,
@@ -31,8 +31,8 @@ import { ReservaResponse } from '../../core/models/reserva.models';
     IonTitle,
     IonButton,
     IonBadge,
+    IonMenuButton,
     IonButtons,
-    IonBackButton,
     IonSpinner,
     IonIcon,
   ],
@@ -40,7 +40,7 @@ import { ReservaResponse } from '../../core/models/reserva.models';
     <ion-header>
       <ion-toolbar color="primary">
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/home"></ion-back-button>
+          <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>{{ esAdmin() ? 'Todas las reservas' : 'Mis reservas' }}</ion-title>
         <ion-buttons slot="end">

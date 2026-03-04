@@ -12,4 +12,8 @@ export class RutaService {
   listarActivas(): Observable<RutaResponse[]> {
     return this.http.get<RutaResponse[]>(`${this.apiUrl}/public`);
   }
+
+  getRuta(id: number): Observable<RutaResponse> {
+    return this.http.get<RutaResponse>(`${this.apiUrl}/public/${id}`);
+  }
 }

@@ -8,7 +8,7 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonButton,
   IonContent,
@@ -192,6 +192,7 @@ export class ReservaCreatePage implements OnInit {
   private readonly reservaService = inject(ReservaService);
   private readonly rutaService = inject(RutaService);
   private readonly authService = inject(AuthService);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   readonly loading = signal(false);
@@ -223,6 +224,11 @@ export class ReservaCreatePage implements OnInit {
       next: (data) => {
         this.rutas.set(data);
         this.loadingRutas.set(false);
+        // Pre-seleccionar ruta si viene como query param (?rutaId=X)
+        const rutaIdParam = this.route.snapshot.queryParamMap.get('rutaId');
+        if (rutaIdParam) {
+          this.form.patchValue({ rutaId: Number(rutaIdParam) });
+        }
       },
       error: () => {
         this.loadingRutas.set(false);
