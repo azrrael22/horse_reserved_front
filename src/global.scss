@@ -79,3 +79,36 @@ ion-textarea.has-focus {
   color: var(--ion-color-danger);
   padding: 2px 16px 0;
 }
+
+// Typography base — jerarquía visual alineada con estilo de referencia
+// Aplica a elementos HTML nativos; los componentes Ionic (ion-button, ion-label)
+// usan shadow DOM propio y no se ven afectados.
+@layer base {
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+}
