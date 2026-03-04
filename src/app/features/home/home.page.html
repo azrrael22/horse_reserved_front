@@ -15,7 +15,7 @@
          class="absolute inset-0 w-full h-full object-cover" />
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
-      <p class="tracking-[0.3em] uppercase mb-3 text-[#eef2f6] text-xs">Aventura & Naturaleza</p>
+      <p class="tracking-[0.3em] uppercase mb-3 text-surface text-xs">Aventura & Naturaleza</p>
       <h1 class="text-3xl font-bold text-white mb-4" style="line-height: 1.1">
         Vive la Magia de las Cabalgatas
       </h1>
@@ -24,7 +24,7 @@
         Una experiencia inolvidable para toda la familia.
       </p>
       <a routerLink="/reservas/nueva"
-         class="bg-[#295073] hover:bg-[#214264] text-white text-sm font-semibold px-7 py-3 rounded-lg no-underline transition-colors">
+         class="bg-accent hover:bg-accent-shade text-white text-sm font-semibold px-7 py-3 rounded-lg no-underline transition-colors">
         Reservar Ahora
       </a>
     </div>
@@ -33,38 +33,38 @@
   <!-- ¿Por qué elegirnos? -->
   <div class="mb-8">
     <div class="text-center mb-5">
-      <p class="text-xs tracking-widest uppercase text-[#735722] font-semibold mb-1">¿Por qué elegirnos?</p>
+      <p class="text-xs tracking-widest uppercase text-tertiary font-semibold mb-1">¿Por qué elegirnos?</p>
       <h2 class="text-xl font-bold text-gray-800">Tu Aventura en Buenas Manos</h2>
     </div>
     <div class="grid grid-cols-2 gap-3">
 
       <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
-        <div class="w-12 h-12 bg-[#eef2f6] rounded-full flex items-center justify-center mx-auto mb-3">
-          <ion-icon name="shield-checkmark-outline" class="text-2xl text-[#295073]"></ion-icon>
+        <div class="w-12 h-12 bg-surface rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="shield-checkmark-outline" class="text-2xl text-primary"></ion-icon>
         </div>
         <h3 class="text-sm font-bold text-gray-800 mb-1">Seguridad Garantizada</h3>
         <p class="text-xs text-gray-500 leading-relaxed">Guías certificados y equipos de protección incluidos.</p>
       </div>
 
       <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
-        <div class="w-12 h-12 bg-[#eef2f6] rounded-full flex items-center justify-center mx-auto mb-3">
-          <ion-icon name="heart-outline" class="text-2xl text-[#295073]"></ion-icon>
+        <div class="w-12 h-12 bg-[#f5f0e8] rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="heart-outline" class="text-2xl text-tertiary"></ion-icon>
         </div>
         <h3 class="text-sm font-bold text-gray-800 mb-1">Caballos Bien Cuidados</h3>
         <p class="text-xs text-gray-500 leading-relaxed">Atención veterinaria constante y trato amoroso.</p>
       </div>
 
       <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
-        <div class="w-12 h-12 bg-[#eef2f6] rounded-full flex items-center justify-center mx-auto mb-3">
-          <ion-icon name="location-outline" class="text-2xl text-[#295073]"></ion-icon>
+        <div class="w-12 h-12 bg-surface rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="location-outline" class="text-2xl text-secondary"></ion-icon>
         </div>
         <h3 class="text-sm font-bold text-gray-800 mb-1">Rutas Exclusivas</h3>
         <p class="text-xs text-gray-500 leading-relaxed">Senderos seleccionados por expertos para la mejor experiencia.</p>
       </div>
 
       <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
-        <div class="w-12 h-12 bg-[#eef2f6] rounded-full flex items-center justify-center mx-auto mb-3">
-          <ion-icon name="ribbon-outline" class="text-2xl text-[#295073]"></ion-icon>
+        <div class="w-12 h-12 bg-[#fefce8] rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="ribbon-outline" class="text-2xl text-accent"></ion-icon>
         </div>
         <h3 class="text-sm font-bold text-gray-800 mb-1">+10 Años de Experiencia</h3>
         <p class="text-xs text-gray-500 leading-relaxed">Más de una década ofreciendo las mejores cabalgatas.</p>
@@ -75,7 +75,7 @@
 
   <!-- Section heading -->
   <div class="mb-5">
-    <p class="text-xs tracking-widest uppercase text-[#735722] font-semibold mb-0.5">Nuestras rutas</p>
+    <p class="text-xs tracking-widest uppercase text-tertiary font-semibold mb-0.5">Nuestras rutas</p>
     <h2 class="text-lg font-bold text-gray-800">Elige tu experiencia</h2>
   </div>
 
@@ -89,7 +89,7 @@
 
   <div *ngIf="!loading() && rutas().length === 0 && !error()"
        class="flex flex-col items-center justify-center py-16 text-center">
-    <div class="w-20 h-20 rounded-full bg-[#eef2f6] flex items-center justify-center mb-4">
+    <div class="w-20 h-20 rounded-full bg-surface flex items-center justify-center mb-4">
       <span class="text-4xl">🐴</span>
     </div>
     <p class="font-semibold text-gray-700">No hay rutas disponibles</p>
@@ -112,7 +112,7 @@
         [style.backgroundImage]="'url(' + r.urlImagen + ')'">
       </div>
       <div *ngIf="!r.urlImagen"
-           class="absolute inset-0 bg-gradient-to-br from-[#eef2f6] to-[#6A8AA6] flex items-center justify-center">
+           class="absolute inset-0 bg-gradient-to-br from-surface to-secondary flex items-center justify-center">
         <span class="text-6xl">🏔️</span>
       </div>
       <!-- Badge de dificultad sobre la imagen -->
@@ -126,11 +126,11 @@
       <h3 class="text-base font-bold text-gray-800 mb-1">{{ r.nombre }}</h3>
       <p class="text-sm text-gray-500 mb-3 line-clamp-2">{{ r.descripcion }}</p>
       <div class="flex items-center justify-between">
-        <span class="inline-flex items-center gap-1.5 bg-[#eef2f6] text-[#295073] text-xs font-medium rounded-full px-3 py-1">
+        <span class="inline-flex items-center gap-1.5 bg-[#fefce8] text-accent text-xs font-medium rounded-full px-3 py-1">
           <ion-icon name="time-outline"></ion-icon>
           {{ r.duracionMinutos }} min
         </span>
-        <span class="inline-flex items-center gap-1 text-[#295073] text-sm font-medium">
+        <span class="inline-flex items-center gap-1 text-secondary text-sm font-medium">
           Ver detalles
           <ion-icon name="chevron-forward-outline"></ion-icon>
         </span>
@@ -139,7 +139,7 @@
   </div>
 
   <!-- ── Footer empresa (estilo Parque del Café) ───────────────── -->
-  <div class="mt-6 rounded-2xl overflow-hidden border border-gray-200 bg-[#295073] shadow-sm">
+  <div class="mt-6 rounded-2xl overflow-hidden border border-gray-200 bg-primary shadow-sm">
 
     <!-- Grid de columnas -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-white/10">

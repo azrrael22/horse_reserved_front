@@ -20,8 +20,8 @@
   <form *ngIf="!loadingData() && form" [formGroup]="form" (ngSubmit)="onSubmit()">
 
     <!-- Datos de la salida -->
-    <div class="bg-[#eef2f6] rounded-2xl p-4 mb-5">
-      <p class="text-xs font-bold text-[#735722] uppercase tracking-widest mb-3">Datos de la salida</p>
+    <div class="bg-surface rounded-2xl p-4 mb-5">
+      <p class="text-xs font-bold text-tertiary uppercase tracking-widest mb-3">Datos de la salida</p>
 
       <ion-item class="rounded-lg mb-2">
         <ion-label position="floating">Ruta *</ion-label>
@@ -47,7 +47,7 @@
     <div class="mb-4">
       <div class="flex items-center justify-between mb-3">
         <div>
-          <p class="text-xs font-bold text-[#735722] uppercase tracking-widest mb-0.5">Participantes</p>
+          <p class="text-xs font-bold text-tertiary uppercase tracking-widest mb-0.5">Participantes</p>
           <p class="text-sm font-semibold text-gray-700">{{ participantes.length }} registrado(s)</p>
         </div>
         <ion-button size="small" fill="outline" (click)="addParticipante()">
@@ -60,10 +60,10 @@
         <div
           *ngFor="let p of participantes.controls; let i = index"
           [formGroupName]="i"
-          class="mb-4 rounded-xl bg-[#eef2f6] p-4 shadow-sm"
+          class="mb-4 rounded-xl bg-surface p-4 shadow-sm"
         >
           <div class="flex items-center justify-between mb-3">
-            <p class="text-sm font-bold text-[#295073]">Participante {{ i + 1 }}</p>
+            <p class="text-sm font-bold text-primary">Participante {{ i + 1 }}</p>
             <ion-button
               *ngIf="participantes.length > 1"
               size="small"

@@ -62,6 +62,17 @@
   --ion-color-light-tint: #f0f4f8;
 }
 
+// Tailwind v4 theme tokens — map palette to semantic utility names
+// Generates: text-primary, bg-primary, text-secondary, bg-secondary, etc.
+@theme {
+  --color-primary:       var(--ion-color-primary);       // #295073 azul profundo
+  --color-secondary:     var(--ion-color-secondary);     // #6A8AA6 azul medio
+  --color-tertiary:      var(--ion-color-tertiary);      // #735722 marrón cálido
+  --color-accent:        var(--ion-color-warning);       // #8C8303 dorado oliva
+  --color-accent-shade:  var(--ion-color-warning-shade); // #7b7203 dorado oscuro
+  --color-surface:       var(--ion-color-light);         // #eef2f6 azul-gris suave
+}
+
 // Auth pages — gradiente azul-crema (Lake-1 tint → Lake-5 tint)
 .auth-background {
   --background: linear-gradient(135deg, #e8eef4 0%, #f0ece6 100%);

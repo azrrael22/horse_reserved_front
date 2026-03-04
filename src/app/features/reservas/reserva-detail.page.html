@@ -22,25 +22,25 @@
     <!-- Encabezado -->
     <div class="flex items-center justify-between mb-5">
       <div>
-        <p class="text-xs tracking-widest uppercase text-[#735722] font-semibold mb-0.5">Reserva</p>
+        <p class="text-xs tracking-widest uppercase text-tertiary font-semibold mb-0.5">Reserva</p>
         <h2 class="text-xl font-bold text-gray-800">#{{ r.id }}</h2>
       </div>
       <ion-badge [color]="badgeColor(r.estado)" class="text-sm">{{ r.estado }}</ion-badge>
     </div>
 
     <!-- Datos de la ruta -->
-    <div class="bg-[#eef2f6] rounded-xl p-4 mb-3">
-      <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Ruta</p>
+    <div class="bg-surface rounded-xl p-4 mb-3">
+      <p class="text-xs font-bold text-tertiary uppercase tracking-wider mb-2">Ruta</p>
       <p class="font-bold text-gray-800">{{ r.rutaNombre }}</p>
-      <p class="text-sm text-gray-600 mt-1">
+      <p class="text-sm text-secondary mt-1">
         📅 {{ r.fechaProgramada }} · {{ r.tiempoInicio | slice:0:5 }} – {{ r.tiempoFin | slice:0:5 }}
       </p>
-      <p class="text-sm text-gray-500 mt-0.5">👥 {{ r.cantPersonas }} persona(s)</p>
+      <p class="text-sm text-secondary mt-0.5">👥 {{ r.cantPersonas }} persona(s)</p>
     </div>
 
     <!-- Cliente / Operador -->
-    <div class="bg-[#eef2f6] rounded-xl p-4 mb-3">
-      <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Responsable</p>
+    <div class="bg-surface rounded-xl p-4 mb-3">
+      <p class="text-xs font-bold text-tertiary uppercase tracking-wider mb-2">Responsable</p>
       <p class="text-sm text-gray-700">
         <span class="font-semibold">Cliente:</span>
         {{ r.clienteEmail ?? 'Invitado' }}
@@ -51,14 +51,14 @@
     </div>
 
     <!-- Participantes -->
-    <div class="bg-[#eef2f6] rounded-xl p-4 mb-6">
-      <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Participantes</p>
+    <div class="bg-surface rounded-xl p-4 mb-6">
+      <p class="text-xs font-bold text-tertiary uppercase tracking-wider mb-3">Participantes</p>
       <div *ngFor="let p of r.participantes; let i = index"
            class="mb-3 last:mb-0 bg-white rounded-lg p-3">
         <p class="text-sm font-semibold text-gray-800">
           {{ i + 1 }}. {{ p.primerNombre }} {{ p.primerApellido }}
         </p>
-        <p class="text-xs text-gray-500 mt-0.5">
+        <p class="text-xs text-secondary mt-0.5">
           {{ p.tipoDocumento }}: {{ p.documento }} · {{ p.edad }} años ·
           {{ p.cmAltura }} cm · {{ p.kgPeso }} kg
         </p>
@@ -72,6 +72,7 @@
         [routerLink]="['/reservas', r.id, 'editar']"
         expand="block"
         fill="outline"
+        color="secondary"
       >
         <ion-icon name="create-outline" slot="start"></ion-icon>
         Editar reserva
