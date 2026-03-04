@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   IonContent,
   IonHeader,
@@ -14,7 +14,7 @@ import {
   IonRippleEffect,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { timeOutline, chevronForwardOutline, callOutline, mailOutline, locationOutline, headsetOutline, logoInstagram, logoFacebook, logoWhatsapp, logoYoutube } from 'ionicons/icons';
+import { timeOutline, chevronForwardOutline, callOutline, mailOutline, locationOutline, headsetOutline, logoInstagram, logoFacebook, logoWhatsapp, logoYoutube, shieldCheckmarkOutline, heartOutline, ribbonOutline } from 'ionicons/icons';
 import { AuthService } from '../../core/services/auth.service';
 import { RutaService } from '../../core/services/ruta.service';
 import { RutaResponse } from '../../core/models/ruta.models';
@@ -24,6 +24,7 @@ import { RutaResponse } from '../../core/models/ruta.models';
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     IonContent,
     IonHeader,
     IonToolbar,
@@ -47,7 +48,7 @@ export class HomePage {
   readonly rutas = signal<RutaResponse[]>([]);
 
   constructor() {
-    addIcons({ timeOutline, chevronForwardOutline, callOutline, mailOutline, locationOutline, headsetOutline, logoInstagram, logoFacebook, logoWhatsapp, logoYoutube });
+    addIcons({ timeOutline, chevronForwardOutline, callOutline, mailOutline, locationOutline, headsetOutline, logoInstagram, logoFacebook, logoWhatsapp, logoYoutube, shieldCheckmarkOutline, heartOutline, ribbonOutline });
   }
 
   ionViewWillEnter(): void {

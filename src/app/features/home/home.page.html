@@ -10,14 +10,66 @@
 <ion-content class="ion-padding">
 
   <!-- Hero banner -->
-  <div class="relative rounded-2xl overflow-hidden mb-6"
-       style="background: linear-gradient(135deg, #295073 0%, #6A8AA6 100%)">
-    <div class="px-5 py-7 text-white">
-      <p class="text-xs tracking-[0.25em] uppercase text-white/70 mb-1.5">Aventura & Naturaleza</p>
-      <h1 class="text-2xl font-bold leading-snug mb-2">Vive la Magia de las Cabalgatas</h1>
-      <p class="text-sm text-white/75 leading-relaxed">
+  <div class="relative rounded-2xl overflow-hidden mb-6 h-[70vh] min-h-[420px]">
+    <img src="assets/images/login-bg.jpg" alt="Cabalgatas"
+         class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
+      <p class="tracking-[0.3em] uppercase mb-3 text-[#eef2f6] text-xs">Aventura & Naturaleza</p>
+      <h1 class="text-3xl font-bold text-white mb-4" style="line-height: 1.1">
+        Vive la Magia de las Cabalgatas
+      </h1>
+      <p class="text-base text-white/80 mb-7 leading-relaxed">
         Explora senderos únicos a caballo, rodeado de paisajes impresionantes.
+        Una experiencia inolvidable para toda la familia.
       </p>
+      <a routerLink="/reservas/nueva"
+         class="bg-[#295073] hover:bg-[#214264] text-white text-sm font-semibold px-7 py-3 rounded-lg no-underline transition-colors">
+        Reservar Ahora
+      </a>
+    </div>
+  </div>
+
+  <!-- ¿Por qué elegirnos? -->
+  <div class="mb-8">
+    <div class="text-center mb-5">
+      <p class="text-xs tracking-widest uppercase text-[#735722] font-semibold mb-1">¿Por qué elegirnos?</p>
+      <h2 class="text-xl font-bold text-gray-800">Tu Aventura en Buenas Manos</h2>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+        <div class="w-12 h-12 bg-[#eef2f6] rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="shield-checkmark-outline" class="text-2xl text-[#295073]"></ion-icon>
+        </div>
+        <h3 class="text-sm font-bold text-gray-800 mb-1">Seguridad Garantizada</h3>
+        <p class="text-xs text-gray-500 leading-relaxed">Guías certificados y equipos de protección incluidos.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+        <div class="w-12 h-12 bg-[#eef2f6] rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="heart-outline" class="text-2xl text-[#295073]"></ion-icon>
+        </div>
+        <h3 class="text-sm font-bold text-gray-800 mb-1">Caballos Bien Cuidados</h3>
+        <p class="text-xs text-gray-500 leading-relaxed">Atención veterinaria constante y trato amoroso.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+        <div class="w-12 h-12 bg-[#eef2f6] rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="location-outline" class="text-2xl text-[#295073]"></ion-icon>
+        </div>
+        <h3 class="text-sm font-bold text-gray-800 mb-1">Rutas Exclusivas</h3>
+        <p class="text-xs text-gray-500 leading-relaxed">Senderos seleccionados por expertos para la mejor experiencia.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+        <div class="w-12 h-12 bg-[#eef2f6] rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="ribbon-outline" class="text-2xl text-[#295073]"></ion-icon>
+        </div>
+        <h3 class="text-sm font-bold text-gray-800 mb-1">+10 Años de Experiencia</h3>
+        <p class="text-xs text-gray-500 leading-relaxed">Más de una década ofreciendo las mejores cabalgatas.</p>
+      </div>
+
     </div>
   </div>
 
