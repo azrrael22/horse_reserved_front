@@ -13,31 +13,8 @@ import { homeOutline, calendarOutline, personOutline } from 'ionicons/icons';
   selector: 'app-tabs',
   standalone: true,
   imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
-  template: `
-    <ion-tabs>
-      <ion-tab-bar slot="bottom" class="tab-bar-mobile">
-        <ion-tab-button tab="inicio" href="/tabs/inicio">
-          <ion-icon name="home-outline"></ion-icon>
-          <ion-label>Inicio</ion-label>
-        </ion-tab-button>
-        <ion-tab-button tab="reservas" href="/tabs/reservas">
-          <ion-icon name="calendar-outline"></ion-icon>
-          <ion-label>Reservas</ion-label>
-        </ion-tab-button>
-        <ion-tab-button tab="cuenta" href="/tabs/cuenta">
-          <ion-icon name="person-outline"></ion-icon>
-          <ion-label>Cuenta</ion-label>
-        </ion-tab-button>
-      </ion-tab-bar>
-    </ion-tabs>
-  `,
-  styles: [`
-    @media (min-width: 768px) {
-      .tab-bar-mobile {
-        display: none;
-      }
-    }
-  `],
+  templateUrl: './tabs.page.html',
+  styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage {
   constructor() {
