@@ -72,6 +72,14 @@ export const routes: Routes = [
       (m) => m.ReservaDetailPage
     ),
 },
+{
+  path: 'reservas/:id/editar',
+  canActivate: [authGuard],
+  loadComponent: () =>
+    import('./features/reservas/reserva-edit.page').then(
+      (m) => m.ReservaEditPage
+    ),
+},
   {
     path: 'home',
     canActivate: [authGuard],

@@ -10,7 +10,7 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { logOutOutline, keyOutline } from 'ionicons/icons';
+import { logOutOutline, keyOutline, calendarOutline } from 'ionicons/icons';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -49,9 +49,10 @@ import { AuthService } from '../../core/services/auth.service';
         <p class="text-sm text-gray-500">
           Has iniciado sesión como <strong>{{ session()?.role }}</strong>.
         </p>
-        <p class="text-xs text-gray-400">
-          (Aquí irá el contenido principal de la aplicación)
-        </p>
+        <ion-button routerLink="/reservas" expand="block" class="w-full max-w-xs">
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
+          {{ session()?.role === 'ADMINISTRADOR' ? 'Ver todas las reservas' : 'Mis reservas' }}
+        </ion-button>
       </div>
     </ion-content>
   `,
@@ -61,7 +62,7 @@ export class HomePage {
   readonly session = this.authService.session;
 
   constructor() {
-    addIcons({ logOutOutline, keyOutline });
+    addIcons({ logOutOutline, keyOutline, calendarOutline });
   }
 
   logout(): void {

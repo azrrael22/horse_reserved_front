@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
   CreateReservaRequest,
+  UpdateReservaRequest,
   ReservaResponse,
 } from '../models/reserva.models';
 
@@ -20,8 +21,16 @@ export class ReservaService {
     return this.http.get<ReservaResponse[]>(`${this.apiUrl}/mias`);
   }
 
+  listarTodas(): Observable<ReservaResponse[]> {
+    return this.http.get<ReservaResponse[]>(this.apiUrl);
+  }
+
   obtenerReservaPorId(id: number): Observable<ReservaResponse> {
     return this.http.get<ReservaResponse>(`${this.apiUrl}/${id}`);
+  }
+
+  actualizarReserva(id: number, req: UpdateReservaRequest): Observable<ReservaResponse> {
+    return this.http.patch<ReservaResponse>(`${this.apiUrl}/${id}`, req);
   }
 
   cancelarReserva(id: number): Observable<ReservaResponse> {

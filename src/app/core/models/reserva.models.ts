@@ -16,7 +16,18 @@ export interface ParticipanteRequest {
 }
 
 export interface CreateReservaRequest {
-  salidaId: number;
+  rutaId: number;
+  fecha: string;       // YYYY-MM-DD
+  horaInicio: string;  // HH:mm
+  cantPersonas: number;
+  participantes: ParticipanteRequest[];
+  clienteId?: number;  // Requerido solo para OPERADOR (null = reserva de invitado)
+}
+
+export interface UpdateReservaRequest {
+  rutaId: number;
+  fecha: string;       // YYYY-MM-DD
+  horaInicio: string;  // HH:mm
   cantPersonas: number;
   participantes: ParticipanteRequest[];
 }
@@ -38,15 +49,16 @@ export interface ReservaResponse {
   cantPersonas: number;
 
   salidaId: number;
+  rutaId: number;
   fechaProgramada: string; // LocalDate en backend
-  tiempoInicio: string; // LocalTime en backend
-  tiempoFin: string; // LocalTime en backend
+  tiempoInicio: string;    // LocalTime en backend
+  tiempoFin: string;       // LocalTime en backend
   salidaEstado: string;
   rutaNombre: string;
 
-  clienteId: number;
-  clienteEmail: string;
+  clienteId?: number | null;
+  clienteEmail?: string | null;
 
-  operadorId: number | null;
+  operadorId?: number | null;
   participantes: ParticipanteResponse[];
 }
