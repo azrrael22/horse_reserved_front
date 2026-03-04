@@ -7,6 +7,7 @@
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #214264;
   --ion-color-primary-tint: #3d6485;
+  --ion-color-primary-light: #dce8f2;
 
   // Lake-2: Azul medio — acciones secundarias
   --ion-color-secondary: #6A8AA6;
@@ -66,6 +67,7 @@
 // Generates: text-primary, bg-primary, text-secondary, bg-secondary, etc.
 @theme {
   --color-primary:       var(--ion-color-primary);       // #295073 azul profundo
+  --color-primary-light: var(--ion-color-primary-light); // #dce8f2 azul muy suave
   --color-secondary:     var(--ion-color-secondary);     // #6A8AA6 azul medio
   --color-tertiary:      var(--ion-color-tertiary);      // #735722 marrón cálido
   --color-accent:        var(--ion-color-warning);       // #8C8303 dorado oliva
