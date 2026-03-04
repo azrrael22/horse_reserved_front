@@ -15,7 +15,7 @@ import { homeOutline, calendarOutline, personOutline } from 'ionicons/icons';
   imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
   template: `
     <ion-tabs>
-      <ion-tab-bar slot="bottom">
+      <ion-tab-bar slot="bottom" class="tab-bar-mobile">
         <ion-tab-button tab="inicio" href="/tabs/inicio">
           <ion-icon name="home-outline"></ion-icon>
           <ion-label>Inicio</ion-label>
@@ -31,6 +31,13 @@ import { homeOutline, calendarOutline, personOutline } from 'ionicons/icons';
       </ion-tab-bar>
     </ion-tabs>
   `,
+  styles: [`
+    @media (min-width: 768px) {
+      .tab-bar-mobile {
+        display: none;
+      }
+    }
+  `],
 })
 export class TabsPage {
   constructor() {

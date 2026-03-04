@@ -51,7 +51,7 @@ import { CommonModule } from '@angular/common';
   ],
   template: `
     <ion-app>
-      <ion-split-pane contentId="main-content" when="md">
+      <ion-split-pane contentId="main-content" when="false">
 
         <!-- Menú lateral -->
         <ion-menu contentId="main-content" menuId="main-menu" *ngIf="isLoggedIn()">
