@@ -69,7 +69,7 @@ export class HomePage {
     });
   }
 
-  verDetalle(ruta: RutaResponection else): void {
+  verDetalle(ruta: RutaResponse): void {
     this.router.navigate(['/rutas', ruta.id]);
   }
 
