@@ -25,6 +25,8 @@ import {
   logOutOutline,
 } from 'ionicons/icons';
 import { AuthService } from './core/services/auth.service';
+import { AccessibilityService } from './core/services/accessibility.service';
+import { AccessibilityFabComponent } from './shared/components/accessibility-fab/accessibility-fab.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -48,6 +50,7 @@ import { CommonModule } from '@angular/common';
     IonMenuToggle,
     IonFooter,
     IonButton,
+    AccessibilityFabComponent,
   ],
   templateUrl: './app.component.html',
 })

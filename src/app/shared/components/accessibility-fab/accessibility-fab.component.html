@@ -1,0 +1,111 @@
+<!-- FAB button -->
+<button
+  class="a11y-fab"
+  [attr.aria-expanded]="panelOpen()"
+  aria-controls="a11y-panel"
+  aria-label="Preferencias de accesibilidad"
+  (click)="togglePanel()"
+>
+  <ion-icon name="accessibility-outline" aria-hidden="true"></ion-icon>
+</button>
+
+<!-- Panel -->
+<div
+  id="a11y-panel"
+  class="a11y-panel"
+  role="dialog"
+  aria-label="Preferencias de accesibilidad"
+  aria-modal="false"
+  [class.open]="panelOpen()"
+>
+  <div class="a11y-panel__header">
+    <p class="a11y-panel__title">Accesibilidad</p>
+    <button class="a11y-panel__close" aria-label="Cerrar panel de accesibilidad" (click)="closePanel()">
+      <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Contraste -->
+  <div class="a11y-section" role="group" aria-labelledby="a11y-contrast-label">
+    <p id="a11y-contrast-label" class="a11y-section__label">
+      <ion-icon name="contrast-outline" aria-hidden="true"></ion-icon>
+      Contraste
+    </p>
+    <div class="a11y-btn-group">
+      <button
+        [class.active]="a11y.contrast() === 'normal'"
+        [attr.aria-pressed]="a11y.contrast() === 'normal'"
+        (click)="a11y.setContrast('normal')"
+      >Normal</button>
+      <button
+        [class.active]="a11y.contrast() === 'high'"
+        [attr.aria-pressed]="a11y.contrast() === 'high'"
+        (click)="a11y.setContrast('high')"
+      >Alto</button>
+    </div>
+  </div>
+
+  <!-- Tamaño de fuente -->
+  <div class="a11y-section" role="group" aria-labelledby="a11y-font-label">
+    <p id="a11y-font-label" class="a11y-section__label">
+      <ion-icon name="text-outline" aria-hidden="true"></ion-icon>
+      Tamaño de fuente
+    </p>
+    <div class="a11y-btn-group">
+      <button
+        class="fs-btn-s"
+        [class.active]="a11y.fontSize() === 'normal'"
+        [attr.aria-pressed]="a11y.fontSize() === 'normal'"
+        aria-label="Fuente normal"
+        (click)="a11y.setFontSize('normal')"
+      >A</button>
+      <button
+        class="fs-btn-m"
+        [class.active]="a11y.fontSize() === 'large'"
+        [attr.aria-pressed]="a11y.fontSize() === 'large'"
+        aria-label="Fuente grande"
+        (click)="a11y.setFontSize('large')"
+      >A</button>
+      <button
+        class="fs-btn-l"
+        [class.active]="a11y.fontSize() === 'xlarge'"
+        [attr.aria-pressed]="a11y.fontSize() === 'xlarge'"
+        aria-label="Fuente muy grande"
+        (click)="a11y.setFontSize('xlarge')"
+      >A</button>
+    </div>
+  </div>
+
+  <!-- Saturación -->
+  <div class="a11y-section" role="group" aria-labelledby="a11y-sat-label">
+    <p id="a11y-sat-label" class="a11y-section__label">
+      <ion-icon name="color-palette-outline" aria-hidden="true"></ion-icon>
+      Saturación
+    </p>
+    <div class="a11y-btn-group">
+      <button
+        [class.active]="a11y.saturation() === 'normal'"
+        [attr.aria-pressed]="a11y.saturation() === 'normal'"
+        (click)="a11y.setSaturation('normal')"
+      >Normal</button>
+      <button
+        [class.active]="a11y.saturation() === 'low'"
+        [attr.aria-pressed]="a11y.saturation() === 'low'"
+        (click)="a11y.setSaturation('low')"
+      >Baja</button>
+      <button
+        [class.active]="a11y.saturation() === 'none'"
+        [attr.aria-pressed]="a11y.saturation() === 'none'"
+        (click)="a11y.setSaturation('none')"
+      >Sin color</button>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop -->
+<div
+  *ngIf="panelOpen()"
+  class="a11y-backdrop"
+  (click)="closePanel()"
+  aria-hidden="true"
+></div>
