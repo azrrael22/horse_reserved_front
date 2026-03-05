@@ -7,6 +7,7 @@
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #214264;
   --ion-color-primary-tint: #3d6485;
+  --ion-color-primary-light: #dce8f2;
 
   // Lake-2: Azul medio — acciones secundarias
   --ion-color-secondary: #6A8AA6;
@@ -60,6 +61,49 @@
   --ion-color-light-contrast-rgb: 31, 41, 55;
   --ion-color-light-shade: #d1d8e0;
   --ion-color-light-tint: #f0f4f8;
+
+  --font-display: 'Fraunces', serif;
+  --font-body:    'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+html h1 { font-family: var(--font-display); font-size: 2.8125rem !important; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+html h2 { font-family: var(--font-display); font-size: 2.0625rem !important; font-weight: 600; letter-spacing: -0.02em; line-height: 1.3; }
+html h3 { font-family: var(--font-display); font-size: 1.5625rem !important; font-weight: 600; letter-spacing: -0.01em; line-height: 1.4; }
+
+.brand-title   { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; }
+.page-title    { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; }
+.section-title { font-family: var(--font-display); font-weight: 600; }
+.display-italic { font-family: var(--font-display); font-style: italic; font-weight: 400; }
+
+ion-title  { font-family: var(--font-display); font-weight: 600; }
+ion-button { font-family: var(--font-body);    font-weight: 600; font-size: 14.4px; }
+ion-label  { font-family: var(--font-body); }
+ion-input  { font-family: var(--font-body); }
+
+.label-caps {
+  font-family: var(--font-body);
+  font-size: 0.9925rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+// Tailwind v4 theme tokens — map palette to semantic utility names
+// Generates: text-primary, bg-primary, text-secondary, bg-secondary, etc.
+@theme {
+  --color-primary:       var(--ion-color-primary);       // #295073 azul profundo
+  --color-primary-light: var(--ion-color-primary-light); // #dce8f2 azul muy suave
+  --color-secondary:     var(--ion-color-secondary);     // #6A8AA6 azul medio
+  --color-tertiary:      var(--ion-color-tertiary);      // #735722 marrón cálido
+  --color-accent:        var(--ion-color-warning);       // #8C8303 dorado oliva
+  --color-accent-shade:  var(--ion-color-warning-shade); // #7b7203 dorado oscuro
+  --color-surface:       var(--ion-color-light);         // #eef2f6 azul-gris suave
 }
 
 // Auth pages — gradiente azul-crema (Lake-1 tint → Lake-5 tint)
@@ -79,3 +123,5 @@ ion-textarea.has-focus {
   color: var(--ion-color-danger);
   padding: 2px 16px 0;
 }
+
+p { font-size: 16px !important; line-height: 1.6; }

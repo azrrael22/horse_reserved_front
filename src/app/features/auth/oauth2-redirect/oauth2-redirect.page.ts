@@ -7,13 +7,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-oauth2-redirect',
   standalone: true,
   imports: [IonContent, IonSpinner],
-  template: `
-    <ion-content>
-      <div class="flex h-full items-center justify-center">
-        <ion-spinner name="crescent" color="primary"></ion-spinner>
-      </div>
-    </ion-content>
-  `,
+  templateUrl: './oauth2-redirect.page.html',
 })
 export class OAuth2RedirectPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
@@ -25,7 +19,7 @@ export class OAuth2RedirectPage implements OnInit {
 
     if (code) {
       this.authService.exchangeOAuth2Code(code).subscribe({
-        next: () => this.router.navigate(['/home'], { replaceUrl: true }),
+        next: () => this.router.navigate(['/tabs/inicio'], { replaceUrl: true }),
         error: () => this.router.navigate(['/auth/login'], { replaceUrl: true }),
       });
     } else {

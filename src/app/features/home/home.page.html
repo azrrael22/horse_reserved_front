@@ -1,0 +1,145 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>🐴 Horse Reserved</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Hero banner -->
+  <div class="relative rounded-2xl overflow-hidden mb-6 h-[70vh] min-h-[600px]">
+    <img src="https://res.cloudinary.com/dwwqrdgvs/image/upload/e_brightness:-5/c_fit,h_720,w_1080/f_webp/q_auto:best/SaveClip.App_551382174_18009261845799316_6035877355920999699_n_1080_e9ageh"
+         alt="Cabalgatas"
+         class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
+      <p class="tracking-[0.3em] uppercase mb-3 text-surface text-xs">Aventura & Naturaleza</p>
+      <h1 class="brand-title text-white mb-4">
+        Vive la Magia de las Cabalgatas
+      </h1>
+      <p class="text-base text-white/80 mb-7 leading-relaxed">
+        Explora senderos únicos a caballo, rodeado de paisajes impresionantes.
+        Una experiencia inolvidable para toda la familia.
+      </p>
+      <ion-button routerLink="/reservas/nueva" color="warning">
+        Reservar Ahora
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- ¿Por qué elegirnos? -->
+  <div class="mb-8">
+    <div class="text-center mb-5">
+      <p class="text-xs tracking-widest uppercase text-tertiary font-semibold mb-1">¿Por qué elegirnos?</p>
+      <h2 class="section-title text-gray-800">Tu Aventura en Buenas Manos</h2>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+        <div class="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="shield-checkmark-outline" class="text-2xl text-tertiary"></ion-icon>
+        </div>
+        <h3 class="section-title text-gray-800 mb-1">Seguridad Garantizada</h3>
+        <p class="text-xs text-gray-500 leading-relaxed">Guías certificados y equipos de protección incluidos.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+        <div class="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="heart-outline" class="text-2xl text-tertiary"></ion-icon>
+        </div>
+        <h3 class="section-title text-gray-800 mb-1">Caballos Bien Cuidados</h3>
+        <p class="text-xs text-gray-500 leading-relaxed">Atención veterinaria constante y trato amoroso.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+        <div class="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="location-outline" class="text-2xl text-tertiary"></ion-icon>
+        </div>
+        <h3 class="section-title text-gray-800 mb-1">Rutas Exclusivas</h3>
+        <p class="text-xs text-gray-500 leading-relaxed">Senderos seleccionados por expertos para la mejor experiencia.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+        <div class="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-3">
+          <ion-icon name="ribbon-outline" class="text-2xl text-tertiary"></ion-icon>
+        </div>
+        <h3 class="section-title text-gray-800 mb-1">+10 Años de Experiencia</h3>
+        <p class="text-xs text-gray-500 leading-relaxed">Más de una década ofreciendo las mejores cabalgatas.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section heading -->
+  <div class="mb-5">
+    <p class="text-xs tracking-widest uppercase text-tertiary font-semibold mb-0.5">Nuestras rutas</p>
+    <h2 class="section-title text-gray-800">Elige tu experiencia</h2>
+  </div>
+
+  <div *ngIf="loading()" class="flex justify-center py-12">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="error()" class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4">
+    {{ error() }}
+  </div>
+
+  <div *ngIf="!loading() && rutas().length === 0 && !error()"
+       class="flex flex-col items-center justify-center py-16 text-center">
+    <div class="w-20 h-20 rounded-full bg-surface flex items-center justify-center mb-4">
+      <span class="text-4xl">🐴</span>
+    </div>
+    <p class="font-semibold text-gray-700">No hay rutas disponibles</p>
+    <p class="text-sm text-gray-400 mt-1">Vuelve pronto para ver nuevas rutas</p>
+  </div>
+
+  <!-- Cards de rutas (cliqueables) -->
+  <div class="flex flex-wrap justify-center gap-4 mb-4">
+  <div
+    *ngFor="let r of rutas()"
+    class="w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow ion-activatable relative cursor-pointer group"
+    (click)="verDetalle(r)"
+  >
+    <ion-ripple-effect></ion-ripple-effect>
+
+    <!-- Imagen con zoom al hover -->
+    <div class="relative h-48 overflow-hidden">
+      <div
+        *ngIf="r.urlImagen"
+        class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+        [style.backgroundImage]="'url(' + r.urlImagen + ')'">
+      </div>
+      <div *ngIf="!r.urlImagen"
+           class="absolute inset-0 bg-gradient-to-br from-surface to-secondary flex items-center justify-center">
+        <span class="text-6xl">🏔️</span>
+      </div>
+      <!-- Badge de dificultad sobre la imagen -->
+      <div class="absolute top-3 right-3 z-10">
+        <ion-badge [color]="dificultadColor(r.dificultad)">{{ r.dificultad }}</ion-badge>
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="p-4">
+      <h3 class="section-title text-gray-800 mb-1">{{ r.nombre }}</h3>
+      <p class="text-sm text-gray-500 mb-3 line-clamp-2">{{ r.descripcion }}</p>
+      <div class="flex items-center justify-between">
+        <span class="inline-flex items-center gap-1.5 bg-[#fefce8] text-accent text-xs font-medium rounded-full px-3 py-1">
+          <ion-icon name="time-outline"></ion-icon>
+          {{ r.duracionMinutos }} min
+        </span>
+        <span class="inline-flex items-center gap-1 text-secondary text-sm font-medium">
+          Ver detalles
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </span>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <app-footer></app-footer>
+
+</ion-content>

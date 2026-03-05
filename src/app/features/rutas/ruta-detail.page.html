@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/inicio"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ ruta()?.nombre ?? 'Ruta' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Loading -->
+  <div *ngIf="loading()" class="flex justify-center py-16">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error()" class="m-4 rounded-lg bg-red-50 p-4 text-red-600 text-sm">
+    {{ error() }}
+  </div>
+
+  <!-- Contenido de la ruta -->
+  <ng-container *ngIf="!loading() && ruta() as r">
+
+    <!-- Hero imagen con overlay -->
+    <div class="relative w-full h-64 overflow-hidden">
+      <div
+        *ngIf="r.urlImagen"
+        class="absolute inset-0 bg-cover bg-center"
+        [style.backgroundImage]="'url(' + r.urlImagen + ')'">
+      </div>
+      <div *ngIf="!r.urlImagen"
+           class="absolute inset-0 bg-gradient-to-br from-surface to-secondary flex items-center justify-center">
+        <span class="text-7xl">🏔️</span>
+      </div>
+      <!-- Gradient overlay al fondo de la imagen -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+      <!-- Badge de dificultad sobre la imagen -->
+      <div class="absolute top-4 right-4 z-10">
+        <ion-badge [color]="dificultadColor(r.dificultad)">{{ r.dificultad }}</ion-badge>
+      </div>
+    </div>
+
+    <!-- Info principal -->
+    <div class="p-5">
+
+      <!-- Label de sección + nombre -->
+      <p class="text-xs tracking-widest uppercase text-tertiary font-semibold mb-1">Experiencia</p>
+      <h1 class="brand-title text-gray-800 mb-4">{{ r.nombre }}</h1>
+
+      <!-- Chips de características -->
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class="inline-flex items-center gap-1.5 bg-[#fefce8] text-accent text-sm font-medium rounded-full px-4 py-1.5">
+          <ion-icon name="time-outline"></ion-icon>
+          {{ r.duracionMinutos }} min
+        </span>
+        <ion-chip [color]="dificultadColor(r.dificultad)" class="text-sm m-0">
+          <ion-icon name="barbell-outline" class="mr-1"></ion-icon>
+          <ion-label>{{ r.dificultad }}</ion-label>
+        </ion-chip>
+      </div>
+
+      <!-- Descripción en card -->
+      <div class="bg-surface rounded-xl p-4 mb-6">
+        <p class="label-caps text-tertiary mb-2">Descripción</p>
+        <p class="text-sm text-gray-700 leading-relaxed">{{ r.descripcion }}</p>
+      </div>
+
+      <!-- Botón Reservar (solo CLIENTE y OPERADOR) -->
+      <ion-button
+        *ngIf="!esAdmin()"
+        expand="block"
+        size="large"
+        (click)="reservar(r)"
+      >
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        Reservar esta ruta
+      </ion-button>
+
+      <p *ngIf="esAdmin()" class="text-xs text-center text-gray-400 pb-4">
+        Solo visualización — el ADMINISTRADOR no puede crear reservas
+      </p>
+
+    </div>
+  </ng-container>
+
+  <app-footer></app-footer>
+
+</ion-content>

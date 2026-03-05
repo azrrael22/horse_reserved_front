@@ -1,79 +1,90 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonContent,
   IonHeader,
   IonToolbar,
   IonTitle,
+  IonButton,
   IonButtons,
-  IonMenuButton,
+  IonBackButton,
   IonIcon,
   IonSpinner,
   IonBadge,
-  IonRippleEffect,
+  IonChip,
+  IonLabel,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { timeOutline, chevronForwardOutline, shieldCheckmarkOutline, heartOutline, ribbonOutline, locationOutline } from 'ionicons/icons';
-import { AuthService } from '../../core/services/auth.service';
+import { timeOutline, walkOutline, barbellOutline, calendarOutline } from 'ionicons/icons';
 import { RutaService } from '../../core/services/ruta.service';
+import { AuthService } from '../../core/services/auth.service';
 import { RutaResponse } from '../../core/models/ruta.models';
 import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-ruta-detail',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     IonContent,
     IonHeader,
     IonToolbar,
     IonTitle,
+    IonButton,
     IonButtons,
-    IonMenuButton,
+    IonBackButton,
     IonIcon,
     IonSpinner,
     IonBadge,
-    IonRippleEffect,
+    IonChip,
+    IonLabel,
     AppFooterComponent,
   ],
-  templateUrl: './home.page.html',
+  templateUrl: './ruta-detail.page.html',
 })
-export class HomePage {
-  private readonly authService = inject(AuthService);
-  private readonly rutaService = inject(RutaService);
+export class RutaDetailPage {
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly rutaService = inject(RutaService);
+  private readonly authService = inject(AuthService);
 
+  readonly ruta = signal<RutaResponse | null>(null);
   readonly loading = signal(false);
   readonly error = signal('');
-  readonly rutas = signal<RutaResponse[]>([]);
+
+  readonly esAdmin = () => this.authService.session()?.role === 'ADMINISTRADOR';
 
   constructor() {
-    addIcons({ timeOutline, chevronForwardOutline, shieldCheckmarkOutline, heartOutline, ribbonOutline, locationOutline });
+    addIcons({ timeOutline, walkOutline, barbellOutline, calendarOutline });
   }
 
   ionViewWillEnter(): void {
-    this.cargarRutas();
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (!id) {
+      this.error.set('Ruta no encontrada.');
+      return;
+    }
+    this.cargarRuta(id);
   }
 
-  cargarRutas(): void {
+  cargarRuta(id: number): void {
     this.loading.set(true);
     this.error.set('');
-    this.rutaService.listarActivas().subscribe({
+    this.rutaService.getRuta(id).subscribe({
       next: (data) => {
-        this.rutas.set(data);
+        this.ruta.set(data);
         this.loading.set(false);
       },
       error: () => {
         this.loading.set(false);
-        this.error.set('No se pudieron cargar las rutas.');
+        this.error.set('No se pudo cargar la información de la ruta.');
       },
     });
   }
 
-  verDetalle(ruta: RutaResponse): void {
-    this.router.navigate(['/rutas', ruta.id]);
+  reservar(ruta: RutaResponse): void {
+    this.router.navigate(['/reservas/nueva'], { queryParams: { rutaId: ruta.id } });
   }
 
   dificultadColor(dificultad: string): string {

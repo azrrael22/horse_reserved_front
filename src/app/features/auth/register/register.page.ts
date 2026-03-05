@@ -136,7 +136,7 @@ export class RegisterPage {
     this.authService.register(registerData).subscribe({
       next: () => {
         this.loading.set(false);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/tabs/inicio']);
       },
       error: (err: HttpErrorResponse) => {
         this.loading.set(false);
