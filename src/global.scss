@@ -125,3 +125,74 @@ ion-textarea.has-focus {
 }
 
 p { font-size: 16px !important; line-height: 1.6; }
+
+// ── Accesibilidad WCAG 2.1 AA ─────────────────────────────────────────────────
+
+// Skip navigation link (visualmente oculto hasta recibir foco)
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 0;
+  z-index: 9999;
+  padding: 12px 20px;
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0 0 8px 0;
+  text-decoration: none;
+
+  &:focus {
+    top: 0;
+    outline: 3px solid var(--ion-color-warning);
+    outline-offset: 2px;
+  }
+}
+
+// Utilidad para contenido visible solo para lectores de pantalla
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// WCAG 2.4.7: Indicadores de foco visibles
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible,
+ion-button:focus-visible::part(native),
+ion-item:focus-visible::part(native),
+ion-tab-button:focus-visible::part(native) {
+  outline: 3px solid var(--ion-color-primary);
+  outline-offset: 2px;
+}
+
+// ── Preferencias de accesibilidad (AccessibilityService) ─────────────────────
+
+// WCAG 1.4.4: Escala de fuente — rem cascade
+// !important necesario para superar la especificidad de Ionic typography.css
+html.fs-large  { font-size: 112.5%  !important; }  // 18px base
+html.fs-xlarge { font-size: 131.25% !important; }  // 21px base
+
+// Contraste (inversión) + Saturación — combinados en una sola propiedad filter.
+// Se aplica a ion-split-pane y a los overlays de Ionic (modal, popover,
+// action-sheet, alert, picker) que Ionic renderiza como hermanos de
+// ion-split-pane directamente en ion-app, fuera del árbol filtrado.
+// El FAB recibe el filtro directamente en su propio :host (ver accessibility-fab.component.scss).
+// El servicio calcula el valor combinado y lo escribe en --a11y-split-filter.
+ion-split-pane,
+ion-modal,
+ion-popover,
+ion-action-sheet,
+ion-alert,
+ion-picker {
+  filter: var(--a11y-split-filter, none);
+}
+

@@ -29,8 +29,20 @@
       </ion-item>
 
       <ion-item class="rounded-lg mb-2">
-        <ion-label position="floating">Fecha *</ion-label>
-        <ion-input type="date" formControlName="fecha"></ion-input>
+        <ion-label position="stacked">Fecha *</ion-label>
+        <ion-datetime-button datetime="fecha-picker" class="mt-2 mb-1"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime
+              id="fecha-picker"
+              presentation="date"
+              locale="es-CO"
+              [min]="minFecha"
+              [max]="maxFecha"
+              (ionChange)="onFechaChange($event)"
+            ></ion-datetime>
+          </ng-template>
+        </ion-modal>
       </ion-item>
 
       <ion-item class="rounded-lg">

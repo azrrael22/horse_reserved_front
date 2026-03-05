@@ -24,6 +24,9 @@ import {
   IonBackButton,
   IonSpinner,
   IonIcon,
+  IonDatetime,
+  IonDatetimeButton,
+  IonModal,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline, trashOutline } from 'ionicons/icons';
@@ -54,6 +57,9 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     IonBackButton,
     IonSpinner,
     IonIcon,
+    IonDatetime,
+    IonDatetimeButton,
+    IonModal,
     AppFooterComponent,
   ],
   templateUrl: './reserva-create.page.html',
@@ -72,6 +78,16 @@ export class ReservaCreatePage implements OnInit {
   readonly rutas = signal<RutaResponse[]>([]);
 
   readonly esOperador = () => this.authService.session()?.role === 'OPERADOR';
+
+  readonly minFecha = new Date().toISOString().split('T')[0];
+  readonly maxFecha = `${new Date().getFullYear() + 5}-12-31`;
+
+  onFechaChange(event: CustomEvent): void {
+    const value = event.detail.value as string;
+    if (value) {
+      this.form.controls.fecha.setValue(value.split('T')[0]);
+    }
+  }
 
   readonly form = this.fb.nonNullable.group({
     rutaId: [0 as number, [Validators.required, Validators.min(1)]],
