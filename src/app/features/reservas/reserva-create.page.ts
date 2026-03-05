@@ -32,6 +32,7 @@ import { RutaService } from '../../core/services/ruta.service';
 import { AuthService } from '../../core/services/auth.service';
 import { CreateReservaRequest, TipoDocumentoReserva } from '../../core/models/reserva.models';
 import { RutaResponse } from '../../core/models/ruta.models';
+import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
 
 @Component({
   selector: 'app-reserva-create',
@@ -53,6 +54,7 @@ import { RutaResponse } from '../../core/models/ruta.models';
     IonBackButton,
     IonSpinner,
     IonIcon,
+    AppFooterComponent,
   ],
   templateUrl: './reserva-create.page.html',
 })

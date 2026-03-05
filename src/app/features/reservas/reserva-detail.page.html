@@ -23,7 +23,7 @@
     <div class="flex items-center justify-between mb-5">
       <div>
         <p class="text-xs tracking-widest uppercase text-tertiary font-semibold mb-0.5">Reserva</p>
-        <h2 class="text-xl font-bold text-gray-800">#{{ r.id }}</h2>
+        <h2 class="page-title text-gray-800">#{{ r.id }}</h2>
       </div>
       <ion-badge [color]="badgeColor(r.estado)" class="text-sm">{{ r.estado }}</ion-badge>
     </div>
@@ -91,4 +91,7 @@
     </div>
 
   </ng-container>
+
+  <app-footer></app-footer>
+
 </ion-content>

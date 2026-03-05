@@ -20,6 +20,7 @@ import { timeOutline, walkOutline, barbellOutline, calendarOutline } from 'ionic
 import { RutaService } from '../../core/services/ruta.service';
 import { AuthService } from '../../core/services/auth.service';
 import { RutaResponse } from '../../core/models/ruta.models';
+import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
 
 @Component({
   selector: 'app-ruta-detail',
@@ -38,6 +39,7 @@ import { RutaResponse } from '../../core/models/ruta.models';
     IonBadge,
     IonChip,
     IonLabel,
+    AppFooterComponent,
   ],
   templateUrl: './ruta-detail.page.html',
 })

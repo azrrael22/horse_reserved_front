@@ -1,0 +1,8 @@
+// ── Footer empresa ─────────────────────────────────────────────────────────
+// Extends full-width beyond ion-content's default padding (16px each side)
+
+.app-footer {
+  background: var(--ion-color-primary);
+  // Break out of ion-content padding so it spans edge-to-edge
+  margin: 1.5rem -16px -16px;
+}

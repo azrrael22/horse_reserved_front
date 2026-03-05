@@ -61,6 +61,37 @@
   --ion-color-light-contrast-rgb: 31, 41, 55;
   --ion-color-light-shade: #d1d8e0;
   --ion-color-light-tint: #f0f4f8;
+
+  --font-display: 'Fraunces', serif;
+  --font-body:    'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+html h1 { font-family: var(--font-display); font-size: 2.8125rem !important; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+html h2 { font-family: var(--font-display); font-size: 2.0625rem !important; font-weight: 600; letter-spacing: -0.02em; line-height: 1.3; }
+html h3 { font-family: var(--font-display); font-size: 1.5625rem !important; font-weight: 600; letter-spacing: -0.01em; line-height: 1.4; }
+
+.brand-title   { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; }
+.page-title    { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; }
+.section-title { font-family: var(--font-display); font-weight: 600; }
+.display-italic { font-family: var(--font-display); font-style: italic; font-weight: 400; }
+
+ion-title  { font-family: var(--font-display); font-weight: 600; }
+ion-button { font-family: var(--font-body);    font-weight: 600; font-size: 14.4px; }
+ion-label  { font-family: var(--font-body); }
+ion-input  { font-family: var(--font-body); }
+
+.label-caps {
+  font-family: var(--font-body);
+  font-size: 0.9925rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 // Tailwind v4 theme tokens — map palette to semantic utility names
@@ -93,35 +124,4 @@ ion-textarea.has-focus {
   padding: 2px 16px 0;
 }
 
-// Typography base — jerarquía visual alineada con estilo de referencia
-// Aplica a elementos HTML nativos; los componentes Ionic (ion-button, ion-label)
-// usan shadow DOM propio y no se ven afectados.
-@layer base {
-  h1 {
-    font-size: var(--text-2xl);
-    font-weight: 700;
-    line-height: 1.4;
-  }
-
-  h2 {
-    font-size: var(--text-xl);
-    font-weight: 700;
-    line-height: 1.4;
-  }
-
-  h3 {
-    font-size: var(--text-lg);
-    font-weight: 600;
-    line-height: 1.4;
-  }
-
-  h4 {
-    font-size: var(--text-base);
-    font-weight: 600;
-    line-height: 1.4;
-  }
-
-  p {
-    line-height: 1.6;
-  }
-}
+p { font-size: 16px !important; line-height: 1.6; }

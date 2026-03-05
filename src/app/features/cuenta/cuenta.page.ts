@@ -14,6 +14,7 @@ import {
 import { addIcons } from 'ionicons';
 import { keyOutline, logOutOutline, personCircleOutline } from 'ionicons/icons';
 import { AuthService } from '../../core/services/auth.service';
+import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
 
 @Component({
   selector: 'app-cuenta',
@@ -29,6 +30,7 @@ import { AuthService } from '../../core/services/auth.service';
     IonButtons,
     IonIcon,
     IonBadge,
+    AppFooterComponent,
   ],
   templateUrl: './cuenta.page.html',
 })

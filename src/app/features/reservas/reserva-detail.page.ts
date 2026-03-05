@@ -18,6 +18,7 @@ import { createOutline } from 'ionicons/icons';
 import { ReservaService } from '../../core/services/reserva.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ReservaResponse } from '../../core/models/reserva.models';
+import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
 
 @Component({
   selector: 'app-reserva-detail',
@@ -35,6 +36,7 @@ import { ReservaResponse } from '../../core/models/reserva.models';
     IonBadge,
     IonSpinner,
     IonIcon,
+    AppFooterComponent,
   ],
   templateUrl: './reserva-detail.page.html',
 })

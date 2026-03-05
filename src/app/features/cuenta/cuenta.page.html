@@ -16,7 +16,7 @@
       <div class="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center mb-3">
         <ion-icon name="person-circle-outline" class="text-5xl text-white"></ion-icon>
       </div>
-      <h2 class="text-xl font-bold">
+      <h2 class="page-title">
         {{ session()?.primerNombre }} {{ session()?.primerApellido }}
       </h2>
       <p class="text-sm text-white/75 mt-1">{{ session()?.email }}</p>
@@ -40,5 +40,7 @@
       Cerrar sesión
     </ion-button>
   </div>
+
+  <app-footer></app-footer>
 
 </ion-content>
