@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RecaptchaModule } from 'ng-recaptcha';
 import {
   IonContent,
   IonHeader,
@@ -21,6 +22,7 @@ import {
 import { addIcons } from 'ionicons';
 import { mailOutline, chevronBackOutline } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-forgot-password',
@@ -42,6 +44,7 @@ import { AuthService } from '../../../core/services/auth.service';
     IonText,
     IonBackButton,
     IonButtons,
+    RecaptchaModule,
   ],
   templateUrl: './forgot-password.page.html',
   styleUrls: ['./forgot-password.page.scss'],
@@ -53,6 +56,8 @@ export class ForgotPasswordPage {
   readonly loading = signal(false);
   readonly sent = signal(false);
   readonly errorMessage = signal('');
+  readonly captchaToken = signal<string | null>(null);
+  readonly recaptchaSiteKey = environment.recaptchaSiteKey;
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -62,13 +67,17 @@ export class ForgotPasswordPage {
     addIcons({ mailOutline, chevronBackOutline });
   }
 
+  onCaptchaResolved(token: string | null): void {
+    this.captchaToken.set(token);
+  }
+
   onSubmit(): void {
-    if (this.form.invalid || this.loading()) return;
+    if (this.form.invalid || this.loading() || !this.captchaToken()) return;
 
     this.errorMessage.set('');
     this.loading.set(true);
 
-    this.authService.forgotPassword(this.form.getRawValue()).subscribe({
+    this.authService.forgotPassword({ ...this.form.getRawValue(), recaptchaToken: this.captchaToken()! }).subscribe({
       next: () => {
         this.loading.set(false);
         this.sent.set(true);

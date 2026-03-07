@@ -17,6 +17,7 @@ export type UserRole = 'CLIENTE' | 'OPERADOR' | 'ADMINISTRADOR';
 export interface LoginRequest {
   email: string;
   password: string;
+  recaptchaToken: string;
 }
 
 export interface RegisterRequest {
@@ -27,6 +28,7 @@ export interface RegisterRequest {
   email: string;
   password: string;
   telefono?: string;
+  recaptchaToken: string;
 }
 
 export interface ChangePasswordRequest {
@@ -37,6 +39,7 @@ export interface ChangePasswordRequest {
 
 export interface ForgotPasswordRequest {
   email: string;
+  recaptchaToken: string;
 }
 
 export interface ResetPasswordRequest {
