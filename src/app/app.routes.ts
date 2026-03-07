@@ -105,6 +105,15 @@ export const routes: Routes = [
       import('./features/reservas/reserva-edit.page').then((m) => m.ReservaEditPage),
   },
 
+  // ── Legal (públicas) ──────────────────────────────────────────────
+  {
+    path: 'legal/politica-datos',
+    loadComponent: () =>
+      import('./features/legal/politica-datos/politica-datos.page').then(
+        (m) => m.PoliticaDatosPage
+      ),
+  },
+
   // ── Legado: redirige /home → /tabs/inicio ─────────────────────────
   {
     path: 'home',

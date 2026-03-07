@@ -26,6 +26,8 @@ import {
   IonText,
   IonBackButton,
   IonButtons,
+  IonModal,
+  IonCheckbox,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -39,6 +41,7 @@ import {
   chevronBackOutline,
 } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
+import { AppFooterComponent } from '../../../shared/components/app-footer/app-footer.component';
 import {
   TipoDocumento,
   TIPO_DOCUMENTO_LABELS,
@@ -78,7 +81,10 @@ function passwordMatchValidator(
     IonText,
     IonBackButton,
     IonButtons,
+    IonModal,
+    IonCheckbox,
     RecaptchaModule,
+    AppFooterComponent,
   ],
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
@@ -90,6 +96,7 @@ export class RegisterPage {
 
   readonly loading = signal(false);
   readonly showPassword = signal(false);
+  readonly showPolicyModal = signal(false);
   readonly errorMessage = signal('');
   readonly captchaToken = signal<string | null>(null);
   readonly recaptchaSiteKey = environment.recaptchaSiteKey;
@@ -109,6 +116,7 @@ export class RegisterPage {
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmarPassword: ['', [Validators.required]],
       telefono: ['', [Validators.maxLength(20)]],
+      habeasDataConsent: [false, [Validators.requiredTrue]],
     },
     { validators: passwordMatchValidator }
   );

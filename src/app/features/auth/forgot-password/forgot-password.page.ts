@@ -22,6 +22,7 @@ import {
 import { addIcons } from 'ionicons';
 import { mailOutline, chevronBackOutline } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
+import { AppFooterComponent } from '../../../shared/components/app-footer/app-footer.component';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -45,6 +46,7 @@ import { environment } from '../../../../environments/environment';
     IonBackButton,
     IonButtons,
     RecaptchaModule,
+    AppFooterComponent,
   ],
   templateUrl: './forgot-password.page.html',
   styleUrls: ['./forgot-password.page.scss'],

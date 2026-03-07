@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { IonIcon } from '@ionic/angular/standalone';
 
 @Component({
@@ -6,6 +7,6 @@ import { IonIcon } from '@ionic/angular/standalone';
   templateUrl: './app-footer.component.html',
   styleUrls: ['./app-footer.component.scss'],
   standalone: true,
-  imports: [IonIcon],
+  imports: [IonIcon, RouterLink],
 })
 export class AppFooterComponent {}

@@ -21,6 +21,7 @@ import {
 import { addIcons } from 'ionicons';
 import { eyeOutline, eyeOffOutline, logoGoogle, mailOutline, lockClosedOutline } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
+import { AppFooterComponent } from '../../../shared/components/app-footer/app-footer.component';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -42,6 +43,7 @@ import { environment } from '../../../../environments/environment';
     IonSpinner,
     IonText,
     RecaptchaModule,
+    AppFooterComponent,
   ],
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
