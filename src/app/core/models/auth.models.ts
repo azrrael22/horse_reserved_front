@@ -29,6 +29,7 @@ export interface RegisterRequest {
   password: string;
   telefono?: string;
   recaptchaToken: string;
+  habeasDataConsent: boolean;
 }
 
 export interface ChangePasswordRequest {
@@ -70,6 +71,7 @@ export interface UserProfileResponse {
   telefono: string | null;
   role: UserRole;
   isActive: boolean;
+  habeasDataConsented: boolean;
 }
 
 export interface ErrorResponse {

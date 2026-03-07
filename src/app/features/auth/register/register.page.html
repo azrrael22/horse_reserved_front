@@ -169,6 +169,84 @@
           ></re-captcha>
         </div>
 
+        <!-- Habeas Data -->
+        <div class="mb-4">
+          <label class="flex items-start gap-2 cursor-pointer">
+            <ion-checkbox formControlName="habeasDataConsent" class="mt-0.5 shrink-0"></ion-checkbox>
+            <span class="text-sm text-gray-600">
+              Acepto la
+              <button type="button" (click)="showPolicyModal.set(true)"
+                      class="text-primary font-semibold underline">
+                Política de tratamiento de datos personales
+              </button>
+              (Ley 1581 de 2012) *
+            </span>
+          </label>
+          @if (f.habeasDataConsent.touched && f.habeasDataConsent.hasError('required')) {
+            <p class="error-message mt-1">Debe aceptar la política para continuar.</p>
+          }
+        </div>
+
+        <!-- Modal política de datos -->
+        <ion-modal [isOpen]="showPolicyModal()" (didDismiss)="showPolicyModal.set(false)">
+          <ng-template>
+            <ion-header>
+              <ion-toolbar color="primary">
+                <ion-title>Política de Datos Personales</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button (click)="showPolicyModal.set(false)">Cerrar</ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+              <div class="text-sm text-gray-700 space-y-4">
+
+                <div>
+                  <h1 class="text-base font-bold text-gray-900 mb-1">Política de Tratamiento de Datos Personales</h1>
+                  <p class="text-xs text-gray-400">Ley 1581 de 2012 · Decreto 1377 de 2013</p>
+                </div>
+
+                <section>
+                  <h2 class="font-semibold text-gray-800 mb-1">1. Responsable del Tratamiento</h2>
+                  <p><strong>Cabalgatas Salento</strong><br>
+                  Correo: contacto&#64;horsereserved.com<br>
+                  Ciudad: Salento, Quindío, Colombia</p>
+                </section>
+
+                <section>
+                  <h2 class="font-semibold text-gray-800 mb-1">2. Datos Recopilados</h2>
+                  <p>Nombre, apellido, tipo y número de documento, correo electrónico y teléfono (opcional).</p>
+                </section>
+
+                <section>
+                  <h2 class="font-semibold text-gray-800 mb-1">3. Finalidad del Tratamiento</h2>
+                  <p>Gestionar su cuenta, procesar reservas de rutas ecuestres, enviar comunicaciones del servicio y cumplir con obligaciones legales.</p>
+                </section>
+
+                <section>
+                  <h2 class="font-semibold text-gray-800 mb-1">4. Derechos del Titular (ARCO)</h2>
+                  <p>Usted tiene derecho a acceder, rectificar, cancelar y oponerse al tratamiento de sus datos. Para ejercerlos, escríbanos a contacto&#64;horsereserved.com.</p>
+                </section>
+
+                <section>
+                  <h2 class="font-semibold text-gray-800 mb-1">5. Vigencia</h2>
+                  <p>Sus datos se conservarán durante la relación contractual y por 5 años adicionales para fines legales y de auditoría.</p>
+                </section>
+
+                <section>
+                  <h2 class="font-semibold text-gray-800 mb-1">6. Transferencia a Terceros</h2>
+                  <p>No compartimos sus datos con terceros sin su consentimiento expreso, salvo cuando lo exija la ley colombiana.</p>
+                </section>
+
+                <p class="text-xs text-gray-400 border-t pt-3">
+                  Última actualización: marzo de 2026 · Cabalgatas Salento · Salento, Quindío, Colombia
+                </p>
+
+              </div>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+
         <!-- Submit -->
         <ion-button
           expand="block"
@@ -194,4 +272,5 @@
 
     </div>
   </div>
+  <app-footer></app-footer>
 </ion-content>
