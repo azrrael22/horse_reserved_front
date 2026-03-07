@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RecaptchaModule } from 'ng-recaptcha';
 import {
   IonContent,
   IonHeader,
@@ -40,6 +41,7 @@ import { environment } from '../../../../environments/environment';
     IonIcon,
     IonSpinner,
     IonText,
+    RecaptchaModule,
   ],
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
@@ -53,6 +55,8 @@ export class LoginPage {
   readonly loading = signal(false);
   readonly showPassword = signal(false);
   readonly errorMessage = signal('');
+  readonly captchaToken = signal<string | null>(null);
+  readonly recaptchaSiteKey = environment.recaptchaSiteKey;
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -67,13 +71,17 @@ export class LoginPage {
     this.showPassword.update((v) => !v);
   }
 
+  onCaptchaResolved(token: string | null): void {
+    this.captchaToken.set(token);
+  }
+
   onSubmit(): void {
-    if (this.form.invalid || this.loading()) return;
+    if (this.form.invalid || this.loading() || !this.captchaToken()) return;
 
     this.errorMessage.set('');
     this.loading.set(true);
 
-    this.authService.login(this.form.getRawValue()).subscribe({
+    this.authService.login({ ...this.form.getRawValue(), recaptchaToken: this.captchaToken()! }).subscribe({
       next: () => {
         this.loading.set(false);
         this.router.navigate(['/tabs/inicio']);

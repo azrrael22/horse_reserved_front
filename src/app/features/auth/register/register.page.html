@@ -161,11 +161,19 @@
           }
         </div>
 
+        <!-- reCAPTCHA -->
+        <div class="mb-4 flex justify-center">
+          <re-captcha
+            [siteKey]="recaptchaSiteKey"
+            (resolved)="onCaptchaResolved($event)"
+          ></re-captcha>
+        </div>
+
         <!-- Submit -->
         <ion-button
           expand="block"
           type="submit"
-          [disabled]="form.invalid || loading()"
+          [disabled]="form.invalid || loading() || !captchaToken()"
           class="mb-4"
         >
           @if (loading()) {

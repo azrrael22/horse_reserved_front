@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RecaptchaModule } from 'ng-recaptcha';
 import {
   IonContent,
   IonHeader,
@@ -42,6 +43,7 @@ import {
   TipoDocumento,
   TIPO_DOCUMENTO_LABELS,
 } from '../../../core/models/auth.models';
+import { environment } from '../../../../environments/environment';
 
 function passwordMatchValidator(
   control: AbstractControl
@@ -76,6 +78,7 @@ function passwordMatchValidator(
     IonText,
     IonBackButton,
     IonButtons,
+    RecaptchaModule,
   ],
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
@@ -88,6 +91,8 @@ export class RegisterPage {
   readonly loading = signal(false);
   readonly showPassword = signal(false);
   readonly errorMessage = signal('');
+  readonly captchaToken = signal<string | null>(null);
+  readonly recaptchaSiteKey = environment.recaptchaSiteKey;
 
   readonly tipoDocumentoOptions = Object.values(TipoDocumento).map((v) => ({
     value: v,
@@ -125,15 +130,19 @@ export class RegisterPage {
     this.showPassword.update((v) => !v);
   }
 
+  onCaptchaResolved(token: string | null): void {
+    this.captchaToken.set(token);
+  }
+
   onSubmit(): void {
-    if (this.form.invalid || this.loading()) return;
+    if (this.form.invalid || this.loading() || !this.captchaToken()) return;
 
     this.errorMessage.set('');
     this.loading.set(true);
 
     const { confirmarPassword, ...registerData } = this.form.getRawValue();
 
-    this.authService.register(registerData).subscribe({
+    this.authService.register({ ...registerData, recaptchaToken: this.captchaToken()! }).subscribe({
       next: () => {
         this.loading.set(false);
         this.router.navigate(['/tabs/inicio']);
