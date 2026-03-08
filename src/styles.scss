@@ -1,5 +1,7 @@
-// Tailwind CSS v4
-@import "tailwindcss";
+// Tailwind CSS
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 // Ionic Global Styles
 @import "@ionic/angular/css/core.css";
