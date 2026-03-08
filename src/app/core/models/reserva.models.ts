@@ -55,6 +55,9 @@ export interface ReservaResponse {
   tiempoFin: string;       // LocalTime en backend
   salidaEstado: string;
   rutaNombre: string;
+  rutaPrecio: number;
+  precioUnitario: number;
+  precioTotal: number;
 
   clienteId?: number | null;
   clienteEmail?: string | null;

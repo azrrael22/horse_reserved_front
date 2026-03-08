@@ -38,6 +38,19 @@
       <p class="text-sm text-secondary mt-0.5">👥 {{ r.cantPersonas }} persona(s)</p>
     </div>
 
+    <!-- Precio -->
+    <div class="bg-surface rounded-xl p-4 mb-3">
+      <p class="text-xs font-bold text-tertiary uppercase tracking-wider mb-2">Precio</p>
+      <div class="flex justify-between items-center text-sm mb-1">
+        <span class="text-secondary">Por persona</span>
+        <span class="font-semibold text-gray-800">$ {{ r.precioUnitario | number:'1.0-0' }}</span>
+      </div>
+      <div class="flex justify-between items-center border-t border-gray-100 pt-2 mt-1">
+        <span class="text-secondary font-semibold">Total ({{ r.cantPersonas }} persona(s))</span>
+        <span class="text-lg font-bold text-primary">$ {{ r.precioTotal | number:'1.0-0' }}</span>
+      </div>
+    </div>
+
     <!-- Cliente / Operador -->
     <div class="bg-surface rounded-xl p-4 mb-3">
       <p class="text-xs font-bold text-tertiary uppercase tracking-wider mb-2">Responsable</p>

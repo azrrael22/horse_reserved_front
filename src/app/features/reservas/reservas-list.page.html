@@ -63,6 +63,9 @@
           <p *ngIf="esAdmin() && !r.clienteEmail" class="text-xs text-gray-400 mt-1">
             Cliente: Invitado
           </p>
+          <p class="text-sm font-semibold text-primary mt-1">
+            $ {{ r.precioTotal | number:'1.0-0' }}
+          </p>
         </div>
         <ion-badge [color]="badgeColor(r.estado)">{{ r.estado }}</ion-badge>
       </div>
