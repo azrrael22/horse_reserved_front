@@ -22,7 +22,7 @@
         {{ esAdmin() ? 'Todas las reservas' : 'Mis reservas' }}
       </h2>
     </div>
-    <ion-button *ngIf="!esAdmin()" [routerLink]="['/reservas/nueva']" size="small">
+    <ion-button *ngIf="!esAdmin()" [routerLink]="['/tabs/reservas/nueva']" size="small">
       <ion-icon name="add-outline" slot="start"></ion-icon>
       Nueva
     </ion-button>
@@ -70,7 +70,7 @@
         <ion-badge [color]="badgeColor(r.estado)">{{ r.estado }}</ion-badge>
       </div>
       <div class="pt-2 border-t border-gray-100">
-        <ion-button [routerLink]="['/reservas', r.id]" size="small" fill="outline" color="secondary">
+        <ion-button [routerLink]="['/tabs/reservas', r.id]" size="small" fill="outline" color="secondary">
           Ver detalle
         </ion-button>
       </div>

@@ -22,6 +22,7 @@ import {
   IonToolbar,
   IonButtons,
   IonBackButton,
+  IonMenuButton,
   IonSpinner,
   IonIcon,
   IonDatetime,
@@ -55,6 +56,7 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     IonSelectOption,
     IonButtons,
     IonBackButton,
+    IonMenuButton,
     IonSpinner,
     IonIcon,
     IonDatetime,
@@ -197,7 +199,7 @@ export class ReservaCreatePage implements OnInit {
     this.reservaService.crearReserva(payload).subscribe({
       next: (res) => {
         this.loading.set(false);
-        this.router.navigate(['/reservas', res.id]);
+        this.router.navigate(['/tabs/reservas', res.id]);
       },
       error: (err) => {
         this.loading.set(false);

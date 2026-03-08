@@ -56,6 +56,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/tabs/tabs.page').then((m) => m.TabsPage),
     children: [
+      // Pestañas principales
       {
         path: 'inicio',
         loadComponent: () =>
@@ -71,38 +72,33 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/cuenta/cuenta.page').then((m) => m.CuentaPage),
       },
+      // Páginas de detalle (mantienen tab bar visible)
+      {
+        path: 'rutas/:id',
+        loadComponent: () =>
+          import('./features/rutas/ruta-detail.page').then((m) => m.RutaDetailPage),
+      },
+      {
+        path: 'reservas/nueva',
+        loadComponent: () =>
+          import('./features/reservas/reserva-create.page').then((m) => m.ReservaCreatePage),
+      },
+      {
+        path: 'reservas/:id',
+        loadComponent: () =>
+          import('./features/reservas/reserva-detail.page').then((m) => m.ReservaDetailPage),
+      },
+      {
+        path: 'reservas/:id/editar',
+        loadComponent: () =>
+          import('./features/reservas/reserva-edit.page').then((m) => m.ReservaEditPage),
+      },
       {
         path: '',
         redirectTo: 'inicio',
         pathMatch: 'full',
       },
     ],
-  },
-
-  // ── Páginas fullscreen fuera de tabs (requieren auth) ─────────────
-  {
-    path: 'rutas/:id',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/rutas/ruta-detail.page').then((m) => m.RutaDetailPage),
-  },
-  {
-    path: 'reservas/nueva',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/reservas/reserva-create.page').then((m) => m.ReservaCreatePage),
-  },
-  {
-    path: 'reservas/:id',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/reservas/reserva-detail.page').then((m) => m.ReservaDetailPage),
-  },
-  {
-    path: 'reservas/:id/editar',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/reservas/reserva-edit.page').then((m) => m.ReservaEditPage),
   },
 
   // ── Legal (públicas) ──────────────────────────────────────────────

@@ -1,7 +1,8 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="'/reservas/' + reservaId"></ion-back-button>
+      <ion-back-button [defaultHref]="'/tabs/reservas/' + reservaId" class="md:hidden"></ion-back-button>
+      <ion-menu-button class="hidden md:block"></ion-menu-button>
     </ion-buttons>
     <ion-title>Editar reserva</ion-title>
   </ion-toolbar>

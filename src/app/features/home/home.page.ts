@@ -73,7 +73,7 @@ export class HomePage {
   }
 
   verDetalle(ruta: RutaResponse): void {
-    this.router.navigate(['/rutas', ruta.id]);
+    this.router.navigate(['/tabs/rutas', ruta.id]);
   }
 
   dificultadColor(dificultad: string): string {

@@ -9,6 +9,7 @@ import {
   IonButton,
   IonButtons,
   IonBackButton,
+  IonMenuButton,
   IonIcon,
   IonSpinner,
   IonBadge,
@@ -34,6 +35,7 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     IonButton,
     IonButtons,
     IonBackButton,
+    IonMenuButton,
     IonIcon,
     IonSpinner,
     IonBadge,
@@ -84,7 +86,7 @@ export class RutaDetailPage {
   }
 
   reservar(ruta: RutaResponse): void {
-    this.router.navigate(['/reservas/nueva'], { queryParams: { rutaId: ruta.id } });
+    this.router.navigate(['/tabs/reservas/nueva'], { queryParams: { rutaId: ruta.id } });
   }
 
   dificultadColor(dificultad: string): string {

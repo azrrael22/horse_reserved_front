@@ -1,7 +1,8 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/reservas"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/reservas" class="md:hidden"></ion-back-button>
+      <ion-menu-button class="hidden md:block"></ion-menu-button>
     </ion-buttons>
     <ion-title>Detalle de reserva</ion-title>
   </ion-toolbar>
@@ -82,7 +83,7 @@
     <div class="flex flex-col gap-3" *ngIf="!esAdmin()">
       <ion-button
         *ngIf="r.estado === 'reservado'"
-        [routerLink]="['/reservas', r.id, 'editar']"
+        [routerLink]="['/tabs/reservas', r.id, 'editar']"
         expand="block"
         fill="outline"
         color="secondary"

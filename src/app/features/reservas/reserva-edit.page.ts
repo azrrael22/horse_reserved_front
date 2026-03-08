@@ -22,6 +22,7 @@ import {
   IonToolbar,
   IonButtons,
   IonBackButton,
+  IonMenuButton,
   IonSpinner,
   IonIcon,
 } from '@ionic/angular/standalone';
@@ -50,6 +51,7 @@ import { RutaResponse } from '../../core/models/ruta.models';
     IonSelectOption,
     IonButtons,
     IonBackButton,
+    IonMenuButton,
     IonSpinner,
     IonIcon,
   ],
@@ -190,7 +192,7 @@ export class ReservaEditPage implements OnInit {
     this.reservaService.actualizarReserva(this.reservaId, payload).subscribe({
       next: () => {
         this.loading.set(false);
-        this.router.navigate(['/reservas', this.reservaId]);
+        this.router.navigate(['/tabs/reservas', this.reservaId]);
       },
       error: (err) => {
         this.loading.set(false);
