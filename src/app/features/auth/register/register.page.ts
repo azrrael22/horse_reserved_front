@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RecaptchaModule } from 'ng-recaptcha';
+import { RecaptchaModule, RecaptchaComponent } from 'ng-recaptcha';
 import {
   IonContent,
   IonHeader,
@@ -94,6 +94,8 @@ export class RegisterPage {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
+  @ViewChild('captcha') captchaRef!: RecaptchaComponent;
+
   readonly loading = signal(false);
   readonly showPassword = signal(false);
   readonly showPolicyModal = signal(false);
@@ -157,6 +159,8 @@ export class RegisterPage {
       },
       error: (err: HttpErrorResponse) => {
         this.loading.set(false);
+        this.captchaRef?.reset();
+        this.captchaToken.set(null);
         if (err.status === 409) {
           this.errorMessage.set('Ya existe una cuenta con ese correo electrónico.');
         } else if (err.status === 400 && err.error?.message) {

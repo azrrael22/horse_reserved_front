@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.git/
+.angular/
+.github/
+*.md
+.editorconfig
+.browserslistrc
+karma.conf.js

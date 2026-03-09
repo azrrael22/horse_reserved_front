@@ -164,6 +164,7 @@
         <!-- reCAPTCHA -->
         <div class="mb-4 flex justify-center">
           <re-captcha
+            #captcha
             [siteKey]="recaptchaSiteKey"
             (resolved)="onCaptchaResolved($event)"
           ></re-captcha>
