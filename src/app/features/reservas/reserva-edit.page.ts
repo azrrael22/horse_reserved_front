@@ -25,6 +25,9 @@ import {
   IonMenuButton,
   IonSpinner,
   IonIcon,
+  IonDatetime,
+  IonDatetimeButton,
+  IonModal,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline, trashOutline } from 'ionicons/icons';
@@ -54,6 +57,9 @@ import { RutaResponse } from '../../core/models/ruta.models';
     IonMenuButton,
     IonSpinner,
     IonIcon,
+    IonDatetime,
+    IonDatetimeButton,
+    IonModal,
   ],
   templateUrl: './reserva-edit.page.html',
 })
@@ -68,6 +74,10 @@ export class ReservaEditPage implements OnInit {
   readonly loadingData = signal(true);
   readonly error = signal('');
   readonly rutas = signal<RutaResponse[]>([]);
+  readonly fechaIso = signal('');
+
+  readonly minFecha = new Date().toISOString().split('T')[0];
+  readonly maxFecha = `${new Date().getFullYear() + 5}-12-31`;
 
   reservaId!: number;
   form!: FormGroup;
@@ -104,7 +114,17 @@ export class ReservaEditPage implements OnInit {
       });
   }
 
+  onFechaChange(event: CustomEvent): void {
+    const value = event.detail.value as string;
+    if (value) {
+      const date = value.split('T')[0];
+      this.form.controls['fecha'].setValue(date);
+      this.fechaIso.set(date);
+    }
+  }
+
   private buildForm(reserva: ReservaResponse): void {
+    this.fechaIso.set(reserva.fechaProgramada);
     this.form = this.fb.nonNullable.group({
       rutaId: [reserva.rutaId, [Validators.required, Validators.min(1)]],
       fecha: [reserva.fechaProgramada, Validators.required],
