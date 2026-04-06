@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   FormArray,
   FormBuilder,
@@ -42,7 +42,6 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
   selector: 'app-reserva-create',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     IonContent,
     IonHeader,
@@ -62,8 +61,8 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     IonDatetime,
     IonDatetimeButton,
     IonModal,
-    AppFooterComponent,
-  ],
+    AppFooterComponent
+],
   templateUrl: './reserva-create.page.html',
 })
 export class ReservaCreatePage implements OnInit {

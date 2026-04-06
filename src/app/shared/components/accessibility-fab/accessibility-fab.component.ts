@@ -1,5 +1,5 @@
 import { Component, HostListener, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -14,7 +14,7 @@ import { AccessibilityService } from '../../../core/services/accessibility.servi
 @Component({
   selector: 'app-accessibility-fab',
   standalone: true,
-  imports: [CommonModule, IonIcon],
+  imports: [IonIcon],
   templateUrl: './accessibility-fab.component.html',
   styleUrl: './accessibility-fab.component.scss',
 })

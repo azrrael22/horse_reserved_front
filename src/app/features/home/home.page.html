@@ -79,66 +79,90 @@
     <h2 class="section-title text-gray-800">Elige tu experiencia</h2>
   </div>
 
-  <div *ngIf="loading()" class="flex justify-center py-12">
-    <ion-spinner></ion-spinner>
-  </div>
-
-  <div *ngIf="error()" class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4">
-    {{ error() }}
-  </div>
-
-  <div *ngIf="!loading() && rutas().length === 0 && !error()"
-       class="flex flex-col items-center justify-center py-16 text-center">
-    <div class="w-20 h-20 rounded-full bg-surface flex items-center justify-center mb-4">
-      <span class="text-4xl">🐴</span>
+  @if (loading()) {
+    <div class="flex justify-center py-12">
+      <ion-spinner></ion-spinner>
     </div>
-    <p class="font-semibold text-gray-700">No hay rutas disponibles</p>
-    <p class="text-sm text-gray-400 mt-1">Vuelve pronto para ver nuevas rutas</p>
-  </div>
+  }
+
+  @if (error()) {
+    <div class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4">
+      {{ error() }}
+    </div>
+  }
+
+  @if (!loading() && rutas().length === 0 && !error()) {
+    <div class="flex flex-col items-center justify-center py-16 text-center">
+      <div class="w-20 h-20 rounded-full bg-surface flex items-center justify-center mb-4">
+        <span class="text-4xl">🐴</span>
+      </div>
+      <p class="font-semibold text-gray-700">No hay rutas disponibles</p>
+      <p class="text-sm text-gray-400 mt-1">Vuelve pronto para ver nuevas rutas</p>
+    </div>
+  }
 
   <!-- Cards de rutas (cliqueables) -->
   <div class="flex flex-wrap justify-center gap-4 mb-4">
-  <div
-    *ngFor="let r of rutas()"
-    class="w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow ion-activatable relative cursor-pointer group"
-    (click)="verDetalle(r)"
-  >
-    <ion-ripple-effect></ion-ripple-effect>
-
-    <!-- Imagen con zoom al hover -->
-    <div class="relative h-48 overflow-hidden">
+    @for (r of rutas(); track r.id) {
       <div
-        *ngIf="r.urlImagen"
-        class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-        [style.backgroundImage]="'url(' + r.urlImagen + ')'">
-      </div>
-      <div *ngIf="!r.urlImagen"
-           class="absolute inset-0 bg-gradient-to-br from-surface to-secondary flex items-center justify-center">
-        <span class="text-6xl">🏔️</span>
-      </div>
-      <!-- Badge de dificultad sobre la imagen -->
-      <div class="absolute top-3 right-3 z-10">
-        <ion-badge [color]="dificultadColor(r.dificultad)">{{ r.dificultad }}</ion-badge>
-      </div>
-    </div>
+        class="w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow ion-activatable relative cursor-pointer group"
+        (click)="verDetalle(r)"
+        (keydown.enter)="verDetalle(r)"
+        (keydown.space)="verDetalle(r)"
+        tabindex="0"
+        role="button"
+        [attr.aria-label]="'Ver detalle de ' + r.nombre"
+      >
+        <ion-ripple-effect></ion-ripple-effect>
 
-    <!-- Contenido -->
-    <div class="p-4">
-      <h3 class="section-title text-gray-800 mb-1">{{ r.nombre }}</h3>
-      <p class="text-sm text-gray-500 mb-3 line-clamp-2">{{ r.descripcion }}</p>
-      <div class="flex items-center justify-between">
-        <span class="inline-flex items-center gap-1.5 bg-[#fefce8] text-accent text-xs font-medium rounded-full px-3 py-1">
-          <ion-icon name="time-outline"></ion-icon>
-          {{ r.duracionMinutos }} min
-        </span>
-        <span class="text-sm font-bold text-primary">
-          $ {{ r.precio | number:'1.0-0' }}
-        </span>
+        <!-- Imagen con zoom al hover -->
+        <div class="relative h-48 overflow-hidden">
+          @if (r.urlImagen) {
+            <div
+              class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+              [style.backgroundImage]="'url(' + r.urlImagen + ')'">
+            </div>
+          }
+          @if (!r.urlImagen) {
+            <div class="absolute inset-0 bg-gradient-to-br from-surface to-secondary flex items-center justify-center">
+              <span class="text-6xl">🏔️</span>
+            </div>
+          }
+          <!-- Badge de dificultad sobre la imagen -->
+          <div class="absolute top-3 right-3 z-10">
+            <ion-badge [color]="dificultadColor(r.dificultad)">{{ r.dificultad }}</ion-badge>
+          </div>
+        </div>
+
+        <!-- Contenido -->
+        <div class="p-4">
+          <h3 class="section-title text-gray-800 mb-1">{{ r.nombre }}</h3>
+          <p class="text-sm text-gray-500 mb-3 line-clamp-2">{{ r.descripcion }}</p>
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 bg-[#fefce8] text-accent text-xs font-medium rounded-full px-3 py-1">
+              <ion-icon name="time-outline"></ion-icon>
+              {{ r.duracionMinutos }} min
+            </span>
+            <span class="text-sm font-bold text-primary">
+              $ {{ r.precio | number:'1.0-0' }}
+            </span>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    }
   </div>
 
   <app-footer></app-footer>
+
+  <!-- FAB: Acceso rápido al asistente FAQ -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button
+      routerLink="/chatbot"
+      color="primary"
+      size="small"
+      aria-label="Abrir asistente FAQ">
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>

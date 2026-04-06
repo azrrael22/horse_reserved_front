@@ -10,16 +10,19 @@
 
 <ion-content class="ion-padding">
 
-  <div *ngIf="loading()" class="flex justify-center py-8">
-    <ion-spinner></ion-spinner>
-  </div>
+  @if (loading()) {
+    <div class="flex justify-center py-8">
+      <ion-spinner></ion-spinner>
+    </div>
+  }
 
-  <div *ngIf="error()" class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4">
-    {{ error() }}
-  </div>
+  @if (error()) {
+    <div class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4">
+      {{ error() }}
+    </div>
+  }
 
-  <ng-container *ngIf="reserva() as r">
-
+  @if (reserva(); as r) {
     <!-- Encabezado -->
     <div class="flex items-center justify-between mb-5">
       <div>
@@ -28,7 +31,6 @@
       </div>
       <ion-badge [color]="badgeColor(r.estado)" class="text-sm">{{ r.estado }}</ion-badge>
     </div>
-
     <!-- Datos de la ruta -->
     <div class="bg-surface rounded-xl p-4 mb-3">
       <p class="text-xs font-bold text-tertiary uppercase tracking-wider mb-2">Ruta</p>
@@ -38,7 +40,6 @@
       </p>
       <p class="text-sm text-secondary mt-0.5">👥 {{ r.cantPersonas }} persona(s)</p>
     </div>
-
     <!-- Precio -->
     <div class="bg-surface rounded-xl p-4 mb-3">
       <p class="text-xs font-bold text-tertiary uppercase tracking-wider mb-2">Precio</p>
@@ -51,7 +52,6 @@
         <span class="text-lg font-bold text-primary">$ {{ r.precioTotal | number:'1.0-0' }}</span>
       </div>
     </div>
-
     <!-- Cliente / Operador -->
     <div class="bg-surface rounded-xl p-4 mb-3">
       <p class="text-xs font-bold text-tertiary uppercase tracking-wider mb-2">Responsable</p>
@@ -59,52 +59,57 @@
         <span class="font-semibold">Cliente:</span>
         {{ r.clienteEmail ?? 'Invitado' }}
       </p>
-      <p *ngIf="r.operadorId" class="text-sm text-gray-700 mt-1">
-        <span class="font-semibold">Operador ID:</span> {{ r.operadorId }}
-      </p>
+      @if (r.operadorId) {
+        <p class="text-sm text-gray-700 mt-1">
+          <span class="font-semibold">Operador ID:</span> {{ r.operadorId }}
+        </p>
+      }
     </div>
-
     <!-- Participantes -->
     <div class="bg-surface rounded-xl p-4 mb-6">
       <p class="text-xs font-bold text-tertiary uppercase tracking-wider mb-3">Participantes</p>
-      <div *ngFor="let p of r.participantes; let i = index"
-           class="mb-3 last:mb-0 bg-white rounded-lg p-3">
-        <p class="text-sm font-semibold text-gray-800">
-          {{ i + 1 }}. {{ p.primerNombre }} {{ p.primerApellido }}
-        </p>
-        <p class="text-xs text-secondary mt-0.5">
-          {{ p.tipoDocumento }}: {{ p.documento }} · {{ p.edad }} años ·
-          {{ p.cmAltura }} cm · {{ p.kgPeso }} kg
-        </p>
-      </div>
+      @for (p of r.participantes; track p; let i = $index) {
+        <div
+          class="mb-3 last:mb-0 bg-white rounded-lg p-3">
+          <p class="text-sm font-semibold text-gray-800">
+            {{ i + 1 }}. {{ p.primerNombre }} {{ p.primerApellido }}
+          </p>
+          <p class="text-xs text-secondary mt-0.5">
+            {{ p.tipoDocumento }}: {{ p.documento }} · {{ p.edad }} años ·
+            {{ p.cmAltura }} cm · {{ p.kgPeso }} kg
+          </p>
+        </div>
+      }
     </div>
-
     <!-- Acciones (solo para no-ADMIN) -->
-    <div class="flex flex-col gap-3" *ngIf="!esAdmin()">
-      <ion-button
-        *ngIf="r.estado === 'reservado'"
-        [routerLink]="['/tabs/reservas', r.id, 'editar']"
-        expand="block"
-        fill="outline"
-        color="secondary"
-      >
-        <ion-icon name="create-outline" slot="start"></ion-icon>
-        Editar reserva
-      </ion-button>
-
-      <ion-button
-        color="danger"
-        expand="block"
-        fill="outline"
-        (click)="cancelar()"
-        [disabled]="cancelando() || r.estado !== 'reservado'"
-      >
-        <ion-spinner *ngIf="cancelando()" slot="start" name="crescent"></ion-spinner>
-        {{ cancelando() ? 'Cancelando...' : 'Cancelar reserva' }}
-      </ion-button>
-    </div>
-
-  </ng-container>
+    @if (!esAdmin()) {
+      <div class="flex flex-col gap-3">
+        @if (r.estado === 'reservado') {
+          <ion-button
+            [routerLink]="['/tabs/reservas', r.id, 'editar']"
+            expand="block"
+            fill="outline"
+            color="secondary"
+            >
+            <ion-icon name="create-outline" slot="start"></ion-icon>
+            Editar reserva
+          </ion-button>
+        }
+        <ion-button
+          color="danger"
+          expand="block"
+          fill="outline"
+          (click)="cancelar()"
+          [disabled]="cancelando() || r.estado !== 'reservado'"
+          >
+          @if (cancelando()) {
+            <ion-spinner slot="start" name="crescent"></ion-spinner>
+          }
+          {{ cancelando() ? 'Cancelando...' : 'Cancelar reserva' }}
+        </ion-button>
+      </div>
+    }
+  }
 
   <app-footer></app-footer>
 

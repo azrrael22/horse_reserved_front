@@ -1,0 +1,170 @@
+<!-- ══════════════════════════════════════════════════════════════════════
+     Chatbot FAQ — Horse Reserved
+     ══════════════════════════════════════════════════════════════════════ -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title>🐴 Asistente FAQ</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- ── Área de mensajes ──────────────────────────────────────────────── -->
+<ion-content class="chat-content">
+  <div class="messages-wrapper">
+
+    @for (msg of messages(); track trackByIndex($index)) {
+
+      <!-- Mensaje del usuario -->
+      @if (msg.role === 'user') {
+        <div class="message-row user-row">
+          <div class="bubble user-bubble">
+            <p class="message-text">{{ msg.text }}</p>
+            <span class="timestamp">{{ msg.timestamp | date:'HH:mm' }}</span>
+          </div>
+        </div>
+      }
+
+      <!-- Mensaje del bot -->
+      @if (msg.role === 'bot') {
+        <div class="message-row bot-row">
+          <div class="bot-avatar" aria-hidden="true">🐴</div>
+
+          <div class="bubble bot-bubble">
+            <!-- Respuesta principal -->
+            <p class="message-text">{{ msg.text }}</p>
+
+            @if (msg.response) {
+
+              <!-- Confianza -->
+              <div class="confidence-row">
+                <ion-badge [color]="confidenceBadgeColor(msg.response.confidence)">
+                  Confianza: {{ formatConfidence(msg.response.confidence) }}
+                </ion-badge>
+              </div>
+
+              <!-- Notas -->
+              @if (msg.response.notes.length > 0) {
+                <div class="extra-section">
+                  <p class="section-label">📝 Notas:</p>
+                  <ul class="notes-list">
+                    @for (note of msg.response.notes; track $index) {
+                      <li>{{ note }}</li>
+                    }
+                  </ul>
+                </div>
+              }
+
+              <!-- CTA de acción -->
+              @if (msg.response.action; as action) {
+                <div class="extra-section">
+                  @if (isInternalNavigation(action)) {
+                    <ion-button
+                      size="small"
+                      fill="solid"
+                      color="primary"
+                      (click)="handleAction(action)">
+                      <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+                      Ir ahora
+                    </ion-button>
+                  } @else {
+                    <ion-button
+                      size="small"
+                      fill="outline"
+                      color="medium"
+                      (click)="handleAction(action)">
+                      <ion-icon name="copy-outline" slot="end"></ion-icon>
+                      Copiar endpoint
+                    </ion-button>
+                  }
+                </div>
+              }
+
+              <!-- Sugerencias -->
+              @if (msg.response.suggestions.length > 0) {
+                <div class="extra-section">
+                  <p class="section-label">💡 También puedes preguntar:</p>
+                  <div class="chips-row">
+                    @for (suggestion of msg.response.suggestions; track $index) {
+                      <ion-chip
+                        color="primary"
+                        [outline]="true"
+                        (click)="sendSuggestion(suggestion)">
+                        <ion-label>{{ suggestion }}</ion-label>
+                      </ion-chip>
+                    }
+                  </div>
+                </div>
+              }
+
+            }<!-- /msg.response -->
+
+            <span class="timestamp">{{ msg.timestamp | date:'HH:mm' }}</span>
+          </div>
+        </div>
+      }
+
+    }<!-- /@for -->
+
+    <!-- Indicador de carga (bot escribiendo) -->
+    @if (isLoading()) {
+      <div class="message-row bot-row" aria-live="polite" aria-label="El asistente está escribiendo">
+        <div class="bot-avatar" aria-hidden="true">🐴</div>
+        <div class="bubble bot-bubble typing-bubble">
+          <ion-spinner name="dots" color="primary"></ion-spinner>
+        </div>
+      </div>
+    }
+
+    <!-- Error de red -->
+    @if (state() === 'error') {
+      <div class="error-banner" role="alert">
+        <span class="error-icon">⚠️</span>
+        <p>{{ errorMessage() }}</p>
+      </div>
+    }
+
+  </div><!-- /.messages-wrapper -->
+</ion-content>
+
+<!-- ── Área de input ──────────────────────────────────────────────────── -->
+<ion-footer class="ion-no-border">
+  <div class="input-area">
+
+    <ion-textarea
+      class="input-field"
+      placeholder="Escribe tu pregunta..."
+      [value]="question()"
+      (ionInput)="onInput($event)"
+      (keydown)="onKeydown($event)"
+      [maxlength]="300"
+      [rows]="1"
+      [autoGrow]="true"
+      [disabled]="isLoading()"
+      aria-label="Campo de pregunta al asistente"
+    ></ion-textarea>
+
+    <!-- Contador de caracteres (visible solo cerca del límite) -->
+    @if (charCount() > 250) {
+      <span
+        class="char-counter"
+        [class.over-limit]="charCount() > 300"
+        aria-live="polite">
+        {{ charCount() }}/300
+      </span>
+    }
+
+    <ion-button
+      class="send-btn"
+      fill="solid"
+      color="primary"
+      shape="round"
+      [disabled]="!isInputValid() || isLoading()"
+      (click)="send()"
+      aria-label="Enviar pregunta">
+      <ion-icon name="send-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+
+  </div>
+</ion-footer>

@@ -2,45 +2,43 @@
   <ion-split-pane contentId="main-content" when="false">
 
     <!-- Menú lateral -->
-    <ion-menu contentId="main-content" menuId="main-menu" *ngIf="isLoggedIn()">
-      <ion-header>
-        <ion-toolbar color="primary">
-          <ion-title>🐴 Cabalgatas Salento</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content>
-        <ion-list lines="none" class="pt-2">
-          <ion-menu-toggle autoHide="false">
-            <ion-item routerLink="/tabs/inicio" detail="false" button class="rounded-lg mx-2">
-              <ion-icon name="home-outline" slot="start"></ion-icon>
-              <ion-label>Inicio</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle autoHide="false">
-            <ion-item routerLink="/tabs/reservas" detail="false" button class="rounded-lg mx-2 mt-1">
-              <ion-icon name="calendar-outline" slot="start"></ion-icon>
-              <ion-label>Reservas</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle autoHide="false">
-            <ion-item routerLink="/tabs/cuenta" detail="false" button class="rounded-lg mx-2 mt-1">
-              <ion-icon name="person-outline" slot="start"></ion-icon>
-              <ion-label>Cuenta</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
-      </ion-content>
-
-      <ion-footer class="ion-padding">
-        <ion-button expand="block" fill="outline" color="danger" (click)="logout()">
-          <ion-icon name="log-out-outline" slot="start"></ion-icon>
-          Cerrar sesión
-        </ion-button>
-      </ion-footer>
-    </ion-menu>
+    @if (isLoggedIn()) {
+      <ion-menu contentId="main-content" menuId="main-menu">
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-title>🐴 Cabalgatas Salento</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list lines="none" class="pt-2">
+            <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/tabs/inicio" detail="false" button class="rounded-lg mx-2">
+                <ion-icon name="home-outline" slot="start"></ion-icon>
+                <ion-label>Inicio</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+            <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/tabs/reservas" detail="false" button class="rounded-lg mx-2 mt-1">
+                <ion-icon name="calendar-outline" slot="start"></ion-icon>
+                <ion-label>Reservas</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+            <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/tabs/cuenta" detail="false" button class="rounded-lg mx-2 mt-1">
+                <ion-icon name="person-outline" slot="start"></ion-icon>
+                <ion-label>Cuenta</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list>
+        </ion-content>
+        <ion-footer class="ion-padding">
+          <ion-button expand="block" fill="outline" color="danger" (click)="logout()">
+            <ion-icon name="log-out-outline" slot="start"></ion-icon>
+            Cerrar sesión
+          </ion-button>
+        </ion-footer>
+      </ion-menu>
+    }
 
     <!-- Contenido principal -->
     <ion-router-outlet id="main-content"></ion-router-outlet>

@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -40,7 +40,6 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
   selector: 'app-reset-password',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RouterLink,
     IonContent,
@@ -53,8 +52,8 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
     IonLabel,
     IonIcon,
     IonSpinner,
-    IonText,
-  ],
+    IonText
+],
   templateUrl: './reset-password.page.html',
   styleUrls: ['./reset-password.page.scss'],
 })

@@ -1,5 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   FormArray,
   FormBuilder,
@@ -40,7 +40,6 @@ import { RutaResponse } from '../../core/models/ruta.models';
   selector: 'app-reserva-edit',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     IonContent,
     IonHeader,
@@ -59,8 +58,8 @@ import { RutaResponse } from '../../core/models/ruta.models';
     IonIcon,
     IonDatetime,
     IonDatetimeButton,
-    IonModal,
-  ],
+    IonModal
+],
   templateUrl: './reserva-edit.page.html',
 })
 export class ReservaEditPage implements OnInit {

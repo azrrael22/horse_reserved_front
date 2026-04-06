@@ -27,13 +27,12 @@ import {
 import { AuthService } from './core/services/auth.service';
 import { AccessibilityService } from './core/services/accessibility.service';
 import { AccessibilityFabComponent } from './shared/components/accessibility-fab/accessibility-fab.component';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
     RouterLink,
     IonApp,
     IonRouterOutlet,
@@ -50,8 +49,8 @@ import { CommonModule } from '@angular/common';
     IonMenuToggle,
     IonFooter,
     IonButton,
-    AccessibilityFabComponent,
-  ],
+    AccessibilityFabComponent
+],
   templateUrl: './app.component.html',
 })
 export class AppComponent {

@@ -5,7 +5,7 @@
   aria-controls="a11y-panel"
   aria-label="Preferencias de accesibilidad"
   (click)="togglePanel()"
->
+  >
   <ion-icon name="accessibility-outline" aria-hidden="true"></ion-icon>
 </button>
 
@@ -17,7 +17,7 @@
   aria-label="Preferencias de accesibilidad"
   aria-modal="false"
   [class.open]="panelOpen()"
->
+  >
   <div class="a11y-panel__header">
     <p class="a11y-panel__title">Accesibilidad</p>
     <button class="a11y-panel__close" aria-label="Cerrar panel de accesibilidad" (click)="closePanel()">
@@ -103,9 +103,10 @@
 </div>
 
 <!-- Backdrop -->
-<div
-  *ngIf="panelOpen()"
-  class="a11y-backdrop"
-  (click)="closePanel()"
-  aria-hidden="true"
-></div>
+@if (panelOpen()) {
+  <div
+    class="a11y-backdrop"
+    (click)="closePanel()"
+    aria-hidden="true"
+  ></div>
+}

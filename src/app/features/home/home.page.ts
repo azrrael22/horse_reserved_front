@@ -11,6 +11,8 @@ import {
   IonIcon,
   IonSpinner,
   IonBadge,
+  IonFab,
+  IonFabButton,
   IonRippleEffect,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -19,6 +21,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { RutaService } from '../../core/services/ruta.service';
 import { RutaResponse } from '../../core/models/ruta.models';
 import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
+import { chatbubblesOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +30,8 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     CommonModule,
     RouterLink,
     IonContent,
+    IonFab,
+    IonFabButton,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -36,6 +41,7 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     IonSpinner,
     IonBadge,
     IonRippleEffect,
+    RouterLink,
     AppFooterComponent,
   ],
   templateUrl: './home.page.html',
@@ -50,7 +56,7 @@ export class HomePage {
   readonly rutas = signal<RutaResponse[]>([]);
 
   constructor() {
-    addIcons({ timeOutline, chevronForwardOutline, shieldCheckmarkOutline, heartOutline, ribbonOutline, locationOutline });
+    addIcons({ timeOutline, chevronForwardOutline, shieldCheckmarkOutline, heartOutline, ribbonOutline, locationOutline, chatbubblesOutline });
   }
 
   ionViewWillEnter(): void {

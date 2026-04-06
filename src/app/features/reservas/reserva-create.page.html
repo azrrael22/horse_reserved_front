@@ -10,137 +10,140 @@
 
 <ion-content class="ion-padding">
 
-  <div *ngIf="loadingRutas()" class="flex justify-center py-8">
-    <ion-spinner></ion-spinner>
-  </div>
-
-  <form *ngIf="!loadingRutas()" [formGroup]="form" (ngSubmit)="onSubmit()">
-
-    <!-- Datos de la salida -->
-    <div class="bg-surface rounded-2xl p-4 mb-5">
-      <p class="text-xs font-bold text-tertiary uppercase tracking-widest mb-3">Datos de la salida</p>
-
-      <ion-item class="rounded-lg mb-2">
-        <ion-label position="floating">Ruta *</ion-label>
-        <ion-select formControlName="rutaId" placeholder="Selecciona una ruta">
-          <ion-select-option *ngFor="let r of rutas()" [value]="r.id">
-            {{ r.nombre }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item class="rounded-lg mb-2">
-        <ion-label position="stacked">Fecha *</ion-label>
-        <ion-datetime-button datetime="fecha-picker" class="mt-2 mb-1"></ion-datetime-button>
-        <ion-modal [keepContentsMounted]="true">
-          <ng-template>
-            <ion-datetime
-              id="fecha-picker"
-              presentation="date"
-              locale="es-CO"
-              [min]="minFecha"
-              [max]="maxFecha"
-              (ionChange)="onFechaChange($event)"
-            ></ion-datetime>
-          </ng-template>
-        </ion-modal>
-      </ion-item>
-
-      <ion-item class="rounded-lg">
-        <ion-label position="floating">Hora de inicio *</ion-label>
-        <ion-input type="time" formControlName="horaInicio"></ion-input>
-      </ion-item>
-
-      <!-- Campo clienteId solo para OPERADOR -->
-      <ion-item *ngIf="esOperador()" class="rounded-lg mt-2">
-        <ion-label position="floating">ID del cliente (opcional)</ion-label>
-        <ion-input type="number" formControlName="clienteId"
-          placeholder="Vacío = reserva de invitado"></ion-input>
-      </ion-item>
+  @if (loadingRutas()) {
+    <div class="flex justify-center py-8">
+      <ion-spinner></ion-spinner>
     </div>
+  }
 
-    <!-- Participantes -->
-    <div class="mb-4">
-      <div class="flex items-center justify-between mb-3">
-        <div>
-          <p class="text-xs font-bold text-tertiary uppercase tracking-widest mb-0.5">Participantes</p>
-          <p class="text-sm font-semibold text-gray-700">{{ participantes.length }} registrado(s)</p>
-        </div>
-        <ion-button size="small" fill="outline" (click)="addParticipante()">
-          <ion-icon name="add-outline" slot="start"></ion-icon>
-          Agregar
-        </ion-button>
+  @if (!loadingRutas()) {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Datos de la salida -->
+      <div class="bg-surface rounded-2xl p-4 mb-5">
+        <p class="text-xs font-bold text-tertiary uppercase tracking-widest mb-3">Datos de la salida</p>
+        <ion-item class="rounded-lg mb-2">
+          <ion-label position="floating">Ruta *</ion-label>
+          <ion-select formControlName="rutaId" placeholder="Selecciona una ruta">
+            @for (r of rutas(); track r) {
+              <ion-select-option [value]="r.id">
+                {{ r.nombre }}
+              </ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+        <ion-item class="rounded-lg mb-2">
+          <ion-label position="stacked">Fecha *</ion-label>
+          <ion-datetime-button datetime="fecha-picker" class="mt-2 mb-1"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime
+                id="fecha-picker"
+                presentation="date"
+                locale="es-CO"
+                [min]="minFecha"
+                [max]="maxFecha"
+                (ionChange)="onFechaChange($event)"
+              ></ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </ion-item>
+        <ion-item class="rounded-lg">
+          <ion-label position="floating">Hora de inicio *</ion-label>
+          <ion-input type="time" formControlName="horaInicio"></ion-input>
+        </ion-item>
+        <!-- Campo clienteId solo para OPERADOR -->
+        @if (esOperador()) {
+          <ion-item class="rounded-lg mt-2">
+            <ion-label position="floating">ID del cliente (opcional)</ion-label>
+            <ion-input type="number" formControlName="clienteId"
+            placeholder="Vacío = reserva de invitado"></ion-input>
+          </ion-item>
+        }
       </div>
-
-      <div formArrayName="participantes">
-        <div
-          *ngFor="let p of participantes.controls; let i = index"
-          [formGroupName]="i"
-          class="mb-4 rounded-xl bg-surface p-4 shadow-sm"
-        >
-          <div class="flex items-center justify-between mb-3">
-            <p class="text-sm font-bold text-primary">Participante {{ i + 1 }}</p>
-            <ion-button
-              *ngIf="participantes.length > 1"
-              size="small"
-              fill="clear"
-              color="danger"
-              (click)="removeParticipante(i)"
-            >
-              <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-            </ion-button>
+      <!-- Participantes -->
+      <div class="mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <p class="text-xs font-bold text-tertiary uppercase tracking-widest mb-0.5">Participantes</p>
+            <p class="text-sm font-semibold text-gray-700">{{ participantes.length }} registrado(s)</p>
           </div>
-
-          <ion-item>
-            <ion-label position="floating">Primer nombre *</ion-label>
-            <ion-input formControlName="primerNombre"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Primer apellido *</ion-label>
-            <ion-input formControlName="primerApellido"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Tipo de documento *</ion-label>
-            <ion-select formControlName="tipoDocumento">
-              <ion-select-option value="CEDULA">Cédula de Ciudadanía</ion-select-option>
-              <ion-select-option value="PASAPORTE">Pasaporte</ion-select-option>
-              <ion-select-option value="TARJETA_IDENTIDAD">Tarjeta de Identidad</ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Número de documento *</ion-label>
-            <ion-input formControlName="documento"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Edad *</ion-label>
-            <ion-input type="number" formControlName="edad"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Altura (cm) *</ion-label>
-            <ion-input type="number" formControlName="cmAltura"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Peso (kg) *</ion-label>
-            <ion-input type="number" formControlName="kgPeso"></ion-input>
-          </ion-item>
+          <ion-button size="small" fill="outline" (click)="addParticipante()">
+            <ion-icon name="add-outline" slot="start"></ion-icon>
+            Agregar
+          </ion-button>
+        </div>
+        <div formArrayName="participantes">
+          @for (p of participantes.controls; track p; let i = $index) {
+            <div
+              [formGroupName]="i"
+              class="mb-4 rounded-xl bg-surface p-4 shadow-sm"
+              >
+              <div class="flex items-center justify-between mb-3">
+                <p class="text-sm font-bold text-primary">Participante {{ i + 1 }}</p>
+                @if (participantes.length > 1) {
+                  <ion-button
+                    size="small"
+                    fill="clear"
+                    color="danger"
+                    (click)="removeParticipante(i)"
+                    >
+                    <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+                  </ion-button>
+                }
+              </div>
+              <ion-item>
+                <ion-label position="floating">Primer nombre *</ion-label>
+                <ion-input formControlName="primerNombre"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Primer apellido *</ion-label>
+                <ion-input formControlName="primerApellido"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Tipo de documento *</ion-label>
+                <ion-select formControlName="tipoDocumento">
+                  <ion-select-option value="CEDULA">Cédula de Ciudadanía</ion-select-option>
+                  <ion-select-option value="PASAPORTE">Pasaporte</ion-select-option>
+                  <ion-select-option value="TARJETA_IDENTIDAD">Tarjeta de Identidad</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Número de documento *</ion-label>
+                <ion-input formControlName="documento"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Edad *</ion-label>
+                <ion-input type="number" formControlName="edad"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Altura (cm) *</ion-label>
+                <ion-input type="number" formControlName="cmAltura"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Peso (kg) *</ion-label>
+                <ion-input type="number" formControlName="kgPeso"></ion-input>
+              </ion-item>
+            </div>
+          }
         </div>
       </div>
-    </div>
-
-    <div *ngIf="error()" class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4">
-      {{ error() }}
-    </div>
-
-    <ion-button
-      type="submit"
-      expand="block"
-      [disabled]="form.invalid || loading()"
-    >
-      <ion-spinner *ngIf="loading()" slot="start" name="crescent"></ion-spinner>
-      {{ loading() ? 'Creando...' : 'Crear reserva' }}
-    </ion-button>
-
-  </form>
+      @if (error()) {
+        <div class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4">
+          {{ error() }}
+        </div>
+      }
+      <ion-button
+        type="submit"
+        expand="block"
+        [disabled]="form.invalid || loading()"
+        >
+        @if (loading()) {
+          <ion-spinner slot="start" name="crescent"></ion-spinner>
+        }
+        {{ loading() ? 'Creando...' : 'Crear reserva' }}
+      </ion-button>
+    </form>
+  }
 
   <app-footer></app-footer>
 

@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -29,7 +29,6 @@ import { environment } from '../../../../environments/environment';
   selector: 'app-forgot-password',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RouterLink,
     IonContent,
@@ -46,8 +45,8 @@ import { environment } from '../../../../environments/environment';
     IonBackButton,
     IonButtons,
     RecaptchaModule,
-    AppFooterComponent,
-  ],
+    AppFooterComponent
+],
   templateUrl: './forgot-password.page.html',
   styleUrls: ['./forgot-password.page.scss'],
 })

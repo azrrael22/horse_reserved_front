@@ -122,6 +122,13 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
 
+   // ── Chatbot FAQ (pública, sin authGuard) ──────────────────────────────
+  {
+    path: 'chatbot',
+    loadComponent: () =>
+      import('./features/chatbot/chatbot.page').then((m) => m.ChatbotPage),
+  },
+
   {
     path: '**',
     redirectTo: 'tabs/inicio',

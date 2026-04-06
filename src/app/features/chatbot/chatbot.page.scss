@@ -1,0 +1,238 @@
+// ══════════════════════════════════════════════════════════════════════════
+// Chatbot FAQ — Estilos
+// ══════════════════════════════════════════════════════════════════════════
+
+ion-content.chat-content {
+  --background: #f0f2f5;
+}
+
+// ── Contenedor principal ──────────────────────────────────────────────────
+
+.messages-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 12px 20px;
+  min-height: 100%;
+}
+
+// ── Filas de mensajes ─────────────────────────────────────────────────────
+
+.message-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  animation: fadeSlideIn 0.2s ease-out both;
+}
+
+.user-row {
+  justify-content: flex-end;
+}
+
+.bot-row {
+  justify-content: flex-start;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ── Avatar del bot ────────────────────────────────────────────────────────
+
+.bot-avatar {
+  font-size: 1.25rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+
+// ── Burbujas ──────────────────────────────────────────────────────────────
+
+.bubble {
+  max-width: 78%;
+  border-radius: 18px;
+  padding: 10px 14px;
+}
+
+.user-bubble {
+  background: var(--ion-color-primary);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.bot-bubble {
+  background: #fff;
+  color: var(--ion-color-dark);
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.typing-bubble {
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+
+  ion-spinner {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+// ── Contenido de burbuja ──────────────────────────────────────────────────
+
+.message-text {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.timestamp {
+  display: block;
+  font-size: 0.68rem;
+  opacity: 0.55;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.confidence-row {
+  margin: 6px 0 2px;
+
+  ion-badge {
+    font-size: 0.72rem;
+  }
+}
+
+// ── Secciones extra (notas, chips, CTA) ───────────────────────────────────
+
+.extra-section {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.section-label {
+  margin: 0 0 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ion-color-medium-shade);
+}
+
+.notes-list {
+  margin: 0;
+  padding-left: 18px;
+
+  li {
+    font-size: 0.82rem;
+    line-height: 1.4;
+    margin-bottom: 2px;
+    color: var(--ion-color-dark);
+  }
+}
+
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  ion-chip {
+    font-size: 0.78rem;
+    height: 28px;
+    cursor: pointer;
+    margin: 0;
+    transition: opacity 0.15s;
+
+    &:active {
+      opacity: 0.7;
+    }
+  }
+}
+
+// ── Banner de error ───────────────────────────────────────────────────────
+
+.error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 10px 14px;
+
+  .error-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.84rem;
+    color: #dc2626;
+    line-height: 1.4;
+  }
+}
+
+// ── Área de input (footer) ────────────────────────────────────────────────
+
+.input-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 8px 12px 12px;
+  background: #fff;
+  border-top: 1px solid var(--ion-color-light-shade);
+  position: relative;
+
+  .input-field {
+    flex: 1;
+    --background: #f0f2f5;
+     --color: #1a1a1a;         
+    --placeholder-color: #9ca3af;
+    --border-radius: 20px;
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --padding-top: 9px;
+    --padding-bottom: 9px;
+    font-size: 0.9rem;
+    max-height: 110px;
+  }
+
+  .char-counter {
+    position: absolute;
+    bottom: 52px;
+    right: 60px;
+    font-size: 0.68rem;
+    color: var(--ion-color-medium);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1px 4px;
+    border-radius: 4px;
+
+    &.over-limit {
+      color: var(--ion-color-danger);
+      font-weight: 600;
+    }
+  }
+
+  .send-btn {
+    flex-shrink: 0;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    height: 42px;
+    width: 42px;
+  }
+}

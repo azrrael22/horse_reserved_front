@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -48,7 +48,6 @@ function newPasswordMatchValidator(
   selector: 'app-change-password',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     IonContent,
     IonHeader,
@@ -62,8 +61,8 @@ function newPasswordMatchValidator(
     IonSpinner,
     IonText,
     IonBackButton,
-    IonButtons,
-  ],
+    IonButtons
+],
   templateUrl: './change-password.page.html',
   styleUrls: ['./change-password.page.scss'],
 })

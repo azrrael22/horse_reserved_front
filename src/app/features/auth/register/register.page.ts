@@ -1,5 +1,5 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -63,7 +63,6 @@ function passwordMatchValidator(
   selector: 'app-register',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RouterLink,
     IonContent,
@@ -84,8 +83,8 @@ function passwordMatchValidator(
     IonModal,
     IonCheckbox,
     RecaptchaModule,
-    AppFooterComponent,
-  ],
+    AppFooterComponent
+],
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
