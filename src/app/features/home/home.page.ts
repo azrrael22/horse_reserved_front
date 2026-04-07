@@ -41,7 +41,6 @@ import { chatbubblesOutline } from 'ionicons/icons';
     IonSpinner,
     IonBadge,
     IonRippleEffect,
-    RouterLink,
     AppFooterComponent,
   ],
   templateUrl: './home.page.html',
