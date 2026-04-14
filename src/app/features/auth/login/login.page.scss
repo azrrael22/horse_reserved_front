@@ -1,7 +1,7 @@
 // ─── Contenedor raíz ───────────────────────────────────────────────────────────
 
 ion-content.auth-split {
-  --background: #ffffff;
+  --background: #f9f5ef; // crema cálido — Nature Distilled surface
 }
 
 // ─── Layout split ──────────────────────────────────────────────────────────────
@@ -9,8 +9,6 @@ ion-content.auth-split {
 .split-layout {
   display: flex;
   min-height: 100%;
-
-  // Mobile: columna (imagen arriba compacta, form abajo)
   flex-direction: column;
 
   @media (min-width: 768px) {
@@ -25,8 +23,6 @@ ion-content.auth-split {
   position: relative;
   background: url('/assets/images/login-bg.jpg') center / cover no-repeat,
               linear-gradient(160deg, #295073 0%, #735722 100%);
-
-  // Mobile: franja superior
   flex: 0 0 220px;
 
   @media (min-width: 768px) {
@@ -46,6 +42,18 @@ ion-content.auth-split {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
+}
+
+// Textura grain — firma visual de Nature Distilled
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.09;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .brand-logo {
@@ -82,7 +90,9 @@ ion-content.auth-split {
 
 .form-panel {
   flex: 0 0 auto;
-  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  background: #f9f5ef; // crema cálido
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,9 +103,38 @@ ion-content.auth-split {
     flex-basis: 0;
     padding: 3rem 2.5rem;
   }
+
+  // Blob orgánico — esquina superior derecha (primary-light)
+  &::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 280px;
+    height: 280px;
+    background: var(--ion-color-primary-light); // #dce8f2
+    opacity: 0.55;
+    border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+    pointer-events: none;
+  }
+
+  // Blob orgánico — esquina inferior izquierda (tertiary cálido)
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(115, 87, 34, 0.08); // tertiary #735722
+    border-radius: 40% 60% 45% 55% / 55% 45% 60% 40%;
+    pointer-events: none;
+  }
 }
 
 .form-content {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 380px;
   animation: form-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -115,14 +154,26 @@ ion-content.auth-split {
 // ─── Elementos del form ────────────────────────────────────────────────────────
 
 ion-item {
-  --border-radius: 8px;
+  --border-radius: 12px;
   --padding-start: 12px;
+  --background: rgba(255, 255, 255, 0.78);
+  --box-shadow: 0 2px 12px rgba(115, 87, 34, 0.07);
+
+  ion-icon[slot='start'] {
+    align-self: center;
+    margin-top: 0;
+  }
 }
 
 ion-button[expand='block'] {
-  --border-radius: 10px;
+  --border-radius: 12px;
   height: 48px;
   font-weight: 600;
+}
+
+// Sombra cálida en botón primario
+ion-button[expand='block']:not([fill='outline']) {
+  --box-shadow: 0 4px 20px rgba(41, 80, 115, 0.22);
 }
 
 .error-message {
