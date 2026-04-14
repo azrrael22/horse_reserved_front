@@ -141,7 +141,16 @@
             <p class="error-message">La contraseña es requerida.</p>
           }
           @if (hasError('password', 'minlength')) {
-            <p class="error-message">Mínimo 8 caracteres.</p>
+            <p class="error-message">Mínimo 12 caracteres.</p>
+          }
+          @if (hasError('password', 'requiresUppercase')) {
+            <p class="error-message">Debe contener al menos una mayúscula.</p>
+          }
+          @if (hasError('password', 'requiresNumber')) {
+            <p class="error-message">Debe contener al menos un número.</p>
+          }
+          @if (hasError('password', 'requiresSpecial')) {
+            <p class="error-message">Debe contener al menos un carácter especial.</p>
           }
         </div>
 

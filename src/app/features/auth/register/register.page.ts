@@ -48,6 +48,16 @@ import {
 } from '../../../core/models/auth.models';
 import { environment } from '../../../../environments/environment';
 
+function passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
+  const value: string = control.value || '';
+  const errors: ValidationErrors = {};
+  if (value.length > 0 && value.length < 12) errors['minlength'] = { requiredLength: 12, actualLength: value.length };
+  if (value.length >= 12 && !/[A-Z]/.test(value)) errors['requiresUppercase'] = true;
+  if (value.length >= 12 && !/[0-9]/.test(value)) errors['requiresNumber'] = true;
+  if (value.length >= 12 && !/[^A-Za-z0-9]/.test(value)) errors['requiresSpecial'] = true;
+  return Object.keys(errors).length ? errors : null;
+}
+
 function passwordMatchValidator(
   control: AbstractControl
 ): ValidationErrors | null {
@@ -114,7 +124,7 @@ export class RegisterPage {
       tipoDocumento: [TipoDocumento.CEDULA, [Validators.required]],
       documento: ['', [Validators.required, Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(200)]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, passwordStrengthValidator]],
       confirmarPassword: ['', [Validators.required]],
       telefono: ['', [Validators.maxLength(20)]],
       habeasDataConsent: [false, [Validators.requiredTrue]],
