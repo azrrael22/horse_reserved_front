@@ -69,6 +69,18 @@ function passwordMatchValidator(
   return null;
 }
 
+function documentoFormatoValidator(control: AbstractControl): ValidationErrors | null {
+  const tipo = control.get('tipoDocumento')?.value as string;
+  const doc = control.get('documento')?.value as string;
+  if (!tipo || !doc) return null;
+  if (tipo === 'CEDULA' || tipo === 'TARJETA_IDENTIDAD') {
+    if (!/^\d+$/.test(doc)) return { documentoFormato: 'Solo se permiten números' };
+  } else if (tipo === 'PASAPORTE') {
+    if (!/^[a-zA-Z0-9]+$/.test(doc)) return { documentoFormato: 'Solo se permiten letras y números' };
+  }
+  return null;
+}
+
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -129,7 +141,7 @@ export class RegisterPage {
       telefono: ['', [Validators.maxLength(20)]],
       habeasDataConsent: [false, [Validators.requiredTrue]],
     },
-    { validators: passwordMatchValidator }
+    { validators: [passwordMatchValidator, documentoFormatoValidator] }
   );
 
   constructor() {

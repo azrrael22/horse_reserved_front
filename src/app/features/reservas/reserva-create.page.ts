@@ -7,7 +7,21 @@ import {
   ReactiveFormsModule,
   Validators,
   FormControl,
+  AbstractControl,
+  ValidationErrors,
 } from '@angular/forms';
+
+function documentoFormatoValidator(control: AbstractControl): ValidationErrors | null {
+  const tipo = control.get('tipoDocumento')?.value as string;
+  const doc = control.get('documento')?.value as string;
+  if (!tipo || !doc) return null;
+  if (tipo === 'CEDULA' || tipo === 'TARJETA_IDENTIDAD') {
+    if (!/^\d+$/.test(doc)) return { documentoFormato: 'Solo se permiten números' };
+  } else if (tipo === 'PASAPORTE') {
+    if (!/^[a-zA-Z0-9]+$/.test(doc)) return { documentoFormato: 'Solo se permiten letras y números' };
+  }
+  return null;
+}
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonButton,
@@ -155,7 +169,7 @@ export class ReservaCreatePage implements OnInit {
         nonNullable: true,
         validators: [Validators.required, Validators.min(0.01)],
       }),
-    });
+    }, { validators: [documentoFormatoValidator] });
   }
 
   addParticipante(): void {

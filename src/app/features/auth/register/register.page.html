@@ -75,17 +75,20 @@
 
         <!-- Documento -->
         <div class="mb-3">
-          <ion-item lines="full" [class.ion-invalid]="hasError('documento', 'required')">
+          <ion-item lines="full" [class.ion-invalid]="hasError('documento', 'required') || (f.documento.touched && form.hasError('documentoFormato'))">
             <ion-icon name="card-outline" slot="start" color="medium"></ion-icon>
             <ion-label position="floating">Número de documento *</ion-label>
             <ion-input
               type="text"
               formControlName="documento"
-              inputmode="numeric"
+              [attr.inputmode]="f.tipoDocumento.value === 'PASAPORTE' ? 'text' : 'numeric'"
             ></ion-input>
           </ion-item>
           @if (hasError('documento', 'required')) {
             <p class="error-message">El documento es requerido.</p>
+          }
+          @if (f.documento.touched && form.hasError('documentoFormato')) {
+            <p class="error-message">{{ form.getError('documentoFormato') }}</p>
           }
         </div>
 

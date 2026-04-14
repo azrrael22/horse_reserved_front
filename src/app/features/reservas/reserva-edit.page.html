@@ -108,8 +108,13 @@
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Número de documento *</ion-label>
-                <ion-input formControlName="documento"></ion-input>
+                <ion-input formControlName="documento"
+                  [attr.inputmode]="p.get('tipoDocumento')?.value === 'PASAPORTE' ? 'text' : 'numeric'">
+                </ion-input>
               </ion-item>
+              @if (p.errors?.['documentoFormato'] && p.get('documento')?.touched) {
+                <p class="error-message">{{ p.errors?.['documentoFormato'] }}</p>
+              }
               <ion-item>
                 <ion-label position="floating">Edad *</ion-label>
                 <ion-input type="number" formControlName="edad"></ion-input>
