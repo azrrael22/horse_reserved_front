@@ -3,7 +3,7 @@
 // ══════════════════════════════════════════════════════════════════════════
 
 ion-content.chat-content {
-  --background: #f0f2f5;
+  --background: #f9f5ef; // crema cálido — Nature Distilled surface
 }
 
 // ── Contenedor principal ──────────────────────────────────────────────────
@@ -51,7 +51,7 @@ ion-content.chat-content {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #fff;
+  background: #eef2f6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +76,7 @@ ion-content.chat-content {
 }
 
 .bot-bubble {
-  background: #fff;
+  background: #eef2f6;
   color: var(--ion-color-dark);
   border-bottom-left-radius: 4px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
@@ -195,13 +195,13 @@ ion-content.chat-content {
   align-items: flex-end;
   gap: 8px;
   padding: 8px 12px 12px;
-  background: #fff;
-  border-top: 1px solid var(--ion-color-light-shade);
+  background: rgba(249, 245, 239, 0.96);
+  border-top: 1px solid rgba(220, 232, 242, 0.8);
   position: relative;
 
   .input-field {
     flex: 1;
-    --background: #f0f2f5;
+    --background: rgba(220, 232, 242, 0.35);
      --color: #1a1a1a;         
     --placeholder-color: #9ca3af;
     --border-radius: 20px;

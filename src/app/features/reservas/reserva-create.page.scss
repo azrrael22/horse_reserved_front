@@ -1,0 +1,37 @@
+// ─── Fondo crema — Nature Distilled ───────────────────────────────────────────
+
+ion-content {
+  --background: #f9f5ef;
+}
+
+// ─── Secciones del formulario (bg-surface) ────────────────────────────────────
+
+// bg-surface es ion-color-light (#eef2f6) — se ve bien sobre crema
+// Añadimos sombra cálida sutil
+.bg-surface.rounded-2xl,
+.bg-surface.rounded-xl {
+  box-shadow: 0 2px 10px rgba(41, 80, 115, 0.07);
+}
+
+// ─── Participante cards ────────────────────────────────────────────────────────
+
+.rounded-xl.bg-surface.shadow-sm {
+  background: rgba(238, 242, 246, 0.85) !important;
+  box-shadow: 0 2px 10px rgba(41, 80, 115, 0.08) !important;
+}
+
+// ─── Botones ───────────────────────────────────────────────────────────────────
+
+ion-button[expand='block'] {
+  --border-radius: 12px;
+  height: 48px;
+  font-weight: 600;
+}
+
+ion-button[expand='block']:not([fill='outline']):not([color='danger']) {
+  --box-shadow: 0 4px 20px rgba(41, 80, 115, 0.22);
+}
+
+ion-button[size='small'] {
+  --border-radius: 10px;
+}

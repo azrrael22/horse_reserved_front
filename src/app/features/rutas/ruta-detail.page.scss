@@ -1,0 +1,43 @@
+// ─── Fondo crema — Nature Distilled ───────────────────────────────────────────
+
+ion-content {
+  --background: #f9f5ef;
+}
+
+// Sobreescribe el fondo gris del contenedor principal
+.bg-gray-100 {
+  background-color: #f9f5ef !important;
+}
+
+// ─── Tarjeta principal de detalle ──────────────────────────────────────────────
+
+.bg-surface.rounded-2xl.shadow-lg {
+  box-shadow: 0 8px 32px rgba(41, 80, 115, 0.12), 0 2px 8px rgba(115, 87, 34, 0.06) !important;
+}
+
+// ─── Descripción de la ruta ────────────────────────────────────────────────────
+
+.bg-gray-50.border.border-gray-100.rounded-xl {
+  background: rgba(238, 242, 246, 0.6) !important;
+  border-color: rgba(220, 232, 242, 0.8) !important;
+}
+
+// ─── Botón reservar ────────────────────────────────────────────────────────────
+
+ion-button[expand='block'] {
+  --border-radius: 12px;
+  font-weight: 600;
+}
+
+ion-button[expand='block']:not([fill='outline']) {
+  --box-shadow: 0 4px 20px rgba(41, 80, 115, 0.22);
+}
+
+// ─── Barra inferior sticky (mobile) ───────────────────────────────────────────
+
+.fixed.bottom-0 {
+  background: rgba(249, 245, 239, 0.95) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top-color: rgba(220, 232, 242, 0.6) !important;
+}

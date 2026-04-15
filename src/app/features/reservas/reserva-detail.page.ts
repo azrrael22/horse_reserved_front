@@ -42,6 +42,7 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     AppFooterComponent,
   ],
   templateUrl: './reserva-detail.page.html',
+  styleUrls: ['./reserva-detail.page.scss'],
 })
 export class ReservaDetailPage {
   private readonly route = inject(ActivatedRoute);

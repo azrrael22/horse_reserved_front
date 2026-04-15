@@ -75,6 +75,7 @@ import { RutaResponse } from '../../core/models/ruta.models';
     IonModal
 ],
   templateUrl: './reserva-edit.page.html',
+  styleUrls: ['./reserva-edit.page.scss'],
 })
 export class ReservaEditPage implements OnInit {
   private readonly fb = inject(FormBuilder);

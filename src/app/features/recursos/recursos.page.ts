@@ -4,6 +4,8 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
+  IonButtons,
+  IonMenuButton,
   IonSegment,
   IonSegmentButton,
   IonLabel,
@@ -20,6 +22,8 @@ import { GuiasListPage } from './guias-list.page';
     IonHeader,
     IonToolbar,
     IonTitle,
+    IonButtons,
+    IonMenuButton,
     IonSegment,
     IonSegmentButton,
     IonLabel,
@@ -28,20 +32,25 @@ import { GuiasListPage } from './guias-list.page';
   ],
   template: `
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
         <ion-title>Recursos</ion-title>
       </ion-toolbar>
     </ion-header>
 
-    <ion-content>
-      <ion-segment [value]="segmento()" (ionChange)="onSegmentChange($event)">
-        <ion-segment-button value="caballos">
-          <ion-label>Caballos</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="guias">
-          <ion-label>Guías</ion-label>
-        </ion-segment-button>
-      </ion-segment>
+    <ion-content class="recursos-content">
+      <div class="px-4 pt-4 pb-2">
+        <ion-segment [value]="segmento()" (ionChange)="onSegmentChange($event)">
+          <ion-segment-button value="caballos">
+            <ion-label>Caballos</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="guias">
+            <ion-label>Guías</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
 
       @if (segmento() === 'caballos') {
         <app-caballos-list />
@@ -50,6 +59,11 @@ import { GuiasListPage } from './guias-list.page';
       }
     </ion-content>
   `,
+  styles: [`
+    ion-content.recursos-content {
+      --background: #f9f5ef;
+    }
+  `],
 })
 export class RecursosPage {
   readonly segmento = signal<'caballos' | 'guias'>('caballos');

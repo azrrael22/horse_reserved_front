@@ -49,7 +49,7 @@
     </div>
     <div class="grid grid-cols-2 gap-3">
 
-      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+      <div class="bg-surface rounded-2xl p-4 text-center shadow-sm">
         <div class="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-3">
           <ion-icon name="shield-checkmark-outline" class="text-2xl text-tertiary"></ion-icon>
         </div>
@@ -57,7 +57,7 @@
         <p class="text-xs text-muted leading-relaxed">Guías certificados y equipos de protección incluidos.</p>
       </div>
 
-      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+      <div class="bg-surface rounded-2xl p-4 text-center shadow-sm">
         <div class="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-3">
           <ion-icon name="heart-outline" class="text-2xl text-tertiary"></ion-icon>
         </div>
@@ -65,7 +65,7 @@
         <p class="text-xs text-muted leading-relaxed">Atención veterinaria constante y trato amoroso.</p>
       </div>
 
-      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+      <div class="bg-surface rounded-2xl p-4 text-center shadow-sm">
         <div class="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-3">
           <ion-icon name="location-outline" class="text-2xl text-tertiary"></ion-icon>
         </div>
@@ -73,7 +73,7 @@
         <p class="text-xs text-muted leading-relaxed">Senderos seleccionados por expertos para la mejor experiencia.</p>
       </div>
 
-      <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
+      <div class="bg-surface rounded-2xl p-4 text-center shadow-sm">
         <div class="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-3">
           <ion-icon name="ribbon-outline" class="text-2xl text-tertiary"></ion-icon>
         </div>
@@ -112,7 +112,7 @@
   <div class="flex flex-wrap justify-center gap-4 mb-4" [attr.aria-busy]="loading()">
     @for (r of rutas(); track r.id) {
       <div
-        class="w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow duration-200 ion-activatable relative cursor-pointer group"
+        class="w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] rounded-2xl overflow-hidden bg-surface shadow-sm hover:shadow-lg transition-shadow duration-200 ion-activatable relative cursor-pointer group"
         (click)="verDetalle(r)"
         (keydown.enter)="verDetalle(r)"
         (keydown.space)="verDetalle(r)"

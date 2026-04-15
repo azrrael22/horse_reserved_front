@@ -1,0 +1,22 @@
+// ─── Fondo crema — Nature Distilled ───────────────────────────────────────────
+
+ion-content {
+  --background: #f9f5ef;
+}
+
+// ─── Cards de reservas ─────────────────────────────────────────────────────────
+
+.bg-surface.shadow-sm {
+  box-shadow: 0 2px 12px rgba(41, 80, 115, 0.08), 0 1px 3px rgba(115, 87, 34, 0.05) !important;
+  transition: box-shadow 0.2s ease;
+}
+
+.bg-surface.hover\:shadow-md:hover {
+  box-shadow: 0 6px 20px rgba(41, 80, 115, 0.13) !important;
+}
+
+// ─── Botón nueva reserva ───────────────────────────────────────────────────────
+
+ion-button[size='small'] {
+  --border-radius: 10px;
+}

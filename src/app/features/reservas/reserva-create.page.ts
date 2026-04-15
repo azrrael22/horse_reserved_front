@@ -82,6 +82,7 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     AppFooterComponent
 ],
   templateUrl: './reserva-create.page.html',
+  styleUrls: ['./reserva-create.page.scss'],
 })
 export class ReservaCreatePage implements OnInit {
   private readonly fb = inject(FormBuilder);

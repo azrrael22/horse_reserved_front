@@ -54,7 +54,7 @@
   <div [attr.aria-busy]="loading()">
     @for (r of reservas(); track r.id) {
       <div
-        class="mb-3 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer ion-activatable relative"
+        class="mb-3 rounded-xl overflow-hidden bg-surface shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer ion-activatable relative"
         [routerLink]="['/tabs/reservas', r.id]"
         role="button"
         tabindex="0"

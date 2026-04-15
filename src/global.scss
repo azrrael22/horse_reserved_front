@@ -103,7 +103,7 @@ ion-input  { font-family: var(--font-body); }
   --color-tertiary:      var(--ion-color-tertiary);      // #735722 marrón cálido
   --color-accent:        var(--ion-color-warning);       // #8C8303 dorado oliva
   --color-accent-shade:  var(--ion-color-warning-shade); // #7b7203 dorado oscuro
-  --color-surface:       var(--ion-color-light);         // #eef2f6 azul-gris suave
+  --color-surface:       #eef2f6;                         // azul-gris suave, color base de tarjetas
 }
 
 // Auth pages — gradiente azul-crema (Lake-1 tint → Lake-5 tint)

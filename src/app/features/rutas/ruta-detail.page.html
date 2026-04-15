@@ -13,7 +13,7 @@
   <!-- Loading skeleton -->
   @if (loading()) {
     <div class="bg-gray-100 min-h-full p-4 md:p-8">
-      <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div class="bg-surface rounded-2xl shadow-lg overflow-hidden">
         <div class="h-64 bg-gray-100 md:hidden">
           <ion-skeleton-text [animated]="true" class="h-full w-full"></ion-skeleton-text>
         </div>
@@ -38,7 +38,7 @@
   <!-- Contenido de la ruta -->
   @if (!loading() && ruta(); as r) {
     <div class="bg-gray-100 min-h-full p-4 md:p-8 pb-28 md:pb-8">
-      <div class="bg-white rounded-2xl shadow-lg overflow-hidden md:flex md:flex-row md:min-h-[70vh]">
+      <div class="bg-surface rounded-2xl shadow-lg overflow-hidden md:flex md:flex-row md:min-h-[70vh]">
 
         <!-- Hero imagen (solo móvil) -->
         <div class="relative w-full h-64 overflow-hidden md:hidden">
@@ -128,7 +128,7 @@
 
     <!-- Barra sticky inferior (solo mobile) -->
     @if (!esAdmin()) {
-      <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-100 px-4 py-3 shadow-[0_-4px_16px_-4px_rgba(41,80,115,0.15)]">
+      <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface border-t border-gray-100 px-4 py-3 shadow-[0_-4px_16px_-4px_rgba(41,80,115,0.15)]">
         <div class="flex items-center justify-between gap-4 max-w-lg mx-auto">
           <div>
             <p class="text-xs text-muted">Precio por persona</p>

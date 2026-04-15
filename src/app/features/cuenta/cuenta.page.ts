@@ -33,6 +33,7 @@ import { UserAvatarComponent } from '../../shared/components/user-avatar/user-av
     UserAvatarComponent,
   ],
   templateUrl: './cuenta.page.html',
+  styleUrls: ['./cuenta.page.scss'],
 })
 export class CuentaPage {
   private readonly authService = inject(AuthService);

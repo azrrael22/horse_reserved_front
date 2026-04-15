@@ -41,6 +41,7 @@ import { CardSkeletonComponent } from '../../shared/components/card-skeleton/car
     CardSkeletonComponent,
   ],
   templateUrl: './reservas-list.page.html',
+  styleUrls: ['./reservas-list.page.scss'],
 })
 export class ReservasListPage {
   private readonly reservaService = inject(ReservaService);
