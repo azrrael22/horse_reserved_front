@@ -64,6 +64,12 @@
 
   --font-display: 'Fraunces', serif;
   --font-body:    'Plus Jakarta Sans', sans-serif;
+
+  // ── Design tokens globales ─────────────────────────────────────────────────
+  --page-background:   #f9f5ef;   // Nature Distilled — fondo crema unificado
+  --shadow-card:       0 2px 12px rgba(41, 80, 115, 0.08), 0 1px 3px rgba(115, 87, 34, 0.05);
+  --shadow-card-hover: 0 6px 24px rgba(41, 80, 115, 0.14), 0 2px 6px rgba(115, 87, 34, 0.07);
+  --shadow-elevated:   0 8px 28px rgba(41, 80, 115, 0.16);
 }
 
 body {
@@ -104,6 +110,7 @@ ion-input  { font-family: var(--font-body); }
   --color-accent:        var(--ion-color-warning);       // #8C8303 dorado oliva
   --color-accent-shade:  var(--ion-color-warning-shade); // #7b7203 dorado oscuro
   --color-surface:       #eef2f6;                         // azul-gris suave, color base de tarjetas
+  --color-page-bg:       var(--page-background);          // fondo crema Nature Distilled
 }
 
 // Auth pages — gradiente azul-crema (Lake-1 tint → Lake-5 tint)
@@ -210,6 +217,48 @@ ion-picker {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+// ── Animación de entrada de página ────────────────────────────────────────────
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-content {
+  animation: page-enter 280ms ease-out both;
+}
+
+// ── Header decorativo para páginas de contraseña ──────────────────────────────
+.auth-icon-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1rem 1.5rem;
+
+  &.compact { padding: 1.5rem 1rem 0.5rem; }
+}
+
+.auth-icon-bg {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ion-color-primary-light), rgba(115, 87, 34, 0.12));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 2rem;
+    color: var(--ion-color-primary);
   }
 }
 
