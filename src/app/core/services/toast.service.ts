@@ -13,6 +13,7 @@ export class ToastService {
       position: 'top',
       icon: 'checkmark-circle-outline',
       cssClass: 'toast-success',
+      htmlAttributes: { role: 'alert', 'aria-live': 'polite' },
     });
     await toast.present();
   }
@@ -25,6 +26,7 @@ export class ToastService {
       position: 'top',
       icon: 'alert-circle-outline',
       cssClass: 'toast-error',
+      htmlAttributes: { role: 'alert', 'aria-live': 'assertive' },
     });
     await toast.present();
   }
@@ -36,6 +38,7 @@ export class ToastService {
       color: 'primary',
       position: 'top',
       icon: 'information-circle-outline',
+      htmlAttributes: { role: 'status', 'aria-live': 'polite' },
     });
     await toast.present();
   }

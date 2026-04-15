@@ -54,6 +54,7 @@ export class HomePage {
   readonly loading = signal(false);
   readonly error = signal('');
   readonly rutas = signal<RutaResponse[]>([]);
+  readonly heroFallback = signal(false);
 
   constructor() {
     addIcons({ timeOutline, chevronForwardOutline, shieldCheckmarkOutline, heartOutline, ribbonOutline, locationOutline, chatbubblesOutline, compassOutline, imageOutline });
@@ -80,6 +81,11 @@ export class HomePage {
 
   verDetalle(ruta: RutaResponse): void {
     this.router.navigate(['/tabs/rutas', ruta.id]);
+  }
+
+  onHeroError(event: Event): void {
+    (event.target as HTMLImageElement).style.display = 'none';
+    this.heroFallback.set(true);
   }
 
   dificultadColor(dificultad: string): string {

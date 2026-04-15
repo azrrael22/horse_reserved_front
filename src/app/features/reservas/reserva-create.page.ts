@@ -1,5 +1,7 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, computed, inject, signal, OnInit } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   FormArray,
   FormBuilder,
@@ -44,7 +46,7 @@ import {
   IonModal,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, trashOutline } from 'ionicons/icons';
+import { addOutline, informationCircleOutline, trashOutline } from 'ionicons/icons';
 import { ReservaService } from '../../core/services/reserva.service';
 import { RutaService } from '../../core/services/ruta.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -56,6 +58,8 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
   selector: 'app-reserva-create',
   standalone: true,
   imports: [
+    CurrencyPipe,
+    DatePipe,
     ReactiveFormsModule,
     IonContent,
     IonHeader,
@@ -116,8 +120,26 @@ export class ReservaCreatePage implements OnInit {
     return this.form.controls.participantes;
   }
 
+  readonly rutaIdSignal = toSignal(this.form.controls.rutaId.valueChanges, {
+    initialValue: this.form.controls.rutaId.value,
+  });
+
+  readonly participantesSignal = toSignal(this.form.controls.participantes.valueChanges, {
+    initialValue: this.form.controls.participantes.value,
+  });
+
+  readonly rutaSeleccionada = computed<RutaResponse | undefined>(() =>
+    this.rutas().find(r => r.id === this.rutaIdSignal())
+  );
+
+  readonly precioEstimado = computed<number | null>(() => {
+    const ruta = this.rutaSeleccionada();
+    const n = this.participantesSignal().length;
+    return ruta && n > 0 ? ruta.precio * n : null;
+  });
+
   constructor() {
-    addIcons({ addOutline, trashOutline });
+    addIcons({ addOutline, informationCircleOutline, trashOutline });
   }
 
   ngOnInit(): void {

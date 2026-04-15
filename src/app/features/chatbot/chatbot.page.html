@@ -14,7 +14,7 @@
 <ion-content class="chat-content">
   <div class="messages-wrapper">
 
-    @for (msg of messages(); track trackByIndex($index)) {
+    @for (msg of messages(); track msg.id) {
 
       <!-- Mensaje del usuario -->
       @if (msg.role === 'user') {
@@ -129,6 +129,14 @@
       </div>
     }
 
+    <!-- Confirmación de respuesta recibida -->
+    @if (state() === 'success') {
+      <div class="text-center text-xs text-secondary py-1" aria-live="polite" aria-atomic="true">
+        <ion-icon name="checkmark-circle-outline" class="mr-1"></ion-icon>
+        Respuesta recibida
+      </div>
+    }
+
   </div><!-- /.messages-wrapper -->
 </ion-content>
 
@@ -149,11 +157,12 @@
       aria-label="Campo de pregunta al asistente"
     ></ion-textarea>
 
-    <!-- Contador de caracteres (visible solo cerca del límite) -->
-    @if (charCount() > 250) {
+    <!-- Contador de caracteres (visible desde los 200 chars para dar margen) -->
+    @if (charCount() > 200) {
       <span
         class="char-counter"
-        [class.over-limit]="charCount() > 300"
+        [class.near-limit]="charCount() > 200 && charCount() <= 280"
+        [class.over-limit]="charCount() > 280"
         aria-live="polite">
         {{ charCount() }}/300
       </span>

@@ -223,6 +223,11 @@ ion-content.chat-content {
     padding: 1px 4px;
     border-radius: 4px;
 
+    &.near-limit {
+      color: var(--ion-color-warning);
+      font-weight: 600;
+    }
+
     &.over-limit {
       color: var(--ion-color-danger);
       font-weight: 600;

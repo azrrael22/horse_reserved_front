@@ -28,6 +28,7 @@ export type ChatMessageRole = 'user' | 'bot';
 export type ChatState = 'idle' | 'loading' | 'error' | 'success';
 
 export interface ChatMessage {
+  id: string; // ID único para trackBy (generado en frontend con crypto.randomUUID())
   role: ChatMessageRole;
   text: string;
   timestamp: Date;

@@ -170,19 +170,15 @@
               </ion-button>
             </ion-input>
             @if (hasError('password', 'required')) {
-              <p class="error-message">La contraseña es requerida.</p>
-            }
-            @if (hasError('password', 'minlength')) {
-              <p class="error-message">Mínimo 12 caracteres.</p>
-            }
-            @if (hasError('password', 'requiresUppercase')) {
-              <p class="error-message">Debe contener al menos una mayúscula.</p>
-            }
-            @if (hasError('password', 'requiresNumber')) {
-              <p class="error-message">Debe contener al menos un número.</p>
-            }
-            @if (hasError('password', 'requiresSpecial')) {
-              <p class="error-message">Debe contener al menos un carácter especial.</p>
+              <p class="error-message" role="alert">La contraseña es requerida.</p>
+            } @else if (hasError('password', 'minlength')) {
+              <p class="error-message" role="alert">Mínimo 12 caracteres.</p>
+            } @else if (hasError('password', 'requiresUppercase')) {
+              <p class="error-message" role="alert">Agrega al menos una mayúscula (A–Z).</p>
+            } @else if (hasError('password', 'requiresNumber')) {
+              <p class="error-message" role="alert">Agrega al menos un número (0–9).</p>
+            } @else if (hasError('password', 'requiresSpecial')) {
+              <p class="error-message" role="alert">Agrega al menos un carácter especial (!&#64;#$...).</p>
             }
           </div>
 

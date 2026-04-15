@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
+  AlertController,
   IonContent,
   IonHeader,
   IonToolbar,
@@ -47,6 +48,7 @@ export class ReservaDetailPage {
   private readonly router = inject(Router);
   private readonly reservaService = inject(ReservaService);
   private readonly authService = inject(AuthService);
+  private readonly alertCtrl = inject(AlertController);
 
   readonly loading = signal(false);
   readonly cancelando = signal(false);
@@ -83,13 +85,29 @@ export class ReservaDetailPage {
     });
   }
 
-  cancelar(): void {
+  async cancelar(): Promise<void> {
     const current = this.reserva();
     if (!current || this.cancelando()) return;
 
+    const alert = await this.alertCtrl.create({
+      header: 'Cancelar reserva',
+      message: '¿Estás seguro? Esta acción no se puede deshacer.',
+      buttons: [
+        { text: 'No, mantener', role: 'cancel' },
+        {
+          text: 'Sí, cancelar',
+          role: 'destructive',
+          handler: () => this.ejecutarCancelacion(current.id),
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  private ejecutarCancelacion(id: number): void {
     this.cancelando.set(true);
     this.error.set('');
-    this.reservaService.cancelarReserva(current.id).subscribe({
+    this.reservaService.cancelarReserva(id).subscribe({
       next: (res) => {
         this.cancelando.set(false);
         this.reserva.set(res);

@@ -10,12 +10,18 @@
 <ion-content class="ion-padding">
 
   <!-- Hero banner -->
-  <div class="relative rounded-2xl overflow-hidden mb-6 h-[56vh] min-h-[420px] md:h-[64vh] md:min-h-[520px]">
+  <div class="relative rounded-2xl overflow-hidden mb-6 h-[56vh] min-h-[420px] md:h-[64vh] md:min-h-[520px] bg-primary">
     <img
       src="https://res.cloudinary.com/dwwqrdgvs/image/upload/e_brightness:-5/c_fit,h_720,w_1080/f_webp/q_auto:best/SaveClip.App_551382174_18009261845799316_6035877355920999699_n_1080_e9ageh"
       alt="Cabalgatas guiadas por el paisaje cafetero de Salento"
       class="absolute inset-0 w-full h-full object-cover"
+      (error)="onHeroError($event)"
     />
+    @if (heroFallback()) {
+      <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+        <ion-icon name="image-outline" class="text-7xl text-white/30" aria-hidden="true"></ion-icon>
+      </div>
+    }
     <!-- Degradado inferior: mejora legibilidad del CTA -->
     <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent"></div>
     <div class="relative z-10 flex flex-col items-end justify-end h-full text-center text-white px-6 pb-10">
@@ -145,7 +151,7 @@
               {{ r.duracionMinutos }} min
             </span>
             <span class="text-sm font-bold text-primary">
-              $ {{ r.precio | number:'1.0-0' }}
+              {{ r.precio | currency:'COP':'symbol':'1.0-0' }}
             </span>
           </div>
         </div>

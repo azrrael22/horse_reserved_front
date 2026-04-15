@@ -31,6 +31,7 @@ import {
 import { addIcons } from 'ionicons';
 import {
   arrowForwardOutline,
+  checkmarkCircleOutline,
   copyOutline,
   sendOutline,
   chatbubblesOutline,
@@ -45,6 +46,7 @@ import {
   ChatState,
   ChatbotAction,
 } from '../../core/models/chatbot.models';
+import { KNOWN_CHATBOT_ROUTES } from '../../core/config/chatbot-routes.config';
 
 @Component({
   selector: 'app-chatbot',
@@ -81,6 +83,7 @@ export class ChatbotPage {
 
   readonly messages = signal<ChatMessage[]>([
     {
+      id: crypto.randomUUID(),
       role: 'bot',
       text: '¡Hola! Soy el asistente de Cabalgatas Salento. Puedo ayudarte con registro, inicio de sesión, reservas y más. ¿En qué puedo ayudarte?',
       timestamp: new Date(),
@@ -104,18 +107,10 @@ export class ChatbotPage {
 
   // ── Mapa de rutas internas conocidas ──────────────────────────────────
 
-  private readonly knownRoutes: ReadonlyMap<string, string> = new Map([
-    ['/tabs/inicio', '/tabs/inicio'],
-    ['/tabs/reservas', '/tabs/reservas'],
-    ['/tabs/reservas/nueva', '/tabs/reservas/nueva'],
-    ['/tabs/cuenta', '/tabs/cuenta'],
-    ['/auth/login', '/auth/login'],
-    ['/auth/register', '/auth/register'],
-    ['/auth/forgot-password', '/auth/forgot-password'],
-  ]);
+  private readonly knownRoutes = KNOWN_CHATBOT_ROUTES;
 
   constructor() {
-    addIcons({ sendOutline, copyOutline, arrowForwardOutline, chatbubblesOutline, documentTextOutline, bulbOutline, warningOutline });
+    addIcons({ sendOutline, copyOutline, arrowForwardOutline, checkmarkCircleOutline, chatbubblesOutline, documentTextOutline, bulbOutline, warningOutline });
   }
 
   // ── Acciones ──────────────────────────────────────────────────────────
@@ -126,7 +121,7 @@ export class ChatbotPage {
 
     this.messages.update((prev) => [
       ...prev,
-      { role: 'user', text: q, timestamp: new Date() },
+      { id: crypto.randomUUID(), role: 'user', text: q, timestamp: new Date() },
     ]);
 
     this.question.set('');
@@ -147,6 +142,7 @@ export class ChatbotPage {
         this.messages.update((prev) => [
           ...prev,
           {
+            id: crypto.randomUUID(),
             role: 'bot',
             text: response.answer,
             response,
@@ -206,10 +202,6 @@ export class ChatbotPage {
     return (
       action.type === 'NAVIGATION' && this.knownRoutes.has(action.endpoint)
     );
-  }
-
-  trackByIndex(index: number): number {
-    return index;
   }
 
   // ── Privados ──────────────────────────────────────────────────────────

@@ -76,7 +76,7 @@
             </ion-chip>
             <span class="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-sm font-semibold rounded-full px-4 py-1.5">
               <ion-icon name="cash-outline"></ion-icon>
-              $ {{ r.precio | number:'1.0-0' }} / persona
+              {{ r.precio | currency:'COP':'symbol':'1.0-0' }} / persona
             </span>
           </div>
 
@@ -132,7 +132,7 @@
         <div class="flex items-center justify-between gap-4 max-w-lg mx-auto">
           <div>
             <p class="text-xs text-muted">Precio por persona</p>
-            <p class="text-lg font-bold text-primary">$ {{ r.precio | number:'1.0-0' }}</p>
+            <p class="text-lg font-bold text-primary">{{ r.precio | currency:'COP':'symbol':'1.0-0' }}</p>
           </div>
           <ion-button (click)="reservar(r)" class="flex-shrink-0">
             <ion-icon name="calendar-outline" slot="start"></ion-icon>
