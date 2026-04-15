@@ -23,6 +23,14 @@
                 <ion-label>Reservas</ion-label>
               </ion-item>
             </ion-menu-toggle>
+            @if (esAdmin()) {
+              <ion-menu-toggle autoHide="false">
+                <ion-item routerLink="/tabs/recursos" detail="false" button class="rounded-lg mx-2 mt-1">
+                  <ion-icon name="layers-outline" slot="start"></ion-icon>
+                  <ion-label>Recursos</ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+            }
             <ion-menu-toggle autoHide="false">
               <ion-item routerLink="/tabs/cuenta" detail="false" button class="rounded-lg mx-2 mt-1">
                 <ion-icon name="person-outline" slot="start"></ion-icon>

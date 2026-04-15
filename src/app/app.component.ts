@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   IonApp,
@@ -23,11 +23,10 @@ import {
   calendarOutline,
   personOutline,
   logOutOutline,
+  layersOutline,
 } from 'ionicons/icons';
 import { AuthService } from './core/services/auth.service';
-import { AccessibilityService } from './core/services/accessibility.service';
 import { AccessibilityFabComponent } from './shared/components/accessibility-fab/accessibility-fab.component';
-
 
 @Component({
   selector: 'app-root',
@@ -49,17 +48,18 @@ import { AccessibilityFabComponent } from './shared/components/accessibility-fab
     IonMenuToggle,
     IonFooter,
     IonButton,
-    AccessibilityFabComponent
-],
+    AccessibilityFabComponent,
+  ],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
   private readonly authService = inject(AuthService);
 
   readonly isLoggedIn = this.authService.isLoggedIn;
+  readonly esAdmin = computed(() => this.authService.session()?.role === 'ADMINISTRADOR');
 
   constructor() {
-    addIcons({ homeOutline, calendarOutline, personOutline, logOutOutline });
+    addIcons({ homeOutline, calendarOutline, personOutline, logOutOutline, layersOutline });
   }
 
   logout(): void {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import {
   IonTabs,
   IonTabBar,
@@ -7,7 +7,8 @@ import {
   IonLabel,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { homeOutline, calendarOutline, personOutline } from 'ionicons/icons';
+import { homeOutline, calendarOutline, personOutline, layersOutline } from 'ionicons/icons';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-tabs',
@@ -17,7 +18,11 @@ import { homeOutline, calendarOutline, personOutline } from 'ionicons/icons';
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage {
+  private readonly authService = inject(AuthService);
+
+  readonly esAdmin = computed(() => this.authService.session()?.role === 'ADMINISTRADOR');
+
   constructor() {
-    addIcons({ homeOutline, calendarOutline, personOutline });
+    addIcons({ homeOutline, calendarOutline, personOutline, layersOutline });
   }
 }
