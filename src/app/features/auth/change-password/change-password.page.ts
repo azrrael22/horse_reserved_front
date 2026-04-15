@@ -15,8 +15,6 @@ import {
   IonTitle,
   IonButton,
   IonInput,
-  IonItem,
-  IonLabel,
   IonIcon,
   IonSpinner,
   IonText,
@@ -25,12 +23,7 @@ import {
   ToastController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import {
-  eyeOutline,
-  eyeOffOutline,
-  lockClosedOutline,
-  chevronBackOutline,
-} from 'ionicons/icons';
+import { eyeOutline, eyeOffOutline, lockClosedOutline, chevronBackOutline } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
 
 function newPasswordMatchValidator(
@@ -55,14 +48,12 @@ function newPasswordMatchValidator(
     IonTitle,
     IonButton,
     IonInput,
-    IonItem,
-    IonLabel,
     IonIcon,
     IonSpinner,
     IonText,
     IonBackButton,
-    IonButtons
-],
+    IonButtons,
+  ],
   templateUrl: './change-password.page.html',
   styleUrls: ['./change-password.page.scss'],
 })
