@@ -15,7 +15,7 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { createOutline } from 'ionicons/icons';
+import { createOutline, calendarOutline, peopleOutline } from 'ionicons/icons';
 import { ReservaService } from '../../core/services/reserva.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ReservaResponse } from '../../core/models/reserva.models';
@@ -56,7 +56,7 @@ export class ReservaDetailPage {
   readonly esAdmin = () => this.authService.session()?.role === 'ADMINISTRADOR';
 
   constructor() {
-    addIcons({ createOutline });
+    addIcons({ createOutline, calendarOutline, peopleOutline });
   }
 
   ionViewWillEnter(): void {

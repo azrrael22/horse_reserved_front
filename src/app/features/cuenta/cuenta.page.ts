@@ -5,16 +5,16 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonButton,
   IonMenuButton,
   IonButtons,
   IonIcon,
   IonBadge,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { keyOutline, logOutOutline, personCircleOutline } from 'ionicons/icons';
+import { keyOutline, logOutOutline, chevronForwardOutline } from 'ionicons/icons';
 import { AuthService } from '../../core/services/auth.service';
 import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
+import { UserAvatarComponent } from '../../shared/components/user-avatar/user-avatar.component';
 
 @Component({
   selector: 'app-cuenta',
@@ -25,12 +25,12 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonButton,
     IonMenuButton,
     IonButtons,
     IonIcon,
     IonBadge,
     AppFooterComponent,
+    UserAvatarComponent,
   ],
   templateUrl: './cuenta.page.html',
 })
@@ -39,7 +39,7 @@ export class CuentaPage {
   readonly session = this.authService.session;
 
   constructor() {
-    addIcons({ keyOutline, logOutOutline, personCircleOutline });
+    addIcons({ keyOutline, logOutOutline, chevronForwardOutline });
   }
 
   logout(): void {

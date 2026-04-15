@@ -1,0 +1,15 @@
+@if (photoUrl) {
+  <img
+    [src]="photoUrl"
+    [alt]="firstName + ' ' + lastName"
+    [class]="sizeClasses + ' rounded-full object-cover'"
+  />
+} @else {
+  <div
+    [class]="sizeClasses + ' rounded-full flex items-center justify-center font-bold text-white select-none'"
+    style="background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%)"
+    aria-hidden="true"
+  >
+    {{ initials }}
+  </div>
+}

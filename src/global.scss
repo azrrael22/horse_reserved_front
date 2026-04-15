@@ -126,6 +126,11 @@ ion-textarea.has-focus {
 
 p { font-size: 16px !important; line-height: 1.6; }
 
+// text-muted: reemplaza text-secondary en texto de cuerpo para garantizar
+// contraste WCAG AA (4.5:1). #6A8AA6 sobre blanco = 3.8:1 → FAIL.
+// Usar gray-600 (#4B5563) = 7.0:1 → PASS.
+.text-muted { color: #4b5563 !important; }
+
 // ── Accesibilidad WCAG 2.1 AA ─────────────────────────────────────────────────
 
 // Skip navigation link (visualmente oculto hasta recibir foco)

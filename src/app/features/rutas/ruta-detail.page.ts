@@ -11,13 +11,13 @@ import {
   IonBackButton,
   IonMenuButton,
   IonIcon,
-  IonSpinner,
   IonBadge,
   IonChip,
   IonLabel,
+  IonSkeletonText,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { timeOutline, walkOutline, barbellOutline, calendarOutline } from 'ionicons/icons';
+import { timeOutline, walkOutline, barbellOutline, calendarOutline, imageOutline } from 'ionicons/icons';
 import { RutaService } from '../../core/services/ruta.service';
 import { AuthService } from '../../core/services/auth.service';
 import { RutaResponse } from '../../core/models/ruta.models';
@@ -37,10 +37,10 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     IonBackButton,
     IonMenuButton,
     IonIcon,
-    IonSpinner,
     IonBadge,
     IonChip,
     IonLabel,
+    IonSkeletonText,
     AppFooterComponent,
   ],
   templateUrl: './ruta-detail.page.html',
@@ -58,7 +58,7 @@ export class RutaDetailPage {
   readonly esAdmin = () => this.authService.session()?.role === 'ADMINISTRADOR';
 
   constructor() {
-    addIcons({ timeOutline, walkOutline, barbellOutline, calendarOutline });
+    addIcons({ timeOutline, walkOutline, barbellOutline, calendarOutline, imageOutline });
   }
 
   ionViewWillEnter(): void {

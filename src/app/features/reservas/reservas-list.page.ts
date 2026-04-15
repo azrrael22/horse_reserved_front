@@ -10,15 +10,16 @@ import {
   IonBadge,
   IonMenuButton,
   IonButtons,
-  IonSpinner,
   IonIcon,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, refreshOutline } from 'ionicons/icons';
+import { addOutline, refreshOutline, calendarOutline, peopleOutline, chevronForwardOutline } from 'ionicons/icons';
 import { ReservaService } from '../../core/services/reserva.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ReservaResponse } from '../../core/models/reserva.models';
 import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+import { CardSkeletonComponent } from '../../shared/components/card-skeleton/card-skeleton.component';
 
 @Component({
   selector: 'app-reservas-list',
@@ -34,9 +35,10 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     IonBadge,
     IonMenuButton,
     IonButtons,
-    IonSpinner,
     IonIcon,
     AppFooterComponent,
+    EmptyStateComponent,
+    CardSkeletonComponent,
   ],
   templateUrl: './reservas-list.page.html',
 })
@@ -49,6 +51,10 @@ export class ReservasListPage {
   readonly reservas = signal<ReservaResponse[]>([]);
 
   readonly esAdmin = () => this.authService.session()?.role === 'ADMINISTRADOR';
+
+  constructor() {
+    addIcons({ addOutline, refreshOutline, calendarOutline, peopleOutline, chevronForwardOutline });
+  }
 
   ionViewWillEnter(): void {
     this.cargar();

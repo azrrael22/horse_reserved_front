@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import {
   provideHttpClient,
@@ -15,5 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideIonicAngular({
       mode: 'md',
     }),
+    { provide: LOCALE_ID, useValue: 'es-CO' },
   ],
 };

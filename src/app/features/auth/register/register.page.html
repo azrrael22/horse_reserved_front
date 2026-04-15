@@ -11,7 +11,7 @@
   <div class="mx-auto max-w-sm px-6 py-8">
 
     <div class="mb-6 text-center">
-      <p class="text-sm text-gray-500">Completa tus datos para registrarte</p>
+      <p class="text-sm text-muted">Completa tus datos para registrarte</p>
     </div>
 
     <!-- Card -->
@@ -19,7 +19,7 @@
 
       <!-- Error message -->
       @if (errorMessage()) {
-        <div class="mb-4 rounded-lg bg-red-50 p-3">
+        <div class="mb-4 rounded-lg bg-red-50 p-3" role="alert" aria-live="polite">
           <ion-text color="danger">
             <p class="text-sm">{{ errorMessage() }}</p>
           </ion-text>
@@ -268,15 +268,17 @@
           class="mb-4"
         >
           @if (loading()) {
-            <ion-spinner name="crescent" class="mr-2"></ion-spinner>
+            <ion-spinner name="crescent" class="mr-2" aria-hidden="true"></ion-spinner>
+            Creando cuenta...
+          } @else {
+            Crear Cuenta
           }
-          Crear Cuenta
         </ion-button>
 
       </form>
 
       <!-- Login link -->
-      <p class="text-center text-sm text-gray-500">
+      <p class="text-center text-sm text-muted">
         ¿Ya tienes cuenta?
         <a routerLink="/auth/login" class="font-semibold text-primary">
           Inicia sesión

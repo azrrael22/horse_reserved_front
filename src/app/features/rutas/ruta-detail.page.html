@@ -10,26 +10,36 @@
 
 <ion-content>
 
-  <!-- Loading -->
+  <!-- Loading skeleton -->
   @if (loading()) {
-    <div class="flex justify-center py-16">
-      <ion-spinner></ion-spinner>
+    <div class="bg-gray-100 min-h-full p-4 md:p-8">
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="h-64 bg-gray-100 md:hidden">
+          <ion-skeleton-text [animated]="true" class="h-full w-full"></ion-skeleton-text>
+        </div>
+        <div class="p-6 md:p-10">
+          <ion-skeleton-text [animated]="true" style="width: 40%; height: 12px; border-radius: 4px;" class="mb-2"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 70%; height: 32px; border-radius: 8px;" class="mb-6"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 90%; height: 14px; border-radius: 4px;" class="mb-2"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 80%; height: 14px; border-radius: 4px;" class="mb-2"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 65%; height: 14px; border-radius: 4px;"></ion-skeleton-text>
+        </div>
+      </div>
     </div>
   }
 
   <!-- Error -->
   @if (error()) {
-    <div class="m-4 rounded-lg bg-red-50 p-4 text-red-600 text-sm">
+    <div class="m-4 rounded-lg bg-red-50 p-4 text-red-600 text-sm" role="alert">
       {{ error() }}
     </div>
   }
 
   <!-- Contenido de la ruta -->
   @if (!loading() && ruta(); as r) {
-    <!-- Fondo gris y padding exterior -->
-    <div class="bg-gray-100 min-h-full p-4 md:p-8">
-      <!-- Tarjeta principal -->
+    <div class="bg-gray-100 min-h-full p-4 md:p-8 pb-28 md:pb-8">
       <div class="bg-white rounded-2xl shadow-lg overflow-hidden md:flex md:flex-row md:min-h-[70vh]">
+
         <!-- Hero imagen (solo móvil) -->
         <div class="relative w-full h-64 overflow-hidden md:hidden">
           @if (r.urlImagen) {
@@ -39,9 +49,8 @@
             </div>
           }
           @if (!r.urlImagen) {
-            <div
-              class="absolute inset-0 bg-gradient-to-br from-surface to-secondary flex items-center justify-center">
-              <span class="text-7xl">🏔️</span>
+            <div class="absolute inset-0 bg-gradient-to-br from-surface to-secondary flex items-center justify-center">
+              <ion-icon name="image-outline" class="text-7xl text-white/60"></ion-icon>
             </div>
           }
           <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -49,11 +58,12 @@
             <ion-badge [color]="dificultadColor(r.dificultad)">{{ r.dificultad }}</ion-badge>
           </div>
         </div>
+
         <!-- Columna izquierda: Info principal -->
         <div class="p-6 md:flex-1 md:p-10 md:flex md:flex-col md:justify-center">
-          <!-- Label de sección + nombre -->
           <p class="text-xs tracking-widest uppercase text-tertiary font-semibold mb-1">Experiencia</p>
           <h1 class="brand-title text-gray-800 mb-4">{{ r.nombre }}</h1>
+
           <!-- Chips de características -->
           <div class="flex flex-wrap gap-2 mb-6">
             <span class="inline-flex items-center gap-1.5 bg-[#fefce8] text-accent text-sm font-medium rounded-full px-4 py-1.5">
@@ -69,28 +79,32 @@
               $ {{ r.precio | number:'1.0-0' }} / persona
             </span>
           </div>
-          <!-- Descripción en card interna -->
+
+          <!-- Descripción -->
           <div class="bg-gray-50 border border-gray-100 rounded-xl p-4 mb-6">
             <p class="label-caps text-tertiary mb-2">Descripción</p>
             <p class="text-sm text-gray-700 leading-relaxed">{{ r.descripcion }}</p>
           </div>
-          <!-- Botón Reservar (solo CLIENTE y OPERADOR) -->
+
+          <!-- CTA solo en desktop (md+) -->
           @if (!esAdmin()) {
             <ion-button
               expand="block"
               size="large"
               (click)="reservar(r)"
-              >
+              class="hidden md:block"
+            >
               <ion-icon name="calendar-outline" slot="start"></ion-icon>
               Reservar esta ruta
             </ion-button>
           }
           @if (esAdmin()) {
-            <p class="text-xs text-center text-gray-400 pb-4">
+            <p class="text-xs text-center text-muted pb-4">
               Solo visualización — el ADMINISTRADOR no puede crear reservas
             </p>
           }
         </div>
+
         <!-- Columna derecha: Imagen (solo md+) -->
         <div class="hidden md:block md:w-1/2 relative">
           @if (r.urlImagen) {
@@ -100,18 +114,33 @@
             </div>
           }
           @if (!r.urlImagen) {
-            <div
-              class="absolute inset-0 bg-gradient-to-br from-surface to-secondary flex items-center justify-center">
-              <span class="text-7xl">🏔️</span>
+            <div class="absolute inset-0 bg-gradient-to-br from-surface to-secondary flex items-center justify-center">
+              <ion-icon name="image-outline" class="text-7xl text-white/60"></ion-icon>
             </div>
           }
-          <!-- Badge de dificultad -->
           <div class="absolute top-4 right-4 z-10">
             <ion-badge [color]="dificultadColor(r.dificultad)">{{ r.dificultad }}</ion-badge>
           </div>
         </div>
+
       </div>
     </div>
+
+    <!-- Barra sticky inferior (solo mobile) -->
+    @if (!esAdmin()) {
+      <div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-100 px-4 py-3 shadow-[0_-4px_16px_-4px_rgba(41,80,115,0.15)]">
+        <div class="flex items-center justify-between gap-4 max-w-lg mx-auto">
+          <div>
+            <p class="text-xs text-muted">Precio por persona</p>
+            <p class="text-lg font-bold text-primary">$ {{ r.precio | number:'1.0-0' }}</p>
+          </div>
+          <ion-button (click)="reservar(r)" class="flex-shrink-0">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            Reservar
+          </ion-button>
+        </div>
+      </div>
+    }
   }
 
   <app-footer></app-footer>

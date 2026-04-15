@@ -24,12 +24,12 @@
         <!-- Encabezado -->
         <div class="mb-8">
           <h2 class="page-title text-gray-800">Bienvenido de nuevo</h2>
-          <p class="mt-1 text-sm text-gray-500">Inicia sesión en tu cuenta</p>
+          <p class="mt-1 text-sm text-muted">Inicia sesión en tu cuenta</p>
         </div>
 
         <!-- Error -->
         @if (errorMessage()) {
-          <div class="mb-4 rounded-lg bg-red-50 p-3">
+          <div class="mb-4 rounded-lg bg-red-50 p-3" role="alert" aria-live="polite">
             <ion-text color="danger">
               <p class="text-sm">{{ errorMessage() }}</p>
             </ion-text>
@@ -41,40 +41,46 @@
 
           <!-- Email -->
           <div class="mb-4">
-            <ion-item lines="full" class="rounded-lg" [class.ion-invalid]="emailCtrl.invalid && emailCtrl.touched">
+            <ion-input
+              fill="outline"
+              labelPlacement="floating"
+              label="Correo electrónico"
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              inputmode="email"
+              [class.ion-invalid]="emailCtrl.invalid && emailCtrl.touched"
+              [class.ion-touched]="emailCtrl.touched"
+            >
               <ion-icon name="mail-outline" slot="start" color="medium"></ion-icon>
-              <ion-label position="floating">Correo electrónico</ion-label>
-              <ion-input
-                type="email"
-                formControlName="email"
-                autocomplete="email"
-                inputmode="email"
-              ></ion-input>
-            </ion-item>
+            </ion-input>
             @if (emailCtrl.touched && emailCtrl.hasError('required')) {
-              <p class="error-message">El correo es requerido.</p>
+              <p class="error-message" role="alert">El correo es requerido.</p>
             }
             @if (emailCtrl.touched && emailCtrl.hasError('email')) {
-              <p class="error-message">Ingresa un correo válido.</p>
+              <p class="error-message" role="alert">Ingresa un correo válido.</p>
             }
           </div>
 
           <!-- Contraseña -->
           <div class="mb-2">
-            <ion-item lines="full" class="rounded-lg" [class.ion-invalid]="passwordCtrl.invalid && passwordCtrl.touched">
+            <ion-input
+              fill="outline"
+              labelPlacement="floating"
+              label="Contraseña"
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="password"
+              autocomplete="current-password"
+              [class.ion-invalid]="passwordCtrl.invalid && passwordCtrl.touched"
+              [class.ion-touched]="passwordCtrl.touched"
+            >
               <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
-              <ion-label position="floating">Contraseña</ion-label>
-              <ion-input
-                [type]="showPassword() ? 'text' : 'password'"
-                formControlName="password"
-                autocomplete="current-password"
-              ></ion-input>
               <ion-button fill="clear" slot="end" (click)="togglePassword()" type="button" aria-label="Mostrar contraseña">
                 <ion-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'" color="medium"></ion-icon>
               </ion-button>
-            </ion-item>
+            </ion-input>
             @if (passwordCtrl.touched && passwordCtrl.hasError('required')) {
-              <p class="error-message">La contraseña es requerida.</p>
+              <p class="error-message" role="alert">La contraseña es requerida.</p>
             }
           </div>
 
@@ -101,9 +107,11 @@
             class="mb-4"
           >
             @if (loading()) {
-              <ion-spinner name="crescent" class="mr-2"></ion-spinner>
+              <ion-spinner name="crescent" class="mr-2" aria-hidden="true"></ion-spinner>
+              Iniciando sesión...
+            } @else {
+              Iniciar Sesión
             }
-            Iniciar Sesión
           </ion-button>
 
         </form>
@@ -111,7 +119,7 @@
         <!-- Divisor -->
         <div class="my-4 flex items-center gap-3">
           <div class="h-px flex-1 bg-gray-200"></div>
-          <span class="text-xs text-gray-400">o continúa con</span>
+          <span class="text-xs text-muted">o continúa con</span>
           <div class="h-px flex-1 bg-gray-200"></div>
         </div>
 
@@ -128,7 +136,7 @@
         </ion-button>
 
         <!-- Registro -->
-        <p class="text-center text-sm text-gray-500">
+        <p class="text-center text-sm text-muted">
           ¿No tienes cuenta?
           <a routerLink="/auth/register" class="font-semibold text-primary">
             Regístrate
@@ -137,7 +145,7 @@
 
         <!-- Chatbot FAQ -->
         <div class="mt-4 text-center">
-          <a routerLink="/chatbot" class="text-xs text-gray-400 hover:text-primary transition-colors">
+          <a routerLink="/chatbot" class="text-xs text-muted hover:text-primary transition-colors duration-200">
             ¿Tienes dudas? Consulta nuestro asistente
           </a>
         </div>

@@ -3,30 +3,35 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>🐴 Cabalgatas Salento</ion-title>
+    <ion-title>Cabalgatas Salento</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
   <!-- Hero banner -->
-  <div class="relative rounded-2xl overflow-hidden mb-6 h-[70vh] min-h-[600px]">
-    <img src="https://res.cloudinary.com/dwwqrdgvs/image/upload/e_brightness:-5/c_fit,h_720,w_1080/f_webp/q_auto:best/SaveClip.App_551382174_18009261845799316_6035877355920999699_n_1080_e9ageh"
-         alt="Cabalgatas"
-         class="absolute inset-0 w-full h-full object-cover" />
-    <div class="absolute inset-0 bg-black/50"></div>
-    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
-      <p class="tracking-[0.3em] uppercase mb-3 text-surface text-xs">Aventura & Naturaleza</p>
-      <h1 class="brand-title text-white mb-4">
-        Vive la Magia de las Cabalgatas
-      </h1>
-      <p class="text-base text-white/80 mb-7 leading-relaxed">
-        Explora senderos únicos a caballo, rodeado de paisajes impresionantes.
-        Una experiencia inolvidable para toda la familia.
-      </p>
-      <ion-button routerLink="/tabs/reservas/nueva" color="warning">
-        Reservar Ahora
-      </ion-button>
+  <div class="relative rounded-2xl overflow-hidden mb-6 h-[56vh] min-h-[420px] md:h-[64vh] md:min-h-[520px]">
+    <img
+      src="https://res.cloudinary.com/dwwqrdgvs/image/upload/e_brightness:-5/c_fit,h_720,w_1080/f_webp/q_auto:best/SaveClip.App_551382174_18009261845799316_6035877355920999699_n_1080_e9ageh"
+      alt="Cabalgatas guiadas por el paisaje cafetero de Salento"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <!-- Degradado inferior: mejora legibilidad del CTA -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent"></div>
+    <div class="relative z-10 flex flex-col items-end justify-end h-full text-center text-white px-6 pb-10">
+      <div class="w-full flex flex-col items-center">
+        <p class="tracking-[0.3em] uppercase mb-3 text-surface/80 text-xs font-medium">Aventura & Naturaleza</p>
+        <h1 class="brand-title text-white mb-4">
+          Vive la Magia de las Cabalgatas
+        </h1>
+        <p class="text-base text-white/80 mb-7 leading-relaxed max-w-md">
+          Explora senderos únicos a caballo, rodeado de paisajes impresionantes.
+          Una experiencia inolvidable para toda la familia.
+        </p>
+        <ion-button routerLink="/tabs/reservas/nueva" color="warning">
+          Reservar Ahora
+        </ion-button>
+      </div>
     </div>
   </div>
 
@@ -43,7 +48,7 @@
           <ion-icon name="shield-checkmark-outline" class="text-2xl text-tertiary"></ion-icon>
         </div>
         <h3 class="section-title text-gray-800 mb-1">Seguridad Garantizada</h3>
-        <p class="text-xs text-gray-500 leading-relaxed">Guías certificados y equipos de protección incluidos.</p>
+        <p class="text-xs text-muted leading-relaxed">Guías certificados y equipos de protección incluidos.</p>
       </div>
 
       <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
@@ -51,7 +56,7 @@
           <ion-icon name="heart-outline" class="text-2xl text-tertiary"></ion-icon>
         </div>
         <h3 class="section-title text-gray-800 mb-1">Caballos Bien Cuidados</h3>
-        <p class="text-xs text-gray-500 leading-relaxed">Atención veterinaria constante y trato amoroso.</p>
+        <p class="text-xs text-muted leading-relaxed">Atención veterinaria constante y trato amoroso.</p>
       </div>
 
       <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
@@ -59,7 +64,7 @@
           <ion-icon name="location-outline" class="text-2xl text-tertiary"></ion-icon>
         </div>
         <h3 class="section-title text-gray-800 mb-1">Rutas Exclusivas</h3>
-        <p class="text-xs text-gray-500 leading-relaxed">Senderos seleccionados por expertos para la mejor experiencia.</p>
+        <p class="text-xs text-muted leading-relaxed">Senderos seleccionados por expertos para la mejor experiencia.</p>
       </div>
 
       <div class="bg-white rounded-2xl p-4 text-center shadow-sm">
@@ -67,7 +72,7 @@
           <ion-icon name="ribbon-outline" class="text-2xl text-tertiary"></ion-icon>
         </div>
         <h3 class="section-title text-gray-800 mb-1">+10 Años de Experiencia</h3>
-        <p class="text-xs text-gray-500 leading-relaxed">Más de una década ofreciendo las mejores cabalgatas.</p>
+        <p class="text-xs text-muted leading-relaxed">Más de una década ofreciendo las mejores cabalgatas.</p>
       </div>
 
     </div>
@@ -80,32 +85,28 @@
   </div>
 
   @if (loading()) {
-    <div class="flex justify-center py-12">
-      <ion-spinner></ion-spinner>
-    </div>
+    <app-card-skeleton variant="ruta-card" [count]="3"></app-card-skeleton>
   }
 
   @if (error()) {
-    <div class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4">
+    <div class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4" role="alert">
       {{ error() }}
     </div>
   }
 
   @if (!loading() && rutas().length === 0 && !error()) {
-    <div class="flex flex-col items-center justify-center py-16 text-center">
-      <div class="w-20 h-20 rounded-full bg-surface flex items-center justify-center mb-4">
-        <span class="text-4xl">🐴</span>
-      </div>
-      <p class="font-semibold text-gray-700">No hay rutas disponibles</p>
-      <p class="text-sm text-gray-400 mt-1">Vuelve pronto para ver nuevas rutas</p>
-    </div>
+    <app-empty-state
+      icon="compass-outline"
+      title="No hay rutas disponibles"
+      description="Vuelve pronto para ver nuevas experiencias a caballo"
+    ></app-empty-state>
   }
 
-  <!-- Cards de rutas (cliqueables) -->
-  <div class="flex flex-wrap justify-center gap-4 mb-4">
+  <!-- Cards de rutas -->
+  <div class="flex flex-wrap justify-center gap-4 mb-4" [attr.aria-busy]="loading()">
     @for (r of rutas(); track r.id) {
       <div
-        class="w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow ion-activatable relative cursor-pointer group"
+        class="w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)] rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow duration-200 ion-activatable relative cursor-pointer group"
         (click)="verDetalle(r)"
         (keydown.enter)="verDetalle(r)"
         (keydown.space)="verDetalle(r)"
@@ -125,10 +126,10 @@
           }
           @if (!r.urlImagen) {
             <div class="absolute inset-0 bg-gradient-to-br from-surface to-secondary flex items-center justify-center">
-              <span class="text-6xl">🏔️</span>
+              <ion-icon name="image-outline" class="text-6xl text-white/60"></ion-icon>
             </div>
           }
-          <!-- Badge de dificultad sobre la imagen -->
+          <!-- Badge de dificultad -->
           <div class="absolute top-3 right-3 z-10">
             <ion-badge [color]="dificultadColor(r.dificultad)">{{ r.dificultad }}</ion-badge>
           </div>
@@ -137,7 +138,7 @@
         <!-- Contenido -->
         <div class="p-4">
           <h3 class="section-title text-gray-800 mb-1">{{ r.nombre }}</h3>
-          <p class="text-sm text-gray-500 mb-3 line-clamp-2">{{ r.descripcion }}</p>
+          <p class="text-sm text-muted mb-3 line-clamp-2">{{ r.descripcion }}</p>
           <div class="flex items-center justify-between">
             <span class="inline-flex items-center gap-1.5 bg-[#fefce8] text-accent text-xs font-medium rounded-full px-3 py-1">
               <ion-icon name="time-outline"></ion-icon>

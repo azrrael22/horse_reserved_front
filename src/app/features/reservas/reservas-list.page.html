@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>{{ esAdmin() ? 'Todas las reservas' : 'Mis reservas' }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cargar()">
+      <ion-button (click)="cargar()" aria-label="Actualizar reservas">
         <ion-icon name="refresh-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -31,67 +31,81 @@
   </div>
 
   @if (loading()) {
-    <div class="flex justify-center py-8">
-      <ion-spinner></ion-spinner>
-    </div>
+    <app-card-skeleton variant="reserva-card" [count]="4" aria-label="Cargando reservas"></app-card-skeleton>
   }
 
   @if (error()) {
-    <div class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4">
+    <div class="rounded-lg bg-red-50 p-3 text-red-600 text-sm mb-4" role="alert">
       {{ error() }}
     </div>
   }
 
   @if (!loading() && reservas().length === 0 && !error()) {
-    <div
-      class="flex flex-col items-center justify-center py-16 text-center">
-      <div class="w-20 h-20 rounded-full bg-surface flex items-center justify-center mb-4">
-        <span class="text-4xl">📅</span>
-      </div>
-      <p class="font-semibold text-gray-700">No hay reservas</p>
-      @if (!esAdmin()) {
-        <p class="text-sm text-gray-400 mt-1">Crea tu primera reserva para comenzar</p>
-      }
-    </div>
+    <app-empty-state
+      icon="calendar-outline"
+      title="No hay reservas"
+      [description]="esAdmin() ? '' : 'Crea tu primera reserva para comenzar'"
+      [actionLabel]="esAdmin() ? '' : 'Nueva reserva'"
+      [actionRoute]="esAdmin() ? '' : '/tabs/reservas/nueva'"
+    ></app-empty-state>
   }
 
-  @for (r of reservas(); track r) {
-    <div
-      class="mb-3 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
-      <div class="p-4">
-        <div class="flex items-start justify-between mb-3">
-          <div class="flex-1 mr-3">
-            <p class="font-bold text-gray-800">{{ r.rutaNombre }}</p>
-            <p class="text-sm text-secondary mt-0.5">
-              📅 {{ r.fechaProgramada }} · {{ r.tiempoInicio | slice:0:5 }}
-            </p>
-            <p class="text-sm text-secondary mt-0.5">
-              👥 {{ r.cantPersonas }} persona(s)
-            </p>
-            @if (esAdmin() && r.clienteEmail) {
-              <p class="text-xs text-gray-400 mt-1">
-                Cliente: {{ r.clienteEmail }}
-              </p>
-            }
-            @if (esAdmin() && !r.clienteEmail) {
-              <p class="text-xs text-gray-400 mt-1">
-                Cliente: Invitado
-              </p>
-            }
-            <p class="text-sm font-semibold text-primary mt-1">
-              $ {{ r.precioTotal | number:'1.0-0' }}
-            </p>
+  <!-- Lista de reservas -->
+  <div [attr.aria-busy]="loading()">
+    @for (r of reservas(); track r.id) {
+      <div
+        class="mb-3 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer ion-activatable relative"
+        [routerLink]="['/tabs/reservas', r.id]"
+        role="button"
+        tabindex="0"
+        (keydown.enter)="null"
+        (keydown.space)="null"
+        [attr.aria-label]="'Ver detalle de reserva: ' + r.rutaNombre"
+      >
+        <div class="p-4 flex gap-3">
+
+          <!-- Icono de estado -->
+          <div class="w-16 h-16 rounded-xl flex-shrink-0 overflow-hidden bg-primary-light flex items-center justify-center">
+            <ion-icon name="calendar-outline" class="text-3xl text-primary"></ion-icon>
           </div>
-          <ion-badge [color]="badgeColor(r.estado)">{{ r.estado }}</ion-badge>
-        </div>
-        <div class="pt-2 border-t border-gray-100">
-          <ion-button [routerLink]="['/tabs/reservas', r.id]" size="small" fill="outline" color="secondary">
-            Ver detalle
-          </ion-button>
+
+          <!-- Información -->
+          <div class="flex-1 min-w-0">
+            <!-- Título + badge -->
+            <div class="flex items-start justify-between gap-2 mb-1.5">
+              <p class="font-bold text-gray-800 section-title truncate">{{ r.rutaNombre }}</p>
+              <ion-badge [color]="badgeColor(r.estado)" class="flex-shrink-0">{{ r.estado }}</ion-badge>
+            </div>
+
+            <!-- Metadatos con iconos -->
+            <div class="flex flex-col gap-0.5 mb-2">
+              <span class="inline-flex items-center gap-1.5 text-xs text-muted">
+                <ion-icon name="calendar-outline" class="text-secondary flex-shrink-0"></ion-icon>
+                {{ r.fechaProgramada }} · {{ r.tiempoInicio | slice:0:5 }}
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs text-muted">
+                <ion-icon name="people-outline" class="text-secondary flex-shrink-0"></ion-icon>
+                {{ r.cantPersonas }} persona{{ r.cantPersonas !== 1 ? 's' : '' }}
+              </span>
+              @if (esAdmin() && r.clienteEmail) {
+                <span class="text-xs text-muted truncate">{{ r.clienteEmail }}</span>
+              }
+              @if (esAdmin() && !r.clienteEmail) {
+                <span class="text-xs text-muted">Invitado</span>
+              }
+            </div>
+
+            <!-- Precio + chevron -->
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-primary">$ {{ r.precioTotal | number:'1.0-0' }}</span>
+              <ion-icon name="chevron-forward-outline" class="text-gray-300 text-lg"></ion-icon>
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
-  }
+    }
+  </div>
 
   <app-footer></app-footer>
 

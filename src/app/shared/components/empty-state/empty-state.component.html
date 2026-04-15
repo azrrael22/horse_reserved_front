@@ -1,0 +1,14 @@
+<div class="flex flex-col items-center justify-center py-16 text-center px-4">
+  <div class="w-20 h-20 rounded-full bg-surface flex items-center justify-center mb-4">
+    <ion-icon [name]="icon" class="text-4xl text-secondary"></ion-icon>
+  </div>
+  <p class="font-semibold text-gray-700 text-base mb-1">{{ title }}</p>
+  @if (description) {
+    <p class="text-sm text-muted mt-0.5 max-w-xs">{{ description }}</p>
+  }
+  @if (actionLabel && actionRoute) {
+    <ion-button [routerLink]="actionRoute" size="small" class="mt-5">
+      {{ actionLabel }}
+    </ion-button>
+  }
+</div>

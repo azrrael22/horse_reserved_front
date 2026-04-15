@@ -6,7 +6,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/" text="Volver"></ion-back-button>
     </ion-buttons>
-    <ion-title>🐴 Asistente FAQ</ion-title>
+    <ion-title>Asistente FAQ</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -29,7 +29,9 @@
       <!-- Mensaje del bot -->
       @if (msg.role === 'bot') {
         <div class="message-row bot-row">
-          <div class="bot-avatar" aria-hidden="true">🐴</div>
+          <div class="bot-avatar" aria-hidden="true">
+            <ion-icon name="chatbubbles-outline"></ion-icon>
+          </div>
 
           <div class="bubble bot-bubble">
             <!-- Respuesta principal -->
@@ -47,7 +49,7 @@
               <!-- Notas -->
               @if (msg.response.notes.length > 0) {
                 <div class="extra-section">
-                  <p class="section-label">📝 Notas:</p>
+                  <p class="section-label"><ion-icon name="document-text-outline"></ion-icon> Notas:</p>
                   <ul class="notes-list">
                     @for (note of msg.response.notes; track $index) {
                       <li>{{ note }}</li>
@@ -84,7 +86,7 @@
               <!-- Sugerencias -->
               @if (msg.response.suggestions.length > 0) {
                 <div class="extra-section">
-                  <p class="section-label">💡 También puedes preguntar:</p>
+                  <p class="section-label"><ion-icon name="bulb-outline"></ion-icon> También puedes preguntar:</p>
                   <div class="chips-row">
                     @for (suggestion of msg.response.suggestions; track $index) {
                       <ion-chip
@@ -110,7 +112,9 @@
     <!-- Indicador de carga (bot escribiendo) -->
     @if (isLoading()) {
       <div class="message-row bot-row" aria-live="polite" aria-label="El asistente está escribiendo">
-        <div class="bot-avatar" aria-hidden="true">🐴</div>
+        <div class="bot-avatar" aria-hidden="true">
+          <ion-icon name="chatbubbles-outline"></ion-icon>
+        </div>
         <div class="bubble bot-bubble typing-bubble">
           <ion-spinner name="dots" color="primary"></ion-spinner>
         </div>
@@ -120,7 +124,7 @@
     <!-- Error de red -->
     @if (state() === 'error') {
       <div class="error-banner" role="alert">
-        <span class="error-icon">⚠️</span>
+        <ion-icon name="warning-outline" class="error-icon"></ion-icon>
         <p>{{ errorMessage() }}</p>
       </div>
     }

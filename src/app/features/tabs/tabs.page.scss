@@ -1,3 +1,15 @@
+.tab-bar-mobile {
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -8px 24px -12px rgba(41, 80, 115, 0.18);
+  border-top: 1px solid rgba(41, 80, 115, 0.08);
+  overflow: hidden; // clip children al border-radius
+
+  ion-tab-button {
+    --padding-top: 8px;
+    --padding-bottom: 6px;
+  }
+}
+
 @media (min-width: 768px) {
   .tab-bar-mobile {
     display: none;

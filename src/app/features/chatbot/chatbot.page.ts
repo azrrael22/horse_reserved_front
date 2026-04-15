@@ -33,6 +33,10 @@ import {
   arrowForwardOutline,
   copyOutline,
   sendOutline,
+  chatbubblesOutline,
+  documentTextOutline,
+  bulbOutline,
+  warningOutline,
 } from 'ionicons/icons';
 
 import { ChatbotService } from '../../core/services/chatbot.service';
@@ -78,7 +82,7 @@ export class ChatbotPage {
   readonly messages = signal<ChatMessage[]>([
     {
       role: 'bot',
-      text: '¡Hola! Soy el asistente de Horse Reserved 🐴. Puedo ayudarte con registro, inicio de sesión, reservas y más. ¿En qué puedo ayudarte?',
+      text: '¡Hola! Soy el asistente de Cabalgatas Salento. Puedo ayudarte con registro, inicio de sesión, reservas y más. ¿En qué puedo ayudarte?',
       timestamp: new Date(),
     },
   ]);
@@ -111,7 +115,7 @@ export class ChatbotPage {
   ]);
 
   constructor() {
-    addIcons({ sendOutline, copyOutline, arrowForwardOutline });
+    addIcons({ sendOutline, copyOutline, arrowForwardOutline, chatbubblesOutline, documentTextOutline, bulbOutline, warningOutline });
   }
 
   // ── Acciones ──────────────────────────────────────────────────────────

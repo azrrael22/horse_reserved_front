@@ -1,0 +1,54 @@
+@for (item of items; track item) {
+
+  <!-- Variante: ruta-card -->
+  @if (variant === 'ruta-card') {
+    <div class="rounded-2xl overflow-hidden bg-white shadow-sm mb-4">
+      <!-- imagen placeholder -->
+      <div class="h-48 bg-gray-100">
+        <ion-skeleton-text [animated]="true" class="h-full w-full"></ion-skeleton-text>
+      </div>
+      <div class="p-4">
+        <ion-skeleton-text [animated]="true" style="width: 70%; height: 18px; border-radius: 6px;" class="mb-2"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 90%; height: 14px; border-radius: 6px;" class="mb-1"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 60%; height: 14px; border-radius: 6px;" class="mb-3"></ion-skeleton-text>
+        <div class="flex justify-between">
+          <ion-skeleton-text [animated]="true" style="width: 80px; height: 26px; border-radius: 999px;"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 70px; height: 20px; border-radius: 6px;"></ion-skeleton-text>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Variante: reserva-card -->
+  @if (variant === 'reserva-card') {
+    <div class="mb-3 rounded-xl overflow-hidden bg-white shadow-sm">
+      <div class="p-4 flex gap-3">
+        <!-- thumbnail -->
+        <div class="w-20 h-20 rounded-xl flex-shrink-0 bg-gray-100 overflow-hidden">
+          <ion-skeleton-text [animated]="true" class="h-full w-full"></ion-skeleton-text>
+        </div>
+        <!-- info -->
+        <div class="flex-1 min-w-0">
+          <ion-skeleton-text [animated]="true" style="width: 75%; height: 18px; border-radius: 6px;" class="mb-2"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 55%; height: 13px; border-radius: 4px;" class="mb-1"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 45%; height: 13px; border-radius: 4px;" class="mb-2"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 65px; height: 20px; border-radius: 6px;"></ion-skeleton-text>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Variante: list-row -->
+  @if (variant === 'list-row') {
+    <div class="flex items-center gap-3 py-3 border-b border-gray-100 last:border-0">
+      <div class="w-10 h-10 rounded-full bg-gray-100 flex-shrink-0 overflow-hidden">
+        <ion-skeleton-text [animated]="true" class="h-full w-full"></ion-skeleton-text>
+      </div>
+      <div class="flex-1">
+        <ion-skeleton-text [animated]="true" style="width: 60%; height: 15px; border-radius: 4px;" class="mb-1"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 40%; height: 12px; border-radius: 4px;"></ion-skeleton-text>
+      </div>
+    </div>
+  }
+
+}
