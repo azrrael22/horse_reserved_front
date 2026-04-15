@@ -1,16 +1,173 @@
-ion-toolbar {
-  --background: var(--ion-color-primary);
-  --color: white;
+// ─── Contenedor raíz ───────────────────────────────────────────────────────────
+
+ion-content.auth-split {
+  --background: #f9f5ef; // crema cálido — Nature Distilled surface
 }
 
-ion-content.auth-background {
-  --background: linear-gradient(135deg, #e8eef4 0%, #f0ece6 100%);
+// ─── Layout split ──────────────────────────────────────────────────────────────
+
+.split-layout {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: flex-start; // permite que el form crezca más que el panel imagen
+  }
 }
 
-ion-button[expand="block"] {
-  --border-radius: 10px;
+// ─── Panel izquierdo — imagen (sticky en desktop) ─────────────────────────────
+
+.image-panel {
+  position: relative;
+  background: url('/assets/images/login-bg.jpg') center / cover no-repeat,
+              linear-gradient(160deg, #295073 0%, #735722 100%);
+  flex: 0 0 220px;
+
+  @media (min-width: 768px) {
+    flex: 0 0 42%;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    align-self: flex-start;
+  }
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(41, 80, 115, 0.55) 0%,   // Lake-1 azul profundo
+    rgba(115, 87, 34, 0.62) 100%   // Lake-5 marrón cálido
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+// Textura grain — firma visual de Nature Distilled
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.09;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.brand-logo {
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.30);
+}
+
+.brand-title {
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+}
+
+// Ocultar texto del brand en mobile (espacio reducido)
+.image-panel .text-center p,
+.image-panel .brand-title {
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.image-panel .brand-logo {
+  @media (max-width: 767px) {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+    font-size: 1.75rem;
+  }
+}
+
+// ─── Panel derecho — formulario (scrollable) ───────────────────────────────────
+
+.form-panel {
+  flex: 1;
+  position: relative;
+  background: #f9f5ef; // crema cálido
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 1.5rem 3.5rem;
+
+  @media (min-width: 768px) {
+    padding: 3rem 2.5rem 4rem;
+    align-items: flex-start;
+  }
+
+  // Blob orgánico — esquina superior derecha (primary-light)
+  &::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 280px;
+    height: 280px;
+    background: var(--ion-color-primary-light); // #dce8f2
+    opacity: 0.55;
+    border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+    pointer-events: none;
+  }
+
+  // Blob orgánico — esquina inferior izquierda (tertiary cálido)
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(115, 87, 34, 0.08); // tertiary #735722
+    border-radius: 40% 60% 45% 55% / 55% 45% 60% 40%;
+    pointer-events: none;
+  }
+}
+
+.form-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  animation: form-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes form-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// ─── Elementos del form ────────────────────────────────────────────────────────
+
+ion-button[expand='block'] {
+  --border-radius: 12px;
   height: 48px;
   font-weight: 600;
+}
+
+// Sombra cálida en botón primario
+ion-button[expand='block']:not([fill='outline']) {
+  --box-shadow: 0 4px 20px rgba(41, 80, 115, 0.22);
+}
+
+.error-message {
+  font-size: 1.0625rem;
+  color: var(--ion-color-danger);
+  margin: 4px 0 0 4px;
 }
 
 a {

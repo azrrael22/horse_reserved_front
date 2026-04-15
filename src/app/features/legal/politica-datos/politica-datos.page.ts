@@ -13,5 +13,6 @@ import {
   standalone: true,
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonBackButton, IonButtons],
   templateUrl: './politica-datos.page.html',
+  styleUrls: ['./politica-datos.page.scss'],
 })
 export class PoliticaDatosPage {}

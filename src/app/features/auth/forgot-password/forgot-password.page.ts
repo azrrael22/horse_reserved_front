@@ -6,21 +6,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { RecaptchaModule } from 'ng-recaptcha';
 import {
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonButton,
   IonInput,
-  IonItem,
-  IonLabel,
   IonIcon,
   IonSpinner,
   IonText,
-  IonBackButton,
-  IonButtons,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { mailOutline, chevronBackOutline } from 'ionicons/icons';
+import { mailOutline } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
 import { AppFooterComponent } from '../../../shared/components/app-footer/app-footer.component';
 import { environment } from '../../../../environments/environment';
@@ -32,21 +25,14 @@ import { environment } from '../../../../environments/environment';
     ReactiveFormsModule,
     RouterLink,
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonButton,
     IonInput,
-    IonItem,
-    IonLabel,
     IonIcon,
     IonSpinner,
     IonText,
-    IonBackButton,
-    IonButtons,
     RecaptchaModule,
-    AppFooterComponent
-],
+    AppFooterComponent,
+  ],
   templateUrl: './forgot-password.page.html',
   styleUrls: ['./forgot-password.page.scss'],
 })
@@ -65,7 +51,7 @@ export class ForgotPasswordPage {
   });
 
   constructor() {
-    addIcons({ mailOutline, chevronBackOutline });
+    addIcons({ mailOutline });
   }
 
   onCaptchaResolved(token: string | null): void {

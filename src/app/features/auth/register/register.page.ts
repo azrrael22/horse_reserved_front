@@ -17,14 +17,11 @@ import {
   IonTitle,
   IonButton,
   IonInput,
-  IonItem,
-  IonLabel,
   IonSelect,
   IonSelectOption,
   IonIcon,
   IonSpinner,
   IonText,
-  IonBackButton,
   IonButtons,
   IonModal,
   IonCheckbox,
@@ -38,7 +35,6 @@ import {
   mailOutline,
   lockClosedOutline,
   callOutline,
-  chevronBackOutline,
 } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
 import { AppFooterComponent } from '../../../shared/components/app-footer/app-footer.component';
@@ -93,14 +89,11 @@ function documentoFormatoValidator(control: AbstractControl): ValidationErrors |
     IonTitle,
     IonButton,
     IonInput,
-    IonItem,
-    IonLabel,
     IonSelect,
     IonSelectOption,
     IonIcon,
     IonSpinner,
     IonText,
-    IonBackButton,
     IonButtons,
     IonModal,
     IonCheckbox,
@@ -153,7 +146,6 @@ export class RegisterPage {
       mailOutline,
       lockClosedOutline,
       callOutline,
-      chevronBackOutline,
     });
   }
 
