@@ -11,7 +11,6 @@ import {
   IonButtons,
   IonBackButton,
   IonMenuButton,
-  IonBadge,
   IonSpinner,
   IonIcon,
 } from '@ionic/angular/standalone';
@@ -36,7 +35,6 @@ import { AppFooterComponent } from '../../shared/components/app-footer/app-foote
     IonButtons,
     IonBackButton,
     IonMenuButton,
-    IonBadge,
     IonSpinner,
     IonIcon,
     AppFooterComponent,
@@ -120,12 +118,34 @@ export class ReservaDetailPage {
     });
   }
 
-  badgeColor(estado: string): string {
+  estadoClasses(estado: string): string {
     switch (estado) {
-      case 'reservado':  return 'primary';
-      case 'completado': return 'success';
-      case 'cancelado':  return 'danger';
-      default:           return 'medium';
+      case 'reservado':
+        return 'inline-flex items-center gap-1.5 bg-primary-light text-primary text-xs font-medium rounded-full px-2.5 py-0.5 flex-shrink-0';
+      case 'completado':
+        return 'inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-xs font-medium rounded-full px-2.5 py-0.5 flex-shrink-0';
+      case 'cancelado':
+        return 'inline-flex items-center gap-1.5 bg-red-50 text-red-600 text-xs font-medium rounded-full px-2.5 py-0.5 flex-shrink-0';
+      default:
+        return 'inline-flex items-center gap-1.5 bg-gray-100 text-gray-500 text-xs font-medium rounded-full px-2.5 py-0.5 flex-shrink-0';
+    }
+  }
+
+  estadoDotClasses(estado: string): string {
+    switch (estado) {
+      case 'reservado':  return 'w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0';
+      case 'completado': return 'w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0';
+      case 'cancelado':  return 'w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0';
+      default:           return 'w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0';
+    }
+  }
+
+  estadoLabel(estado: string): string {
+    switch (estado) {
+      case 'reservado':  return 'Reservada';
+      case 'completado': return 'Completada';
+      case 'cancelado':  return 'Cancelada';
+      default:           return estado;
     }
   }
 }

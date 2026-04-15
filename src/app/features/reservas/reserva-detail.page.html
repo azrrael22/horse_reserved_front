@@ -30,7 +30,10 @@
         <p class="text-xs tracking-widest uppercase text-tertiary font-semibold mb-0.5">Reserva</p>
         <h2 class="page-title text-gray-800">#{{ r.id }}</h2>
       </div>
-      <ion-badge [color]="badgeColor(r.estado)" class="text-sm">{{ r.estado }}</ion-badge>
+      <span [class]="estadoClasses(r.estado)">
+        <span [class]="estadoDotClasses(r.estado)"></span>
+        {{ estadoLabel(r.estado) }}
+      </span>
     </div>
     <!-- Datos de la ruta -->
     <div class="bg-surface rounded-xl p-4 mb-3">

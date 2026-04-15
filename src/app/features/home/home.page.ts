@@ -9,7 +9,6 @@ import {
   IonButtons,
   IonMenuButton,
   IonIcon,
-  IonBadge,
   IonFab,
   IonFabButton,
   IonRippleEffect,
@@ -38,7 +37,6 @@ import { CardSkeletonComponent } from '../../shared/components/card-skeleton/car
     IonButtons,
     IonMenuButton,
     IonIcon,
-    IonBadge,
     IonRippleEffect,
     AppFooterComponent,
     EmptyStateComponent,
@@ -89,15 +87,16 @@ export class HomePage {
     this.heroFallback.set(true);
   }
 
-  dificultadColor(dificultad: string): string {
+  dificultadOverlayClasses(dificultad: string): string {
     switch (dificultad?.toLowerCase()) {
-      case 'fácil':
-      case 'facil': return 'success';
-      case 'moderado':
-      case 'moderada': return 'warning';
-      case 'difícil':
-      case 'dificil': return 'danger';
-      default: return 'medium';
+      case 'fácil': case 'facil':
+        return 'inline-flex items-center gap-1.5 bg-green-500 text-white text-xs font-semibold rounded-full px-2.5 py-0.5 shadow-sm';
+      case 'moderado': case 'moderada':
+        return 'inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-semibold rounded-full px-2.5 py-0.5 shadow-sm';
+      case 'difícil': case 'dificil':
+        return 'inline-flex items-center gap-1.5 bg-red-500 text-white text-xs font-semibold rounded-full px-2.5 py-0.5 shadow-sm';
+      default:
+        return 'inline-flex items-center gap-1.5 bg-gray-500 text-white text-xs font-semibold rounded-full px-2.5 py-0.5 shadow-sm';
     }
   }
 }

@@ -154,7 +154,7 @@
           }
           <!-- Badge de dificultad -->
           <div class="absolute top-3 right-3 z-10">
-            <ion-badge [color]="dificultadColor(r.dificultad)">{{ r.dificultad }}</ion-badge>
+            <span [class]="dificultadOverlayClasses(r.dificultad)">{{ r.dificultad }}</span>
           </div>
         </div>
 

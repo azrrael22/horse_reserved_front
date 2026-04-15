@@ -75,7 +75,10 @@
             <!-- Título + badge -->
             <div class="flex items-start justify-between gap-2 mb-1.5">
               <p class="font-bold text-gray-800 section-title truncate">{{ r.rutaNombre }}</p>
-              <ion-badge [color]="badgeColor(r.estado)" class="flex-shrink-0">{{ r.estado }}</ion-badge>
+              <span [class]="estadoClasses(r.estado)">
+                <span [class]="estadoDotClasses(r.estado)"></span>
+                {{ estadoLabel(r.estado) }}
+              </span>
             </div>
 
             <!-- Metadatos con iconos -->

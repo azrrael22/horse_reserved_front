@@ -2,7 +2,6 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   IonButton,
-  IonBadge,
   IonSpinner,
   IonIcon,
 } from '@ionic/angular/standalone';
@@ -17,7 +16,6 @@ import { CaballoResponse } from '../../core/models/recurso.models';
   imports: [
     RouterLink,
     IonButton,
-    IonBadge,
     IonSpinner,
     IonIcon,
   ],
@@ -68,9 +66,12 @@ import { CaballoResponse } from '../../core/models/recurso.models';
             <div class="flex-1 min-w-0">
               <div class="flex items-start justify-between gap-2 mb-1">
                 <p class="font-bold text-gray-800 section-title truncate">{{ c.nombre }}</p>
-                <ion-badge [color]="c.activo ? 'success' : 'medium'" class="flex-shrink-0">
+                <span [class]="c.activo
+                  ? 'inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-xs font-medium rounded-full px-2.5 py-0.5 flex-shrink-0'
+                  : 'inline-flex items-center gap-1.5 bg-gray-100 text-gray-500 text-xs font-medium rounded-full px-2.5 py-0.5 flex-shrink-0'">
+                  <span [class]="c.activo ? 'w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0' : 'w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0'"></span>
                   {{ c.activo ? 'Activo' : 'Inactivo' }}
-                </ion-badge>
+                </span>
               </div>
               <p class="text-sm text-muted mb-3">{{ c.raza }}</p>
               <div class="flex gap-2">
