@@ -11,6 +11,15 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 
+function horaInicioValidator(control: AbstractControl): ValidationErrors | null {
+  const val = control.value as string;
+  if (!val) return null;
+  const [h, m] = val.split(':').map(Number);
+  const total = h * 60 + m;
+  if (total < 8 * 60 + 30 || total > 14 * 60 + 30) return { horaFueraRango: true };
+  return null;
+}
+
 function documentoFormatoValidator(control: AbstractControl): ValidationErrors | null {
   const tipo = control.get('tipoDocumento')?.value as string;
   const doc = control.get('documento')?.value as string;
@@ -144,7 +153,7 @@ export class ReservaEditPage implements OnInit {
     this.form = this.fb.nonNullable.group({
       rutaId: [reserva.rutaId, [Validators.required, Validators.min(1)]],
       fecha: [reserva.fechaProgramada, Validators.required],
-      horaInicio: [reserva.tiempoInicio.slice(0, 5), Validators.required],
+      horaInicio: [reserva.tiempoInicio.slice(0, 5), [Validators.required, horaInicioValidator]],
       participantes: this.fb.array(
         reserva.participantes.map((p) => this.createParticipanteGroup(p))
       ),

@@ -55,6 +55,9 @@
           <ion-label position="floating">Hora de inicio *</ion-label>
           <ion-input type="time" formControlName="horaInicio"></ion-input>
         </ion-item>
+        @if (form.controls.horaInicio.errors?.['horaFueraRango'] && form.controls.horaInicio.touched) {
+          <p class="error-message">La hora debe estar entre las 8:30 a.m. y las 2:30 p.m.</p>
+        }
         <!-- Campo clienteId solo para OPERADOR -->
         @if (esOperador()) {
           <ion-item class="rounded-lg mt-2">
