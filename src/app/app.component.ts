@@ -26,6 +26,7 @@ import {
   layersOutline,
 } from 'ionicons/icons';
 import { AuthService } from './core/services/auth.service';
+import { InactivityService } from './core/services/inactivity.service';
 import { AccessibilityFabComponent } from './shared/components/accessibility-fab/accessibility-fab.component';
 
 @Component({
@@ -54,6 +55,7 @@ import { AccessibilityFabComponent } from './shared/components/accessibility-fab
 })
 export class AppComponent {
   private readonly authService = inject(AuthService);
+  private readonly inactivityService = inject(InactivityService);
 
   readonly isLoggedIn = this.authService.isLoggedIn;
   readonly esAdmin = computed(() => this.authService.session()?.role === 'ADMINISTRADOR');
