@@ -169,6 +169,19 @@ export class ReservaCreatePage implements OnInit {
         this.error.set('No se pudieron cargar las rutas disponibles.');
       },
     });
+
+    if (!this.esOperador() && this.authService.isLoggedIn()) {
+      this.authService.getMe().subscribe({
+        next: (perfil) => {
+          const patch: Record<string, string> = {};
+          if (perfil.primerNombre)   patch['primerNombre']   = perfil.primerNombre;
+          if (perfil.primerApellido) patch['primerApellido'] = perfil.primerApellido;
+          if (perfil.tipoDocumento)  patch['tipoDocumento']  = perfil.tipoDocumento;
+          if (perfil.documento)      patch['documento']      = perfil.documento;
+          (this.participantes.at(0) as FormGroup).patchValue(patch);
+        },
+      });
+    }
   }
 
   private createParticipanteGroup(): FormGroup {
