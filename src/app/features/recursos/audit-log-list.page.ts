@@ -135,7 +135,7 @@ import {
                 {{ log.usuarioEmail ?? 'Sistema' }}
               </p>
               <p class="text-xs text-gray-400">
-                {{ log.ocurridoEn | date:'dd/MM/yy HH:mm:ss':'UTC' }}
+                {{ log.ocurridoEn | date:'dd/MM/yy HH:mm:ss':'America/Bogota' }}
                 @if (log.ipOrigen) { · {{ log.ipOrigen }} }
               </p>
               @if (log.detalle) {
