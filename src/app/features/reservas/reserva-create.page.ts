@@ -108,7 +108,7 @@ export class ReservaCreatePage implements OnInit {
 
   readonly esOperador = () => this.authService.session()?.role === 'OPERADOR';
 
-  readonly minFecha = new Date().toISOString().split('T')[0];
+  readonly minFecha = (() => { const d = new Date(); d.setDate(d.getDate() + 1); return d.toISOString().split('T')[0]; })();
   readonly maxFecha = `${new Date().getFullYear() + 5}-12-31`;
 
   onFechaChange(event: CustomEvent): void {

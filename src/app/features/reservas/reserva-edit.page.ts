@@ -99,7 +99,7 @@ export class ReservaEditPage implements OnInit {
   readonly rutas = signal<RutaResponse[]>([]);
   readonly fechaIso = signal('');
 
-  readonly minFecha = signal(new Date().toISOString().split('T')[0]);
+  readonly minFecha = signal((() => { const d = new Date(); d.setDate(d.getDate() + 1); return d.toISOString().split('T')[0]; })());
   readonly maxFecha = `${new Date().getFullYear() + 5}-12-31`;
 
   reservaId!: number;
@@ -147,8 +147,8 @@ export class ReservaEditPage implements OnInit {
   }
 
   private buildForm(reserva: ReservaResponse): void {
-    const today = new Date().toISOString().split('T')[0];
-    this.minFecha.set(reserva.fechaProgramada < today ? reserva.fechaProgramada : today);
+    const tomorrow = (() => { const d = new Date(); d.setDate(d.getDate() + 1); return d.toISOString().split('T')[0]; })();
+    this.minFecha.set(reserva.fechaProgramada < tomorrow ? reserva.fechaProgramada : tomorrow);
     this.fechaIso.set(reserva.fechaProgramada + 'T00:00:00');
     this.form = this.fb.nonNullable.group({
       rutaId: [reserva.rutaId, [Validators.required, Validators.min(1)]],
