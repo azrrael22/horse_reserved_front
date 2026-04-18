@@ -11,6 +11,7 @@ import {
   IonLabel,
   SegmentCustomEvent,
 } from '@ionic/angular/standalone';
+import { AuditLogListPage } from './audit-log-list.page';
 import { CaballosListPage } from './caballos-list.page';
 import { GuiasListPage } from './guias-list.page';
 
@@ -27,6 +28,7 @@ import { GuiasListPage } from './guias-list.page';
     IonSegment,
     IonSegmentButton,
     IonLabel,
+    AuditLogListPage,
     CaballosListPage,
     GuiasListPage,
   ],
@@ -49,13 +51,18 @@ import { GuiasListPage } from './guias-list.page';
           <ion-segment-button value="guias">
             <ion-label>Guías</ion-label>
           </ion-segment-button>
+          <ion-segment-button value="auditoria">
+            <ion-label>Auditoría</ion-label>
+          </ion-segment-button>
         </ion-segment>
       </div>
 
       @if (segmento() === 'caballos') {
         <app-caballos-list />
-      } @else {
+      } @else if (segmento() === 'guias') {
         <app-guias-list />
+      } @else {
+        <app-audit-log-list />
       }
     </ion-content>
   `,
@@ -66,9 +73,9 @@ import { GuiasListPage } from './guias-list.page';
   `],
 })
 export class RecursosPage {
-  readonly segmento = signal<'caballos' | 'guias'>('caballos');
+  readonly segmento = signal<'caballos' | 'guias' | 'auditoria'>('caballos');
 
   onSegmentChange(event: SegmentCustomEvent): void {
-    this.segmento.set(event.detail.value as 'caballos' | 'guias');
+    this.segmento.set(event.detail.value as 'caballos' | 'guias' | 'auditoria');
   }
 }
