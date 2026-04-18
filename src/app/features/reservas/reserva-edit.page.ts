@@ -54,6 +54,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline, trashOutline } from 'ionicons/icons';
+import { todayInColombia, addDays } from '../../core/utils/date.utils';
 import { ReservaService } from '../../core/services/reserva.service';
 import { RutaService } from '../../core/services/ruta.service';
 import { UpdateReservaRequest, TipoDocumentoReserva, ReservaResponse } from '../../core/models/reserva.models';
@@ -99,8 +100,8 @@ export class ReservaEditPage implements OnInit {
   readonly rutas = signal<RutaResponse[]>([]);
   readonly fechaIso = signal('');
 
-  readonly minFecha = signal((() => { const d = new Date(); d.setDate(d.getDate() + 1); return d.toISOString().split('T')[0]; })());
-  readonly maxFecha = `${new Date().getFullYear() + 5}-12-31`;
+  readonly minFecha = signal(addDays(todayInColombia(), 1));
+  readonly maxFecha = `${parseInt(todayInColombia().split('-')[0]) + 5}-12-31`;
 
   reservaId!: number;
   form!: FormGroup;
@@ -147,7 +148,7 @@ export class ReservaEditPage implements OnInit {
   }
 
   private buildForm(reserva: ReservaResponse): void {
-    const tomorrow = (() => { const d = new Date(); d.setDate(d.getDate() + 1); return d.toISOString().split('T')[0]; })();
+    const tomorrow = addDays(todayInColombia(), 1);
     this.minFecha.set(reserva.fechaProgramada < tomorrow ? reserva.fechaProgramada : tomorrow);
     this.fechaIso.set(reserva.fechaProgramada + 'T00:00:00');
     this.form = this.fb.nonNullable.group({

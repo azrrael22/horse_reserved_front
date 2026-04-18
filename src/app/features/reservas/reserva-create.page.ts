@@ -62,6 +62,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { CreateReservaRequest, TipoDocumentoReserva } from '../../core/models/reserva.models';
 import { RutaResponse } from '../../core/models/ruta.models';
 import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
+import { todayInColombia, addDays } from '../../core/utils/date.utils';
 
 @Component({
   selector: 'app-reserva-create',
@@ -108,8 +109,8 @@ export class ReservaCreatePage implements OnInit {
 
   readonly esOperador = () => this.authService.session()?.role === 'OPERADOR';
 
-  readonly minFecha = (() => { const d = new Date(); d.setDate(d.getDate() + 1); return d.toISOString().split('T')[0]; })();
-  readonly maxFecha = `${new Date().getFullYear() + 5}-12-31`;
+  readonly minFecha = addDays(todayInColombia(), 1);
+  readonly maxFecha = `${parseInt(todayInColombia().split('-')[0]) + 5}-12-31`;
 
   onFechaChange(event: CustomEvent): void {
     const value = event.detail.value as string;
