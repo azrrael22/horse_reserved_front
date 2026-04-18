@@ -13,7 +13,6 @@ import { EMPTY, catchError } from 'rxjs';
 
 import {
   IonBackButton,
-  IonBadge,
   IonButton,
   IonButtons,
   IonChip,
@@ -66,7 +65,6 @@ import { KNOWN_CHATBOT_ROUTES } from '../../core/config/chatbot-routes.config';
     IonChip,
     IonLabel,
     IonTextarea,
-    IonBadge,
   ],
   templateUrl: './chatbot.page.html',
   styleUrls: ['./chatbot.page.scss'],
@@ -188,16 +186,6 @@ export class ChatbotPage {
 
   // ── Helpers de UI ─────────────────────────────────────────────────────
 
-  formatConfidence(confidence: number): string {
-    return `${Math.round(confidence * 100)}%`;
-  }
-
-  confidenceBadgeColor(confidence: number): 'success' | 'warning' | 'danger' {
-    if (confidence >= 0.75) return 'success';
-    if (confidence >= 0.5) return 'warning';
-    return 'danger';
-  }
-
   isInternalNavigation(action: ChatbotAction): boolean {
     return (
       action.type === 'NAVIGATION' && this.knownRoutes.has(action.endpoint)
@@ -207,7 +195,7 @@ export class ChatbotPage {
   // ── Privados ──────────────────────────────────────────────────────────
 
   private scrollToBottom(): void {
-    setTimeout(() => this.content?.scrollToBottom(300), 80);
+    setTimeout(() => this.content?.scrollToBottom(300), 150);
   }
 
   private resolveErrorMessage(err: HttpErrorResponse): string {

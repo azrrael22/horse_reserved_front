@@ -39,13 +39,6 @@
 
             @if (msg.response) {
 
-              <!-- Confianza -->
-              <div class="confidence-row">
-                <ion-badge [color]="confidenceBadgeColor(msg.response.confidence)">
-                  Confianza: {{ formatConfidence(msg.response.confidence) }}
-                </ion-badge>
-              </div>
-
               <!-- Notas -->
               @if (msg.response.notes.length > 0) {
                 <div class="extra-section">
