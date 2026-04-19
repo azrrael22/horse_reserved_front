@@ -124,6 +124,24 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/recursos/guia-form.page').then((m) => m.GuiaFormPage),
       },
+      // Resultado de pago MercadoPago
+      {
+        path: 'pago/exito',
+        loadComponent: () =>
+          import('./features/pago/pago-exito/pago-exito.page').then((m) => m.PagoExitoPage),
+      },
+      {
+        path: 'pago/fallo',
+        loadComponent: () =>
+          import('./features/pago/pago-fallo/pago-fallo.page').then((m) => m.PagoFalloPage),
+      },
+      {
+        path: 'pago/pendiente',
+        loadComponent: () =>
+          import('./features/pago/pago-pendiente/pago-pendiente.page').then(
+            (m) => m.PagoPendientePage
+          ),
+      },
       {
         path: '',
         redirectTo: 'inicio',

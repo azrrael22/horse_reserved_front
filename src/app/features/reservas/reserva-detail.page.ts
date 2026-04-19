@@ -15,9 +15,11 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { createOutline, calendarOutline, peopleOutline } from 'ionicons/icons';
+import { createOutline, calendarOutline, peopleOutline, cardOutline } from 'ionicons/icons';
 import { ReservaService } from '../../core/services/reserva.service';
 import { AuthService } from '../../core/services/auth.service';
+import { PagoService } from '../../core/services/pago.service';
+import { ToastService } from '../../core/services/toast.service';
 import { ReservaResponse } from '../../core/models/reserva.models';
 import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
 
@@ -47,17 +49,20 @@ export class ReservaDetailPage {
   private readonly router = inject(Router);
   private readonly reservaService = inject(ReservaService);
   private readonly authService = inject(AuthService);
+  private readonly pagoService = inject(PagoService);
+  private readonly toastService = inject(ToastService);
   private readonly alertCtrl = inject(AlertController);
 
   readonly loading = signal(false);
   readonly cancelando = signal(false);
+  readonly iniciandoPago = signal(false);
   readonly error = signal('');
   readonly reserva = signal<ReservaResponse | null>(null);
 
   readonly esAdmin = () => this.authService.session()?.role === 'ADMINISTRADOR';
 
   constructor() {
-    addIcons({ createOutline, calendarOutline, peopleOutline });
+    addIcons({ createOutline, calendarOutline, peopleOutline, cardOutline });
   }
 
   ionViewWillEnter(): void {
@@ -80,6 +85,22 @@ export class ReservaDetailPage {
       error: (err) => {
         this.loading.set(false);
         this.error.set(err?.error?.message ?? 'No se pudo cargar la reserva.');
+      },
+    });
+  }
+
+  pagarConMercadoPago(): void {
+    const r = this.reserva();
+    if (!r || this.iniciandoPago()) return;
+
+    this.iniciandoPago.set(true);
+    this.pagoService.crearPreferencia({ reservaId: r.id }).subscribe({
+      next: (res) => {
+        window.location.href = res.sandboxInitPoint;
+      },
+      error: (err) => {
+        this.iniciandoPago.set(false);
+        this.toastService.error(err?.error?.message ?? 'No se pudo iniciar el pago.');
       },
     });
   }

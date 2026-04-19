@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>Pago fallido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="flex flex-col items-center justify-center h-full gap-6 text-center">
+    <ion-icon name="close-circle-outline" class="text-red-500" style="font-size: 5rem;"></ion-icon>
+    <h2 class="text-2xl font-bold text-gray-800">El pago no se pudo completar</h2>
+    <p class="text-gray-500">Puedes intentarlo de nuevo desde el detalle de tu reserva.</p>
+    <ion-button expand="block" color="primary" (click)="irAReservas()">
+      Volver a mis reservas
+    </ion-button>
+  </div>
+</ion-content>

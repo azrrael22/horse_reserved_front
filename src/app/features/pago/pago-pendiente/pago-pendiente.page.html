@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-title>Pago pendiente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="flex flex-col items-center justify-center h-full gap-6 text-center">
+    <ion-icon name="time-outline" class="text-yellow-500" style="font-size: 5rem;"></ion-icon>
+    <h2 class="text-2xl font-bold text-gray-800">Pago en proceso</h2>
+    <p class="text-gray-500">Tu pago está siendo procesado. Te notificaremos cuando se confirme.</p>
+    <ion-button expand="block" color="primary" (click)="irAReservas()">
+      Ver mis reservas
+    </ion-button>
+  </div>
+</ion-content>
