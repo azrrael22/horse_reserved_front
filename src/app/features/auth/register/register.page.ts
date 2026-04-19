@@ -38,21 +38,13 @@ import {
 } from 'ionicons/icons';
 import { AuthService } from '../../../core/services/auth.service';
 import { AppFooterComponent } from '../../../shared/components/app-footer/app-footer.component';
+import { PasswordStrengthComponent } from '../../../shared/components/password-strength/password-strength.component';
 import {
   TipoDocumento,
   TIPO_DOCUMENTO_LABELS,
 } from '../../../core/models/auth.models';
 import { environment } from '../../../../environments/environment';
-
-function passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
-  const value: string = control.value || '';
-  const errors: ValidationErrors = {};
-  if (value.length > 0 && value.length < 12) errors['minlength'] = { requiredLength: 12, actualLength: value.length };
-  if (value.length >= 12 && !/[A-Z]/.test(value)) errors['requiresUppercase'] = true;
-  if (value.length >= 12 && !/[0-9]/.test(value)) errors['requiresNumber'] = true;
-  if (value.length >= 12 && !/[^A-Za-z0-9]/.test(value)) errors['requiresSpecial'] = true;
-  return Object.keys(errors).length ? errors : null;
-}
+import { passwordStrengthValidator } from '../../../core/validators/password-strength.validator';
 
 function passwordMatchValidator(
   control: AbstractControl
@@ -98,7 +90,8 @@ function documentoFormatoValidator(control: AbstractControl): ValidationErrors |
     IonModal,
     IonCheckbox,
     RecaptchaModule,
-    AppFooterComponent
+    AppFooterComponent,
+    PasswordStrengthComponent,
 ],
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],

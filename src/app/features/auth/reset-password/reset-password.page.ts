@@ -7,6 +7,8 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
+import { passwordStrengthValidator } from '../../../core/validators/password-strength.validator';
+import { PasswordStrengthComponent } from '../../../shared/components/password-strength/password-strength.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
@@ -52,7 +54,8 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
     IonLabel,
     IonIcon,
     IonSpinner,
-    IonText
+    IonText,
+    PasswordStrengthComponent,
 ],
   templateUrl: './reset-password.page.html',
   styleUrls: ['./reset-password.page.scss'],
@@ -73,7 +76,7 @@ export class ResetPasswordPage implements OnInit {
 
   readonly form = this.fb.nonNullable.group(
     {
-      nuevaPassword: ['', [Validators.required, Validators.minLength(8)]],
+      nuevaPassword: ['', [Validators.required, passwordStrengthValidator]],
       confirmarPassword: ['', [Validators.required]],
     },
     { validators: passwordMatchValidator }

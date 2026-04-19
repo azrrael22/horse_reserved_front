@@ -7,6 +7,8 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
+import { passwordStrengthValidator } from '../../../core/validators/password-strength.validator';
+import { PasswordStrengthComponent } from '../../../shared/components/password-strength/password-strength.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   IonContent,
@@ -53,6 +55,7 @@ function newPasswordMatchValidator(
     IonText,
     IonBackButton,
     IonButtons,
+    PasswordStrengthComponent,
   ],
   templateUrl: './change-password.page.html',
   styleUrls: ['./change-password.page.scss'],
@@ -70,7 +73,7 @@ export class ChangePasswordPage {
   readonly form = this.fb.nonNullable.group(
     {
       passwordActual: ['', [Validators.required]],
-      passwordNueva: ['', [Validators.required, Validators.minLength(8)]],
+      passwordNueva: ['', [Validators.required, passwordStrengthValidator]],
       confirmarPassword: ['', [Validators.required]],
     },
     { validators: newPasswordMatchValidator }
