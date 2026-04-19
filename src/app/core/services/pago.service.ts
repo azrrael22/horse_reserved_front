@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, interval, switchMap, filter, take } from 'rxjs';
+import { Observable, interval, timer, race, switchMap, filter, take, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
   CrearPreferenciaMpRequest,
@@ -27,12 +27,15 @@ export class PagoService {
     });
   }
 
-  // Polling: consulta cada 3s hasta que el estado ya no sea PENDIENTE (máx ~2 min)
   esperarConfirmacion(intentoId: number): Observable<IntentoPagoResponse> {
-    return interval(3000).pipe(
+    const polling$ = interval(3000).pipe(
       switchMap(() => this.consultarEstado(intentoId)),
       filter((res) => res.estado !== 'PENDIENTE'),
-      take(1)
+      take(1),
     );
+    const timeout$ = timer(120_000).pipe(
+      switchMap(() => throwError(() => new Error('Tiempo de espera agotado'))),
+    );
+    return race(polling$, timeout$);
   }
 }
