@@ -8,6 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
     "ionic:build": "ng build",
     "ionic:serve": "ng serve",
     "cap:sync": "ng build && cap sync",
