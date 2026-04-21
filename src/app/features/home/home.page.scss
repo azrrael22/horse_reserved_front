@@ -1,3 +1,15 @@
+// ─── Chatbot FAB — alineado con accessibility-fab ─────────────────────────────
+
+ion-fab {
+  right: 16px !important;
+}
+
+ion-fab-button {
+  --size: 48px;
+  width: 48px !important;
+  height: 48px !important;
+}
+
 // ─── Fondo crema — Nature Distilled ───────────────────────────────────────────
 
 ion-content {
