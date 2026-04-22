@@ -106,6 +106,16 @@ export class ReservaEditPage implements OnInit {
   reservaId!: number;
   form!: FormGroup;
 
+  readonly horasDisponibles: string[] = [
+    '08:30', '09:00', '09:30', '10:00', '10:30', '11:00',
+    '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
+  ];
+
+  seleccionarHora(hora: string): void {
+    this.form.controls['horaInicio'].setValue(hora);
+    this.form.controls['horaInicio'].markAsTouched();
+  }
+
   constructor() {
     addIcons({ addOutline, trashOutline });
   }

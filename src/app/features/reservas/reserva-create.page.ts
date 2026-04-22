@@ -109,6 +109,16 @@ export class ReservaCreatePage implements OnInit {
 
   readonly esOperador = () => this.authService.session()?.role === 'OPERADOR';
 
+  readonly horasDisponibles: string[] = [
+    '08:30', '09:00', '09:30', '10:00', '10:30', '11:00',
+    '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
+  ];
+
+  seleccionarHora(hora: string): void {
+    this.form.controls.horaInicio.setValue(hora);
+    this.form.controls.horaInicio.markAsTouched();
+  }
+
   readonly minFecha = addDays(todayInColombia(), 1);
   readonly maxFecha = `${parseInt(todayInColombia().split('-')[0]) + 5}-12-31`;
 

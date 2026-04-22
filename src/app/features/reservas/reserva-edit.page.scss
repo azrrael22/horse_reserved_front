@@ -30,3 +30,31 @@ ion-button[expand='block']:not([fill='outline']):not([color='danger']) {
 ion-button[size='small'] {
   --border-radius: 10px;
 }
+
+// ─── Chips de hora de inicio ────────────────────────────────────────────────
+
+.hora-chip {
+  padding: 9px 4px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+  background: white;
+  color: var(--ion-color-secondary);
+  border: 1.5px solid var(--ion-color-light-shade);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &.selected {
+    background: var(--ion-color-primary);
+    color: white;
+    border-color: var(--ion-color-primary);
+    box-shadow: 0 2px 8px rgba(41, 80, 115, 0.30);
+    font-weight: 600;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
