@@ -32,12 +32,3 @@ ion-button[expand='block'] {
 ion-button[expand='block']:not([fill='outline']) {
   --box-shadow: 0 4px 20px rgba(41, 80, 115, 0.22);
 }
-
-// ─── Barra inferior sticky (mobile) ───────────────────────────────────────────
-
-.fixed.bottom-0 {
-  background: rgba(249, 245, 239, 0.95) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top-color: rgba(220, 232, 242, 0.6) !important;
-}
