@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/cuenta" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dar de baja</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="mx-auto max-w-sm px-2 pt-6 pb-10">
+
+    <!-- Icono de advertencia -->
+    <div class="flex flex-col items-center mb-8">
+      <div class="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center mb-4">
+        <ion-icon name="warning-outline" class="text-danger" style="font-size: 2.5rem;"></ion-icon>
+      </div>
+      <h2 class="text-xl font-bold text-gray-800 text-center">¿Deseas dar de baja tu cuenta?</h2>
+      <p class="text-sm text-gray-500 text-center mt-2">Esta acción es permanente.</p>
+    </div>
+
+    <!-- Consecuencias -->
+    <div class="rounded-2xl bg-red-50 border border-red-100 p-4 mb-6">
+      <p class="text-sm font-semibold text-danger mb-3">Al dar de baja tu cuenta:</p>
+      <ul class="space-y-2">
+        <li class="flex items-start gap-2 text-sm text-gray-700">
+          <ion-icon name="person-remove-outline" class="text-danger flex-shrink-0 mt-0.5"></ion-icon>
+          Tu cuenta quedará desactivada de forma permanente.
+        </li>
+        <li class="flex items-start gap-2 text-sm text-gray-700">
+          <ion-icon name="person-remove-outline" class="text-danger flex-shrink-0 mt-0.5"></ion-icon>
+          No podrás volver a acceder con tu sesión actual.
+        </li>
+        <li class="flex items-start gap-2 text-sm text-gray-700">
+          <ion-icon name="person-remove-outline" class="text-danger flex-shrink-0 mt-0.5"></ion-icon>
+          Tu historial de reservas no estará disponible.
+        </li>
+        <li class="flex items-start gap-2 text-sm text-gray-700">
+          <ion-icon name="person-remove-outline" class="text-danger flex-shrink-0 mt-0.5"></ion-icon>
+          Puedes registrarte nuevamente con el mismo u otro email cuando quieras.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Error -->
+    @if (errorMessage()) {
+      <div class="mb-4 rounded-lg bg-red-50 p-3 border border-red-200" role="alert" aria-live="polite">
+        <ion-text color="danger">
+          <p class="text-sm">{{ errorMessage() }}</p>
+        </ion-text>
+      </div>
+    }
+
+    <!-- Checkbox de confirmación -->
+    <div class="mb-8 p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-start justify-center gap-3">
+      <ion-checkbox
+        [(ngModel)]="confirmed"
+        aria-label="Confirmar baja"
+        class="flex-shrink-0 mt-0.5"
+      ></ion-checkbox>
+      <span class="text-sm text-gray-700 text-center">
+        Entiendo que esta acción es irreversible y que deberé crear una cuenta nueva para volver a usar la aplicación.
+      </span>
+    </div>
+
+    <!-- Botones -->
+    <ion-button
+      expand="block"
+      color="danger"
+      [disabled]="!confirmed || loading()"
+      (click)="onConfirm()"
+      class="mb-3"
+    >
+      @if (loading()) {
+        <ion-spinner name="crescent" class="mr-2" aria-hidden="true"></ion-spinner>
+        Procesando...
+      } @else {
+        <ion-icon name="person-remove-outline" slot="start"></ion-icon>
+        Confirmar baja
+      }
+    </ion-button>
+
+    <ion-button
+      expand="block"
+      fill="outline"
+      color="medium"
+      (click)="goBack()"
+      [disabled]="loading()"
+    >
+      Cancelar
+    </ion-button>
+
+  </div>
+</ion-content>

@@ -78,6 +78,15 @@
         <ion-icon name="chevron-forward-outline" class="text-gray-300"></ion-icon>
       </a>
 
+      <a routerLink="/auth/delete-account"
+         class="flex items-center gap-3 px-4 py-4 cursor-pointer hover:bg-red-50 transition-colors duration-200 border-b border-gray-100">
+        <div class="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
+          <ion-icon name="person-remove-outline" class="text-danger"></ion-icon>
+        </div>
+        <span class="flex-1 text-sm font-medium text-danger">Dar de baja</span>
+        <ion-icon name="chevron-forward-outline" class="text-gray-300"></ion-icon>
+      </a>
+
       <button
         (click)="logout()"
         class="w-full flex items-center gap-3 px-4 py-4 cursor-pointer hover:bg-red-50 transition-colors duration-200 text-left"

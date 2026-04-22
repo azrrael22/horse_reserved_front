@@ -11,7 +11,7 @@ import {
   IonBadge,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { keyOutline, logOutOutline, chevronForwardOutline } from 'ionicons/icons';
+import { keyOutline, logOutOutline, chevronForwardOutline, personRemoveOutline } from 'ionicons/icons';
 import { AuthService } from '../../core/services/auth.service';
 import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
 import { UserAvatarComponent } from '../../shared/components/user-avatar/user-avatar.component';
@@ -40,7 +40,7 @@ export class CuentaPage {
   readonly session = this.authService.session;
 
   constructor() {
-    addIcons({ keyOutline, logOutOutline, chevronForwardOutline });
+    addIcons({ keyOutline, logOutOutline, chevronForwardOutline, personRemoveOutline });
   }
 
   logout(): void {

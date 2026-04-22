@@ -70,6 +70,10 @@ export class AuthService {
     });
   }
 
+  deleteAccount(): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete-account`);
+  }
+
   // ─── OAuth2 ────────────────────────────────────────────────────────────────
 
   /**

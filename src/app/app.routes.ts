@@ -31,6 +31,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'auth/delete-account',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/auth/delete-account/delete-account.page').then(
+        (m) => m.DeleteAccountPage
+      ),
+  },
+  {
     path: 'auth/forgot-password',
     canActivate: [guestGuard],
     loadComponent: () =>
