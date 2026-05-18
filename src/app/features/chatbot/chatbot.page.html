@@ -12,7 +12,7 @@
 
 <!-- ── Área de mensajes ──────────────────────────────────────────────── -->
 <ion-content class="chat-content">
-  <div class="messages-wrapper">
+  <div class="messages-wrapper" #messagesWrapper>
 
     @for (msg of messages(); track trackByIndex($index)) {
 
@@ -32,17 +32,18 @@
           <div class="bot-avatar" aria-hidden="true">🐴</div>
 
           <div class="bubble bot-bubble">
-            <!-- Respuesta principal -->
             <p class="message-text">{{ msg.text }}</p>
 
             @if (msg.response) {
 
-              <!-- Confianza -->
-              <div class="confidence-row">
-                <ion-badge [color]="confidenceBadgeColor(msg.response.confidence)">
-                  Confianza: {{ formatConfidence(msg.response.confidence) }}
-                </ion-badge>
-              </div>
+              <!-- Confianza (solo FAQ, no flujo de reserva) -->
+              @if (!msg.response.flow && msg.response.intentId !== 'welcome') {
+                <div class="confidence-row">
+                  <ion-badge [color]="confidenceBadgeColor(msg.response.confidence)">
+                    Confianza: {{ formatConfidence(msg.response.confidence) }}
+                  </ion-badge>
+                </div>
+              }
 
               <!-- Notas -->
               @if (msg.response.notes.length > 0) {
@@ -56,41 +57,302 @@
                 </div>
               }
 
-              <!-- CTA de acción -->
+              <!-- CTA de acción (FAQ o login cuando el flujo lo requiere) -->
               @if (msg.response.action; as action) {
-                <div class="extra-section">
-                  @if (isInternalNavigation(action)) {
-                    <ion-button
-                      size="small"
-                      fill="solid"
-                      color="primary"
-                      (click)="handleAction(action)">
-                      <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
-                      Ir ahora
-                    </ion-button>
-                  } @else {
-                    <ion-button
-                      size="small"
-                      fill="outline"
-                      color="medium"
-                      (click)="handleAction(action)">
-                      <ion-icon name="copy-outline" slot="end"></ion-icon>
-                      Copiar endpoint
-                    </ion-button>
-                  }
-                </div>
+                @if (!msg.response.flow || action.endpoint === '/auth/login') {
+                  <div class="extra-section">
+                    @if (isInternalNavigation(action)) {
+                      <ion-button size="small" fill="solid" color="primary" (click)="handleAction(action)">
+                        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+                        Ir ahora
+                      </ion-button>
+                    } @else {
+                      <ion-button size="small" fill="outline" color="medium" (click)="handleAction(action)">
+                        <ion-icon name="copy-outline" slot="end"></ion-icon>
+                        Copiar endpoint
+                      </ion-button>
+                    }
+                  </div>
+                }
               }
 
-              <!-- Sugerencias -->
-              @if (msg.response.suggestions.length > 0) {
+              <!-- ══════════════════════════════════════════════════════
+                   FLUJO DE RESERVA
+                   Condición: el backend devuelve flow === 'crear_reserva'
+                   + el usuario está logueado como CLIENTE (JWT presente).
+                   Si no hay JWT, el backend devuelve action.endpoint='/auth/login'
+                   y no hay data.routes.
+                   ══════════════════════════════════════════════════════ -->
+              @if (msg.response.flow === 'crear_reserva') {
+                <div class="reservation-flow-card">
+
+                  <!-- SELECT_ROUTE
+                       Depende de: getRoutes(msg.response.data).length > 0
+                       El backend devuelve data.routes cuando el usuario tiene rol CLIENTE -->
+                  @if (msg.response.step === 'SELECT_ROUTE') {
+                    @if (getRoutes(msg.response.data).length > 0) {
+                      <div class="route-options">
+                        @for (route of getRoutes(msg.response.data); track route.id) {
+                          <ion-button class="route-option" fill="outline" expand="block" (click)="selectRoute(route)">
+                            <span class="route-btn-content">
+                              <span class="route-name">{{ route.nombre }}</span>
+                              <span class="option-meta">
+                                {{ formatCurrency(route.precio) }}
+                                · {{ route.duracionMinutos }} min
+                                · {{ route.dificultad }}
+                              </span>
+                            </span>
+                          </ion-button>
+                        }
+                      </div>
+                    } @else {
+                      <p class="no-data-hint">No hay rutas disponibles en este momento.</p>
+                    }
+                  }
+
+                  <!-- SELECT_DATE -->
+                  @if (msg.response.step === 'SELECT_DATE') {
+                    <div class="step-form">
+                      <ion-input
+                        type="date"
+                        label="Fecha de reserva"
+                        labelPlacement="stacked"
+                        fill="outline"
+                        [min]="minReservationDate()"
+                        [value]="selectedDate()"
+                        (ionInput)="onReservationDateInput($event)">
+                      </ion-input>
+                      <ion-button
+                        expand="block"
+                        (click)="selectDate(selectedDate())"
+                        [disabled]="!selectedDate() || isLoading()">
+                        Continuar
+                      </ion-button>
+                    </div>
+                  }
+
+                  <!-- SELECT_TIME -->
+                  @if (msg.response.step === 'SELECT_TIME') {
+                    @if (getTimes(msg.response.data).length > 0) {
+                      <div class="time-options">
+                        @for (time of getTimes(msg.response.data); track time.horaInicio) {
+                          <ion-button fill="outline" expand="block" (click)="selectTime(time)">
+                            <span class="time-btn-content">
+                              <span>{{ formatTime(time.horaInicio) }} – {{ formatTime(time.horaFin) }}</span>
+                              <span class="option-meta">
+                                {{ time.cuposDisponiblesEstimados }} cupos
+                                · {{ formatCurrency(time.precioPorPersona) }}/persona
+                              </span>
+                            </span>
+                          </ion-button>
+                        }
+                      </div>
+                    } @else {
+                      <p class="no-data-hint">No hay horarios disponibles para esa fecha.</p>
+                    }
+                  }
+
+                  <!-- SELECT_PEOPLE_COUNT -->
+                  @if (msg.response.step === 'SELECT_PEOPLE_COUNT') {
+                    <div class="step-form">
+                      <ion-input
+                        type="number"
+                        min="1"
+                        label="Cantidad de personas"
+                        labelPlacement="stacked"
+                        fill="outline"
+                        [value]="peopleCount()"
+                        (ionInput)="onPeopleCountInput($event)">
+                      </ion-input>
+                      <ion-button
+                        expand="block"
+                        (click)="submitPeopleCount(peopleCount())"
+                        [disabled]="peopleCount() < 1 || isLoading()">
+                        Continuar
+                      </ion-button>
+                    </div>
+                  }
+
+                  <!-- COLLECT_PARTICIPANT -->
+                  @if (msg.response.step === 'COLLECT_PARTICIPANT') {
+                    <div class="participant-form">
+                      <p class="participant-header">
+                        Participante {{ getParticipantIndex(msg.response.data) }}
+                        de {{ getTotalParticipants(msg.response.data) }}
+                      </p>
+
+                      <div class="participant-grid">
+
+                        <ion-input
+                          label="Primer nombre"
+                          labelPlacement="stacked"
+                          fill="outline"
+                          maxlength="100"
+                          [value]="participantForm().primerNombre"
+                          (ionInput)="onParticipantInput('primerNombre', $event)">
+                        </ion-input>
+
+                        <ion-input
+                          label="Primer apellido"
+                          labelPlacement="stacked"
+                          fill="outline"
+                          maxlength="100"
+                          [value]="participantForm().primerApellido"
+                          (ionInput)="onParticipantInput('primerApellido', $event)">
+                        </ion-input>
+
+                        <ion-item lines="none" class="select-item">
+                          <ion-select
+                            label="Tipo de documento"
+                            labelPlacement="stacked"
+                            interface="action-sheet"
+                            [value]="participantForm().tipoDocumento"
+                            (ionChange)="onParticipantInput('tipoDocumento', $event)">
+                            @for (opt of getDocTypes(msg.response.data); track opt) {
+                              <ion-select-option [value]="opt">{{ opt }}</ion-select-option>
+                            }
+                          </ion-select>
+                        </ion-item>
+
+                        <ion-input
+                          label="Número de documento"
+                          labelPlacement="stacked"
+                          fill="outline"
+                          maxlength="50"
+                          [value]="participantForm().documento"
+                          (ionInput)="onParticipantInput('documento', $event)">
+                        </ion-input>
+
+                        <ion-input
+                          type="number"
+                          label="Edad"
+                          labelPlacement="stacked"
+                          fill="outline"
+                          min="1"
+                          max="119"
+                          [value]="participantForm().edad"
+                          (ionInput)="onParticipantInput('edad', $event)">
+                        </ion-input>
+
+                        <ion-input
+                          type="number"
+                          label="Altura (cm)"
+                          labelPlacement="stacked"
+                          fill="outline"
+                          min="1"
+                          [value]="participantForm().cmAltura"
+                          (ionInput)="onParticipantInput('cmAltura', $event)">
+                        </ion-input>
+
+                        <ion-input
+                          type="number"
+                          label="Peso (kg)"
+                          labelPlacement="stacked"
+                          fill="outline"
+                          min="0.01"
+                          step="0.01"
+                          [value]="participantForm().kgPeso"
+                          (ionInput)="onParticipantInput('kgPeso', $event)">
+                        </ion-input>
+
+                      </div>
+
+                      <ion-button
+                        expand="block"
+                        (click)="submitCurrentParticipant(getParticipantIndex(msg.response.data))"
+                        [disabled]="isLoading()">
+                        Guardar participante
+                      </ion-button>
+                    </div>
+                  }
+
+                  <!-- CONFIRM_RESERVATION -->
+                  @if (msg.response.step === 'CONFIRM_RESERVATION') {
+                    @if (getSummary(msg.response.data); as summary) {
+                      <div class="summary-card">
+                        <p class="summary-title">Resumen de tu reserva</p>
+                        <p><span class="lbl">Ruta:</span> {{ summary.rutaNombre }}</p>
+                        <p><span class="lbl">Fecha:</span> {{ summary.fecha }}</p>
+                        <p>
+                          <span class="lbl">Horario:</span>
+                          {{ formatTime(summary.horaInicio) }} – {{ formatTime(summary.horaFin) }}
+                        </p>
+                        <p><span class="lbl">Personas:</span> {{ summary.cantPersonas }}</p>
+                        <p><span class="lbl">Precio/persona:</span> {{ formatCurrency(summary.precioUnitario) }}</p>
+                        <p class="total-line"><span class="lbl">Total:</span> {{ formatCurrency(summary.precioTotal) }}</p>
+
+                        @if (summary.participantes?.length) {
+                          <p class="section-sub-label">Participantes</p>
+                          @for (p of summary.participantes; track p.documento) {
+                            <p class="participant-line">
+                              {{ p.primerNombre }} {{ p.primerApellido }}
+                              · {{ p.tipoDocumento }} {{ p.documento }}
+                              · {{ p.edad }} años
+                            </p>
+                          }
+                        }
+
+                        @if (getDataError(msg.response.data); as dataError) {
+                          <p class="error-inline">{{ dataError }}</p>
+                        }
+
+                        <div class="confirm-actions">
+                          <ion-button
+                            color="success"
+                            expand="block"
+                            (click)="confirmReservation()"
+                            [disabled]="isLoading()">
+                            ✅ Confirmar reserva
+                          </ion-button>
+                          <ion-button
+                            color="danger"
+                            fill="outline"
+                            expand="block"
+                            (click)="cancelReservation()"
+                            [disabled]="isLoading()">
+                            Cancelar
+                          </ion-button>
+                        </div>
+                      </div>
+                    }
+                  }
+
+                  <!-- COMPLETED -->
+                  @if (msg.response.step === 'COMPLETED') {
+                    @if (getReservation(msg.response.data); as reservation) {
+                      <div class="success-card">
+                        <p class="success-title">🎉 ¡Reserva creada!</p>
+                        <p><span class="lbl">N.° reserva:</span> #{{ reservation.id }}</p>
+                        <p><span class="lbl">Estado:</span> {{ reservation.estado }}</p>
+                        <p class="total-line">
+                          <span class="lbl">Total:</span> {{ formatCurrency(reservation.precioTotal) }}
+                        </p>
+                        <ion-button expand="block" (click)="goToReservation(msg.response!)">
+                          Ver reserva
+                        </ion-button>
+                      </div>
+                    }
+                  }
+
+                  <!-- CANCELLED -->
+                  @if (msg.response.step === 'CANCELLED') {
+                    <div class="cancelled-card">
+                      <ion-button fill="outline" expand="block" (click)="sendSuggestion('quiero reservar')">
+                        🔄 Intentar de nuevo
+                      </ion-button>
+                    </div>
+                  }
+
+                </div><!-- /reservation-flow-card -->
+              }
+
+              <!-- Sugerencias (FAQ y mensaje de bienvenida) -->
+              @if (msg.response.suggestions.length > 0 && !msg.response.flow) {
                 <div class="extra-section">
                   <p class="section-label">💡 También puedes preguntar:</p>
                   <div class="chips-row">
                     @for (suggestion of msg.response.suggestions; track $index) {
-                      <ion-chip
-                        color="primary"
-                        [outline]="true"
-                        (click)="sendSuggestion(suggestion)">
+                      <ion-chip color="primary" [outline]="true" (click)="sendSuggestion(suggestion)">
                         <ion-label>{{ suggestion }}</ion-label>
                       </ion-chip>
                     }
@@ -107,7 +369,7 @@
 
     }<!-- /@for -->
 
-    <!-- Indicador de carga (bot escribiendo) -->
+    <!-- Indicador de carga -->
     @if (isLoading()) {
       <div class="message-row bot-row" aria-live="polite" aria-label="El asistente está escribiendo">
         <div class="bot-avatar" aria-hidden="true">🐴</div>
@@ -142,15 +404,11 @@
       [rows]="1"
       [autoGrow]="true"
       [disabled]="isLoading()"
-      aria-label="Campo de pregunta al asistente"
-    ></ion-textarea>
+      aria-label="Campo de pregunta al asistente">
+    </ion-textarea>
 
-    <!-- Contador de caracteres (visible solo cerca del límite) -->
     @if (charCount() > 250) {
-      <span
-        class="char-counter"
-        [class.over-limit]="charCount() > 300"
-        aria-live="polite">
+      <span class="char-counter" [class.over-limit]="charCount() > 300" aria-live="polite">
         {{ charCount() }}/300
       </span>
     }
