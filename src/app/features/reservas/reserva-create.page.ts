@@ -55,7 +55,7 @@ import {
   IonModal,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, informationCircleOutline, trashOutline } from 'ionicons/icons';
+import { informationCircleOutline, trashOutline } from 'ionicons/icons';
 import { ReservaService } from '../../core/services/reserva.service';
 import { RutaService } from '../../core/services/ruta.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -106,6 +106,7 @@ export class ReservaCreatePage implements OnInit {
   readonly loadingRutas = signal(false);
   readonly error = signal('');
   readonly rutas = signal<RutaResponse[]>([]);
+  readonly cantPersonas = signal(1);
 
   readonly esOperador = () => this.authService.session()?.role === 'OPERADOR';
 
@@ -160,7 +161,7 @@ export class ReservaCreatePage implements OnInit {
   });
 
   constructor() {
-    addIcons({ addOutline, informationCircleOutline, trashOutline });
+    addIcons({ informationCircleOutline, trashOutline });
   }
 
   ngOnInit(): void {
@@ -228,13 +229,30 @@ export class ReservaCreatePage implements OnInit {
     }, { validators: [documentoFormatoValidator] });
   }
 
-  addParticipante(): void {
-    this.participantes.push(this.createParticipanteGroup());
+  setCantPersonas(n: number): void {
+    const clamped = Math.max(1, Math.min(20, n));
+    const current = this.participantes.length;
+    if (clamped > current) {
+      for (let i = current; i < clamped; i++) {
+        this.participantes.push(this.createParticipanteGroup());
+      }
+    } else if (clamped < current) {
+      for (let i = current - 1; i >= clamped; i--) {
+        this.participantes.removeAt(i);
+      }
+    }
+    this.cantPersonas.set(clamped);
+  }
+
+  onCantPersonasChange(event: Event): void {
+    const val = parseInt((event.target as HTMLInputElement).value, 10);
+    if (!isNaN(val)) this.setCantPersonas(val);
   }
 
   removeParticipante(index: number): void {
     if (this.participantes.length <= 1) return;
     this.participantes.removeAt(index);
+    this.cantPersonas.set(this.participantes.length);
   }
 
   onSubmit(): void {

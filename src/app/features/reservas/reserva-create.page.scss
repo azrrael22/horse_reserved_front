@@ -63,3 +63,56 @@ ion-button[size='small'] {
     transform: scale(0.95);
   }
 }
+
+// ─── Stepper de participantes ────────────────────────────────────────────────
+
+.stepper-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1.5px solid var(--ion-color-primary);
+  background: white;
+  color: var(--ion-color-primary);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:active:not(:disabled) {
+    transform: scale(0.92);
+  }
+
+  &:disabled {
+    border-color: var(--ion-color-light-shade);
+    color: var(--ion-color-medium);
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.stepper-input {
+  width: 52px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  border: 1.5px solid var(--ion-color-light-shade);
+  border-radius: 10px;
+  padding: 4px 6px;
+  background: white;
+  outline: none;
+
+  &:focus {
+    border-color: var(--ion-color-primary);
+  }
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

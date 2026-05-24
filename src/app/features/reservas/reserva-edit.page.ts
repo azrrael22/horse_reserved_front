@@ -53,7 +53,7 @@ import {
   IonModal,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, trashOutline } from 'ionicons/icons';
+import { trashOutline } from 'ionicons/icons';
 import { todayInColombia, addDays } from '../../core/utils/date.utils';
 import { ReservaService } from '../../core/services/reserva.service';
 import { RutaService } from '../../core/services/ruta.service';
@@ -98,6 +98,7 @@ export class ReservaEditPage implements OnInit {
   readonly loadingData = signal(true);
   readonly error = signal('');
   readonly rutas = signal<RutaResponse[]>([]);
+  readonly cantPersonas = signal(1);
   readonly fechaIso = signal('');
 
   readonly minFecha = signal(addDays(todayInColombia(), 1));
@@ -117,7 +118,7 @@ export class ReservaEditPage implements OnInit {
   }
 
   constructor() {
-    addIcons({ addOutline, trashOutline });
+    addIcons({ trashOutline });
   }
 
   get participantes(): FormArray {
@@ -169,6 +170,7 @@ export class ReservaEditPage implements OnInit {
         reserva.participantes.map((p) => this.createParticipanteGroup(p))
       ),
     });
+    this.cantPersonas.set(reserva.participantes.length);
   }
 
   private createParticipanteGroup(defaults?: {
@@ -212,13 +214,30 @@ export class ReservaEditPage implements OnInit {
     }, { validators: [documentoFormatoValidator] });
   }
 
-  addParticipante(): void {
-    this.participantes.push(this.createParticipanteGroup());
+  setCantPersonas(n: number): void {
+    const clamped = Math.max(1, Math.min(20, n));
+    const current = this.participantes.length;
+    if (clamped > current) {
+      for (let i = current; i < clamped; i++) {
+        this.participantes.push(this.createParticipanteGroup());
+      }
+    } else if (clamped < current) {
+      for (let i = current - 1; i >= clamped; i--) {
+        this.participantes.removeAt(i);
+      }
+    }
+    this.cantPersonas.set(clamped);
+  }
+
+  onCantPersonasChange(event: Event): void {
+    const val = parseInt((event.target as HTMLInputElement).value, 10);
+    if (!isNaN(val)) this.setCantPersonas(val);
   }
 
   removeParticipante(index: number): void {
     if (this.participantes.length <= 1) return;
     this.participantes.removeAt(index);
+    this.cantPersonas.set(this.participantes.length);
   }
 
   onSubmit(): void {
