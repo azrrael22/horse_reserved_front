@@ -14,6 +14,8 @@ import {
 import { AuditLogListPage } from './audit-log-list.page';
 import { CaballosListPage } from './caballos-list.page';
 import { GuiasListPage } from './guias-list.page';
+import { RutasAdminListPage } from './rutas-admin-list.page';
+import { ProgresoCabalgatasPage } from './progreso-cabalgatas.page';
 
 @Component({
   selector: 'app-recursos',
@@ -31,6 +33,8 @@ import { GuiasListPage } from './guias-list.page';
     AuditLogListPage,
     CaballosListPage,
     GuiasListPage,
+    RutasAdminListPage,
+    ProgresoCabalgatasPage,
   ],
   template: `
     <ion-header>
