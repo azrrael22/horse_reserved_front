@@ -43,6 +43,29 @@ export interface ForgotPasswordRequest {
   recaptchaToken: string;
 }
 
+export interface VerifyTwoFactorRequest {
+  challengeId: string;
+  otp: string;
+}
+
+export interface ResendTwoFactorRequest {
+  challengeId: string;
+}
+
+// ─── 2FA Responses ────────────────────────────────────────────────────────────
+
+export interface TwoFactorChallengeResponse {
+  challengeId: string;
+  message: string;
+  expiresInSeconds: number;
+  requiresVerification: boolean;
+}
+
+export interface ResendTwoFactorResponse {
+  message: string;
+  remainingSeconds: number;
+}
+
 export interface ResetPasswordRequest {
   token: string;
   nuevaPassword: string;

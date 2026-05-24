@@ -1,0 +1,133 @@
+<ion-content class="auth-split" fullscreen>
+  <div class="split-layout">
+
+    <!-- ── Izquierda: imagen + branding ── -->
+    <div class="image-panel">
+      <div class="grain-overlay" aria-hidden="true"></div>
+      <div class="image-overlay">
+        <div class="text-center px-8">
+          <div class="brand-logo mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-3xl">
+            <img src="/assets/images/logo.jpg" alt="Cabalgatas Salento" class="h-full w-full rounded-3xl object-cover" />
+          </div>
+          <h1 class="brand-title">Cabalgatas Salento</h1>
+          <p class="mt-3 text-base text-white/70 leading-relaxed">
+            Vive la mejor experiencia a caballo<br>por el paisaje cultural cafetero.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Derecha: formulario ── -->
+    <div class="form-panel">
+      <div class="form-content">
+
+        <!-- Encabezado -->
+        <div class="mb-8">
+          <div class="shield-icon mb-4">
+            <ion-icon name="shield-checkmark-outline" class="text-4xl text-primary"></ion-icon>
+          </div>
+          <h2 class="page-title text-gray-800">Verificación en 2 pasos</h2>
+          <p class="mt-1 text-sm text-muted">
+            Te enviamos un código de 6 dígitos a tu correo. Ingrésalo antes de que expire.
+          </p>
+        </div>
+
+        <!-- Temporizador -->
+        @if (timeRemaining() > 0) {
+          <div class="timer-badge mb-5">
+            <span class="timer-label">Expira en</span>
+            <span class="timer-value">{{ timeDisplay() }}</span>
+          </div>
+        }
+
+        <!-- Error -->
+        @if (errorMessage()) {
+          <div class="mb-4 rounded-lg bg-red-50 p-3" role="alert" aria-live="polite">
+            <ion-text color="danger">
+              <p class="text-sm">{{ errorMessage() }}</p>
+            </ion-text>
+          </div>
+        }
+
+        <!-- Formulario -->
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+          <!-- OTP -->
+          <div class="mb-6">
+            <ion-input
+              fill="outline"
+              labelPlacement="floating"
+              label="Código de verificación"
+              type="tel"
+              inputmode="numeric"
+              formControlName="otp"
+              maxlength="6"
+              autocomplete="one-time-code"
+              [class.ion-invalid]="otpCtrl.invalid && otpCtrl.touched"
+              [class.ion-touched]="otpCtrl.touched"
+              class="otp-input"
+            >
+              <ion-icon name="shield-checkmark-outline" slot="start" color="medium"></ion-icon>
+            </ion-input>
+            @if (otpCtrl.touched && otpCtrl.hasError('required')) {
+              <p class="error-message" role="alert">El código es requerido.</p>
+            }
+            @if (otpCtrl.touched && otpCtrl.hasError('pattern')) {
+              <p class="error-message" role="alert">El código debe tener exactamente 6 dígitos.</p>
+            }
+          </div>
+
+          <!-- Botón verificar -->
+          <ion-button
+            expand="block"
+            type="submit"
+            [disabled]="form.invalid || loading() || timeRemaining() === 0"
+            class="mb-4"
+          >
+            @if (loading()) {
+              <ion-spinner name="crescent" class="mr-2" aria-hidden="true"></ion-spinner>
+              Verificando...
+            } @else {
+              Verificar código
+            }
+          </ion-button>
+
+        </form>
+
+        <!-- Reenviar código -->
+        <div class="resend-section mb-6">
+          @if (remainingResends() > 0) {
+            @if (canResend()) {
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="resend()"
+                [disabled]="loading()"
+              >
+                <ion-icon name="refresh-outline" slot="start"></ion-icon>
+                Reenviar código
+              </ion-button>
+            } @else if (resendCooldown() > 0) {
+              <p class="text-sm text-muted">
+                Puedes reenviar en <span class="font-semibold text-primary">{{ resendCooldown() }}s</span>
+              </p>
+            }
+          } @else {
+            <p class="text-sm text-muted">Has alcanzado el límite de reenvíos.</p>
+          }
+        </div>
+
+        <!-- Volver al login -->
+        <div class="text-center">
+          <ion-button fill="clear" size="small" color="medium" (click)="goBack()">
+            <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+            Volver al inicio de sesión
+          </ion-button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <app-footer></app-footer>
+</ion-content>

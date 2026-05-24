@@ -56,6 +56,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'auth/verify-code',
+    loadComponent: () =>
+      import('./features/auth/verify-code/verify-code.page').then(
+        (m) => m.VerifyCodePage
+      ),
+  },
+  {
     path: 'auth/oauth2-redirect',
     loadComponent: () =>
       import('./features/auth/oauth2-redirect/oauth2-redirect.page').then(

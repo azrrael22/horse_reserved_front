@@ -79,9 +79,11 @@ export class LoginPage {
     this.loading.set(true);
 
     this.authService.login({ ...this.form.getRawValue(), recaptchaToken: this.captchaToken()! }).subscribe({
-      next: () => {
+      next: (res) => {
         this.loading.set(false);
-        this.router.navigate(['/tabs/inicio']);
+        this.router.navigate(['/auth/verify-code'], {
+          state: { challengeId: res.challengeId, expiresInSeconds: res.expiresInSeconds },
+        });
       },
       error: (err: HttpErrorResponse) => {
         this.loading.set(false);
