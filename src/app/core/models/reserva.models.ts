@@ -32,6 +32,19 @@ export interface UpdateReservaRequest {
   participantes: ParticipanteRequest[];
 }
 
+export interface HorarioSlot {
+  horaInicio: string;
+  horaFin: string;
+  cuposDisponibles: number;
+}
+
+export interface HorariosDisponiblesResponse {
+  rutaId: number;
+  fecha: string;
+  cantPersonasEvaluadas: number;
+  horariosDisponibles: HorarioSlot[];
+}
+
 export interface ParticipanteResponse {
   id?: number;
   primerNombre: string;

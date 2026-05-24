@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
   CreateReservaRequest,
+  HorariosDisponiblesResponse,
   UpdateReservaRequest,
   ReservaResponse,
 } from '../models/reserva.models';
@@ -35,5 +36,23 @@ export class ReservaService {
 
   cancelarReserva(id: number): Observable<ReservaResponse> {
     return this.http.patch<ReservaResponse>(`${this.apiUrl}/${id}/cancelar`, {});
+  }
+
+  obtenerHorariosDisponibles(
+    rutaId: number,
+    fecha: string,
+    cantPersonas: number,
+    reservaIdActual?: number
+  ): Observable<HorariosDisponiblesResponse> {
+    let params = new HttpParams()
+      .set('rutaId', rutaId)
+      .set('fecha', fecha)
+      .set('cantPersonas', cantPersonas);
+
+    if (reservaIdActual !== undefined) {
+      params = params.set('reservaIdActual', reservaIdActual);
+    }
+
+    return this.http.get<HorariosDisponiblesResponse>(`${this.apiUrl}/horarios-disponibles`, { params });
   }
 }

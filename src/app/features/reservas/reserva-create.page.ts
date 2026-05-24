@@ -1,5 +1,5 @@
-import { Component, computed, inject, signal, OnInit } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, DestroyRef, inject, signal, OnInit } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
@@ -59,7 +59,7 @@ import { informationCircleOutline, trashOutline } from 'ionicons/icons';
 import { ReservaService } from '../../core/services/reserva.service';
 import { RutaService } from '../../core/services/ruta.service';
 import { AuthService } from '../../core/services/auth.service';
-import { CreateReservaRequest, TipoDocumentoReserva } from '../../core/models/reserva.models';
+import { CreateReservaRequest, HorarioSlot, TipoDocumentoReserva } from '../../core/models/reserva.models';
 import { RutaResponse } from '../../core/models/ruta.models';
 import { AppFooterComponent } from '../../shared/components/app-footer/app-footer.component';
 import { todayInColombia, addDays } from '../../core/utils/date.utils';
@@ -101,23 +101,33 @@ export class ReservaCreatePage implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly loading = signal(false);
   readonly loadingRutas = signal(false);
   readonly error = signal('');
   readonly rutas = signal<RutaResponse[]>([]);
   readonly cantPersonas = signal(1);
+  readonly loadingHorarios = signal(false);
+  readonly horariosDisponibles = signal<HorarioSlot[]>([]);
+  readonly horariosError = signal('');
+  private horariosRequestId = 0;
 
   readonly esOperador = () => this.authService.session()?.role === 'OPERADOR';
-
-  readonly horasDisponibles: string[] = [
-    '08:30', '09:00', '09:30', '10:00', '10:30', '11:00',
-    '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
-  ];
 
   seleccionarHora(hora: string): void {
     this.form.controls.horaInicio.setValue(hora);
     this.form.controls.horaInicio.markAsTouched();
+  }
+
+  horaInicio(slot: HorarioSlot): string {
+    return slot.horaInicio.slice(0, 5);
+  }
+
+  hayParametrosHorario(): boolean {
+    return Number(this.form.controls.rutaId.value) > 0
+      && !!this.form.controls.fecha.value
+      && this.participantes.length > 0;
   }
 
   readonly minFecha = addDays(todayInColombia(), 1);
@@ -127,6 +137,7 @@ export class ReservaCreatePage implements OnInit {
     const value = event.detail.value as string;
     if (value) {
       this.form.controls.fecha.setValue(value.split('T')[0]);
+      this.cargarHorariosDisponibles();
     }
   }
 
@@ -165,6 +176,10 @@ export class ReservaCreatePage implements OnInit {
   }
 
   ngOnInit(): void {
+    this.form.controls.rutaId.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.cargarHorariosDisponibles());
+
     this.loadingRutas.set(true);
     this.rutaService.listarActivas().subscribe({
       next: (data) => {
@@ -242,6 +257,7 @@ export class ReservaCreatePage implements OnInit {
       }
     }
     this.cantPersonas.set(clamped);
+    this.cargarHorariosDisponibles();
   }
 
   onCantPersonasChange(event: Event): void {
@@ -253,6 +269,45 @@ export class ReservaCreatePage implements OnInit {
     if (this.participantes.length <= 1) return;
     this.participantes.removeAt(index);
     this.cantPersonas.set(this.participantes.length);
+    this.cargarHorariosDisponibles();
+  }
+
+  private cargarHorariosDisponibles(): void {
+    const rutaId = Number(this.form.controls.rutaId.value);
+    const fecha = this.form.controls.fecha.value;
+    const cantPersonas = this.participantes.length;
+
+    this.horariosError.set('');
+    if (!rutaId || !fecha || cantPersonas < 1) {
+      this.horariosDisponibles.set([]);
+      this.form.controls.horaInicio.setValue('');
+      return;
+    }
+
+    const requestId = ++this.horariosRequestId;
+    this.loadingHorarios.set(true);
+
+    this.reservaService.obtenerHorariosDisponibles(rutaId, fecha, cantPersonas).subscribe({
+      next: (response) => {
+        if (requestId !== this.horariosRequestId) return;
+        const slots = response.horariosDisponibles ?? [];
+        this.horariosDisponibles.set(slots);
+        this.loadingHorarios.set(false);
+
+        const horaSeleccionada = this.form.controls.horaInicio.value;
+        const sigueDisponible = slots.some((slot) => this.horaInicio(slot) === horaSeleccionada);
+        if (horaSeleccionada && !sigueDisponible) {
+          this.form.controls.horaInicio.setValue('');
+        }
+      },
+      error: (err) => {
+        if (requestId !== this.horariosRequestId) return;
+        this.loadingHorarios.set(false);
+        this.horariosDisponibles.set([]);
+        this.form.controls.horaInicio.setValue('');
+        this.horariosError.set(err?.error?.message ?? 'No se pudieron cargar los horarios disponibles.');
+      },
+    });
   }
 
   onSubmit(): void {
