@@ -1,13 +1,18 @@
+import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { roleGuard } from './core/guards/role.guard';
+import { AuthService } from './core/services/auth.service';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tabs/inicio',
     pathMatch: 'full',
+    redirectTo: () => {
+      const auth = inject(AuthService);
+      return auth.session()?.role === 'ADMINISTRADOR' ? '/tabs/recursos' : '/tabs/inicio';
+    },
   },
 
   // ── Auth (públicas) ───────────────────────────────────────────────
@@ -172,8 +177,11 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'inicio',
         pathMatch: 'full',
+        redirectTo: () => {
+          const auth = inject(AuthService);
+          return auth.session()?.role === 'ADMINISTRADOR' ? 'recursos' : 'inicio';
+        },
       },
     ],
   },
@@ -187,11 +195,14 @@ export const routes: Routes = [
       ),
   },
 
-  // ── Legado: redirige /home → /tabs/inicio ─────────────────────────
+  // ── Legado: redirige /home → home según rol ──────────────────────
   {
     path: 'home',
-    redirectTo: 'tabs/inicio',
     pathMatch: 'full',
+    redirectTo: () => {
+      const auth = inject(AuthService);
+      return auth.session()?.role === 'ADMINISTRADOR' ? '/tabs/recursos' : '/tabs/inicio';
+    },
   },
 
    // ── Chatbot FAQ (pública, sin authGuard) ──────────────────────────────
@@ -203,6 +214,9 @@ export const routes: Routes = [
 
   {
     path: '**',
-    redirectTo: 'tabs/inicio',
+    redirectTo: () => {
+      const auth = inject(AuthService);
+      return auth.session()?.role === 'ADMINISTRADOR' ? '/tabs/recursos' : '/tabs/inicio';
+    },
   },
 ];

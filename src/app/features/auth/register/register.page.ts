@@ -161,7 +161,8 @@ export class RegisterPage {
     this.authService.register({ ...registerData, recaptchaToken: this.captchaToken()! }).subscribe({
       next: () => {
         this.loading.set(false);
-        this.router.navigate(['/tabs/inicio']);
+        const home = this.authService.session()?.role === 'ADMINISTRADOR' ? '/tabs/recursos' : '/tabs/inicio';
+        this.router.navigate([home]);
       },
       error: (err: HttpErrorResponse) => {
         this.loading.set(false);
