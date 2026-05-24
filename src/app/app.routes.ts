@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -131,6 +132,18 @@ export const routes: Routes = [
         path: 'recursos/guias/:id',
         loadComponent: () =>
           import('./features/recursos/guia-form.page').then((m) => m.GuiaFormPage),
+      },
+      {
+        path: 'recursos/rutas/nueva',
+        canActivate: [roleGuard(['ADMINISTRADOR'])],
+        loadComponent: () =>
+          import('./features/recursos/ruta-form.page').then((m) => m.RutaFormPage),
+      },
+      {
+        path: 'recursos/rutas/:id/editar',
+        canActivate: [roleGuard(['ADMINISTRADOR'])],
+        loadComponent: () =>
+          import('./features/recursos/ruta-form.page').then((m) => m.RutaFormPage),
       },
       // Resultado de pago MercadoPago
       {
