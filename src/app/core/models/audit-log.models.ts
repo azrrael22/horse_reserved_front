@@ -22,9 +22,9 @@ export interface AuditLogResponse {
 }
 
 export interface AuditLogFiltro {
-  categoria?: AuditCategoria;
+  categoria?: AuditCategoria | null;
   usuarioEmail?: string;
-  resultado?: AuditResultado;
+  resultado?: AuditResultado | null;
   desde?: string;
   hasta?: string;
   page: number;

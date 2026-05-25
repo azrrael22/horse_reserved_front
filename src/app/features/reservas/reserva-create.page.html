@@ -53,18 +53,32 @@
         </p>
         <div class="mt-1 mb-2">
           <p class="text-xs font-semibold text-secondary px-1 mb-2">Hora de inicio *</p>
-          <div class="grid grid-cols-4 gap-2">
-            @for (slot of horasDisponibles; track slot) {
-              <button
-                type="button"
-                class="hora-chip"
-                [class.selected]="form.controls.horaInicio.value === slot"
-                (click)="seleccionarHora(slot)"
-              >
-                {{ slot }}
-              </button>
-            }
-          </div>
+          @if (loadingHorarios()) {
+            <div class="flex justify-center py-4">
+              <ion-spinner></ion-spinner>
+            </div>
+          } @else if (horariosError()) {
+            <p class="error-message">{{ horariosError() }}</p>
+          } @else if (horariosDisponibles().length > 0) {
+            <div class="grid grid-cols-4 gap-2">
+              @for (slot of horariosDisponibles(); track slot.horaInicio) {
+                <button
+                  type="button"
+                  class="hora-chip"
+                  [class.selected]="form.controls.horaInicio.value === horaInicio(slot)"
+                  (click)="seleccionarHora(horaInicio(slot))"
+                >
+                  {{ horaInicio(slot) }}
+                </button>
+              }
+            </div>
+          } @else {
+            <p class="text-xs text-muted px-1 py-2">
+              {{ hayParametrosHorario()
+                ? 'No hay horarios con recursos disponibles para esa fecha y cantidad de participantes.'
+                : 'Selecciona una ruta, fecha y cantidad de participantes para ver horarios disponibles.' }}
+            </p>
+          }
           @if (form.controls.horaInicio.errors?.['required'] && form.controls.horaInicio.touched) {
             <p class="error-message">Selecciona una hora de inicio.</p>
           }
@@ -99,12 +113,34 @@
         <div class="flex items-center justify-between mb-3">
           <div>
             <p class="text-xs font-bold text-tertiary uppercase tracking-widest mb-0.5">Participantes</p>
-            <p class="text-sm font-semibold text-gray-700">{{ participantes.length }} registrado(s)</p>
+            <p class="text-sm text-muted">¿Cuántos van a participar?</p>
           </div>
-          <ion-button size="small" fill="outline" (click)="addParticipante()">
-            <ion-icon name="add-outline" slot="start"></ion-icon>
-            Agregar
-          </ion-button>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="stepper-btn"
+              [disabled]="cantPersonas() <= 1"
+              (click)="setCantPersonas(cantPersonas() - 1)"
+              aria-label="Reducir participantes"
+            >−</button>
+            <input
+              type="number"
+              class="stepper-input"
+              [value]="cantPersonas()"
+              min="1"
+              max="20"
+              inputmode="numeric"
+              aria-label="Cantidad de participantes"
+              (change)="onCantPersonasChange($event)"
+            />
+            <button
+              type="button"
+              class="stepper-btn"
+              [disabled]="cantPersonas() >= 20"
+              (click)="setCantPersonas(cantPersonas() + 1)"
+              aria-label="Agregar participante"
+            >+</button>
+          </div>
         </div>
         <div formArrayName="participantes">
           @for (p of participantes.controls; track p; let i = $index) {

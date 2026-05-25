@@ -14,6 +14,9 @@ import {
 import { AuditLogListPage } from './audit-log-list.page';
 import { CaballosListPage } from './caballos-list.page';
 import { GuiasListPage } from './guias-list.page';
+import { RutasAdminListPage } from './rutas-admin-list.page';
+import { ProgresoCabalgatasPage } from './progreso-cabalgatas.page';
+import { GananciasDashboardPage } from './ganancias-dashboard.page';
 
 @Component({
   selector: 'app-recursos',
@@ -31,6 +34,9 @@ import { GuiasListPage } from './guias-list.page';
     AuditLogListPage,
     CaballosListPage,
     GuiasListPage,
+    RutasAdminListPage,
+    ProgresoCabalgatasPage,
+    GananciasDashboardPage,
   ],
   template: `
     <ion-header>
@@ -54,6 +60,12 @@ import { GuiasListPage } from './guias-list.page';
           <ion-segment-button value="auditoria">
             <ion-label>Auditoría</ion-label>
           </ion-segment-button>
+          <ion-segment-button value="ganancias">
+            <ion-label>Ganancias</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="rutas">
+            <ion-label>Rutas</ion-label>
+          </ion-segment-button>
         </ion-segment>
       </div>
 
@@ -61,8 +73,12 @@ import { GuiasListPage } from './guias-list.page';
         <app-caballos-list />
       } @else if (segmento() === 'guias') {
         <app-guias-list />
-      } @else {
+      } @else if (segmento() === 'auditoria') {
         <app-audit-log-list />
+      } @else if (segmento() === 'rutas') {
+        <app-rutas-admin-list />
+      } @else {
+        <app-ganancias-dashboard />
       }
     </ion-content>
   `,
@@ -73,9 +89,9 @@ import { GuiasListPage } from './guias-list.page';
   `],
 })
 export class RecursosPage {
-  readonly segmento = signal<'caballos' | 'guias' | 'auditoria'>('caballos');
+  readonly segmento = signal<'caballos' | 'guias' | 'auditoria' | 'ganancias' | 'rutas'>('caballos');
 
   onSegmentChange(event: SegmentCustomEvent): void {
-    this.segmento.set(event.detail.value as 'caballos' | 'guias' | 'auditoria');
+    this.segmento.set(event.detail.value as 'caballos' | 'guias' | 'auditoria' | 'ganancias' | 'rutas');
   }
 }

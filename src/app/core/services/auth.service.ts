@@ -10,9 +10,13 @@ import {
   ForgotPasswordRequest,
   LoginRequest,
   RegisterRequest,
+  ResendTwoFactorRequest,
+  ResendTwoFactorResponse,
   ResetPasswordRequest,
   StoredSession,
+  TwoFactorChallengeResponse,
   UserProfileResponse,
+  VerifyTwoFactorRequest,
 } from '../models/auth.models';
 
 const SESSION_KEY = 'hr_session';
@@ -36,10 +40,18 @@ export class AuthService {
 
   // ─── Auth calls ────────────────────────────────────────────────────────────
 
-  login(req: LoginRequest): Observable<AuthResponse> {
+  login(req: LoginRequest): Observable<TwoFactorChallengeResponse> {
+    return this.http.post<TwoFactorChallengeResponse>(`${this.apiUrl}/login`, req);
+  }
+
+  verifyTwoFactor(req: VerifyTwoFactorRequest): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>(`${this.apiUrl}/login`, req)
+      .post<AuthResponse>(`${this.apiUrl}/login/verify-2fa`, req)
       .pipe(tap((res) => this.saveSession(res)));
+  }
+
+  resendTwoFactor(req: ResendTwoFactorRequest): Observable<ResendTwoFactorResponse> {
+    return this.http.post<ResendTwoFactorResponse>(`${this.apiUrl}/login/resend-2fa`, req);
   }
 
   register(req: RegisterRequest): Observable<AuthResponse> {
