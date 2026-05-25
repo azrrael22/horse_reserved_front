@@ -119,29 +119,34 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/reservas/reserva-edit.page').then((m) => m.ReservaEditPage),
       },
-      // Recursos (solo ADMIN — validación de rol dentro de la página)
+      // Recursos (solo ADMIN)
       {
         path: 'recursos',
+        canActivate: [roleGuard(['ADMINISTRADOR'])],
         loadComponent: () =>
           import('./features/recursos/recursos.page').then((m) => m.RecursosPage),
       },
       {
         path: 'recursos/caballos/nuevo',
+        canActivate: [roleGuard(['ADMINISTRADOR'])],
         loadComponent: () =>
           import('./features/recursos/caballo-form.page').then((m) => m.CaballoFormPage),
       },
       {
         path: 'recursos/caballos/:id',
+        canActivate: [roleGuard(['ADMINISTRADOR'])],
         loadComponent: () =>
           import('./features/recursos/caballo-form.page').then((m) => m.CaballoFormPage),
       },
       {
         path: 'recursos/guias/nuevo',
+        canActivate: [roleGuard(['ADMINISTRADOR'])],
         loadComponent: () =>
           import('./features/recursos/guia-form.page').then((m) => m.GuiaFormPage),
       },
       {
         path: 'recursos/guias/:id',
+        canActivate: [roleGuard(['ADMINISTRADOR'])],
         loadComponent: () =>
           import('./features/recursos/guia-form.page').then((m) => m.GuiaFormPage),
       },
