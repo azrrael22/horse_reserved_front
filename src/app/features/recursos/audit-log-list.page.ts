@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 import {
   IonBadge,
   IonIcon,
@@ -64,7 +65,7 @@ import {
         <ion-item class="rounded-lg">
           <ion-label position="stacked">Categoría</ion-label>
           <ion-select [(ngModel)]="filtro.categoria" (ionChange)="resetYCargar()" placeholder="Todas">
-            <ion-select-option [value]="undefined">Todas</ion-select-option>
+            <ion-select-option [value]="null">Todas</ion-select-option>
             <ion-select-option value="AUTENTICACION">Autenticación</ion-select-option>
             <ion-select-option value="RESERVA">Reservas</ion-select-option>
             <ion-select-option value="RECURSO_ADMIN">Admin</ion-select-option>
@@ -76,7 +77,7 @@ import {
         <ion-item class="rounded-lg">
           <ion-label position="stacked">Resultado</ion-label>
           <ion-select [(ngModel)]="filtro.resultado" (ionChange)="resetYCargar()" placeholder="Todos">
-            <ion-select-option [value]="undefined">Todos</ion-select-option>
+            <ion-select-option [value]="null">Todos</ion-select-option>
             <ion-select-option value="EXITO">Éxito</ion-select-option>
             <ion-select-option value="FALLO">Fallo</ion-select-option>
             <ion-select-option value="ERROR_SISTEMA">Error sistema</ion-select-option>
@@ -162,7 +163,8 @@ export class AuditLogListPage implements OnInit {
   readonly logs = signal<AuditLogResponse[]>([]);
   readonly hayMas = signal(true);
 
-  filtro: AuditLogFiltro = { page: 0, size: 30 };
+  filtro: AuditLogFiltro = { page: 0, size: 30, categoria: null, resultado: null };
+  private currentLoad?: Subscription;
 
   constructor() {
     addIcons({ shieldCheckmarkOutline, alertCircleOutline, closeCircleOutline });
@@ -180,9 +182,10 @@ export class AuditLogListPage implements OnInit {
   }
 
   cargar(): void {
+    this.currentLoad?.unsubscribe();
     this.loading.set(true);
     this.error.set('');
-    this.auditLogService.listar(this.filtro).subscribe({
+    this.currentLoad = this.auditLogService.listar(this.filtro).subscribe({
       next: (page) => {
         this.logs.update((prev) => [...prev, ...page.content]);
         this.hayMas.set(!page.last);
