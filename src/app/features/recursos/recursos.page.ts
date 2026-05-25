@@ -66,6 +66,9 @@ import { GananciasDashboardPage } from './ganancias-dashboard.page';
           <ion-segment-button value="rutas">
             <ion-label>Rutas</ion-label>
           </ion-segment-button>
+          <ion-segment-button value="progreso">
+            <ion-label>Progreso</ion-label>
+          </ion-segment-button>
         </ion-segment>
       </div>
 
@@ -77,6 +80,8 @@ import { GananciasDashboardPage } from './ganancias-dashboard.page';
         <app-audit-log-list />
       } @else if (segmento() === 'rutas') {
         <app-rutas-admin-list />
+      } @else if (segmento() === 'progreso') {
+        <app-progreso-cabalgatas />
       } @else {
         <app-ganancias-dashboard />
       }
@@ -89,9 +94,9 @@ import { GananciasDashboardPage } from './ganancias-dashboard.page';
   `],
 })
 export class RecursosPage {
-  readonly segmento = signal<'caballos' | 'guias' | 'auditoria' | 'ganancias' | 'rutas'>('caballos');
+  readonly segmento = signal<'caballos' | 'guias' | 'auditoria' | 'ganancias' | 'rutas' | 'progreso'>('caballos');
 
   onSegmentChange(event: SegmentCustomEvent): void {
-    this.segmento.set(event.detail.value as 'caballos' | 'guias' | 'auditoria' | 'ganancias' | 'rutas');
+    this.segmento.set(event.detail.value as 'caballos' | 'guias' | 'auditoria' | 'ganancias' | 'rutas' | 'progreso');
   }
 }

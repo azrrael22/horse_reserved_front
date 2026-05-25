@@ -278,7 +278,7 @@ export class RutasAdminListPage implements OnInit {
   async confirmarEliminar(r: RutaAdminResponse): Promise<void> {
     const alert = await this.alertCtrl.create({
       header: 'Eliminar ruta',
-      message: `¿Estás seguro de que deseas eliminar "<strong>${r.nombre}</strong>"? Esta acción no se puede deshacer.`,
+      message: `¿Estás seguro de que deseas eliminar "${r.nombre}"? Esta acción no se puede deshacer.`,
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
