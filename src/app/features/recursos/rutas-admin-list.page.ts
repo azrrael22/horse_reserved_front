@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import {
@@ -7,6 +7,7 @@ import {
   IonIcon,
   AlertController,
   ToastController,
+  ViewWillEnter,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -186,7 +187,7 @@ const DIFICULTAD_LABEL: Record<string, string> = {
     </div>
   `,
 })
-export class RutasAdminListPage implements OnInit {
+export class RutasAdminListPage implements ViewWillEnter {
   private readonly rutaService  = inject(RutaService);
   private readonly alertCtrl    = inject(AlertController);
   private readonly toastCtrl    = inject(ToastController);
@@ -209,7 +210,7 @@ export class RutasAdminListPage implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ionViewWillEnter(): void {
     this.cargar();
   }
 
@@ -278,7 +279,7 @@ export class RutasAdminListPage implements OnInit {
   async confirmarEliminar(r: RutaAdminResponse): Promise<void> {
     const alert = await this.alertCtrl.create({
       header: 'Eliminar ruta',
-      message: `¿Estás seguro de que deseas eliminar "<strong>${r.nombre}</strong>"? Esta acción no se puede deshacer.`,
+      message: `¿Estás seguro de que deseas eliminar "${r.nombre}"? Esta acción no se puede deshacer.`,
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
